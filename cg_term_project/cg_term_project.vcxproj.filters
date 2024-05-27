@@ -5,18 +5,102 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="ecs">
+      <UniqueIdentifier>{30ae1259-635c-4eb0-b1a3-a0e4d8626864}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="ui">
+      <UniqueIdentifier>{72d64d37-1f3f-4836-98f1-a21315314b3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="entities">
+      <UniqueIdentifier>{770ab3b7-e468-4a2f-825f-660225c2c02e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\shaders">
+      <UniqueIdentifier>{f737c8c0-12b6-4acd-b5af-a6df2a0ac243}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\geometries">
+      <UniqueIdentifier>{697a1653-7730-40ff-ae6f-c4c2539167d1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ecs\ecs.cpp">
+      <Filter>ecs</Filter>
+    </ClCompile>
+    <ClCompile Include="glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\ui.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="entities\prelude.cpp">
+      <Filter>entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\camera.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\include_components.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_impl.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\on_keyboard_action.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="entities\body.cpp">
+      <Filter>entities</Filter>
+    </ClCompile>
+    <ClCompile Include="entities\create_world.cpp">
+      <Filter>entities</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ecs\system_forest.hpp">
+      <Filter>ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\utils.hpp">
+      <Filter>ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\world.hpp">
+      <Filter>ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\prelude.hpp">
+      <Filter>ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\diff.hpp">
+      <Filter>ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\ui.hpp">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="entities\prelude.hpp">
+      <Filter>entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\curve.hpp">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\ui_component.hpp">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\data_loader.hpp">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\geometries\flame.hpp">
+      <Filter>ui\geometries</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\geometries\stage.hpp">
+      <Filter>ui\geometries</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\geometries\wolf.hpp">
+      <Filter>ui\geometries</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\shaders\paper.hpp">
+      <Filter>ui\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\camera.hpp">
+      <Filter>ui</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

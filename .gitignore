@@ -1,5 +1,5 @@
 .vs
 .git
 x64
-Debug
-Release
+.DS_Store
+/utils
