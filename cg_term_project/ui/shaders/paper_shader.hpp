@@ -1,8 +1,8 @@
 #pragma once
 #include "../ui.hpp"
 
-UiComponent get_paper_shader() {
-	UiComponent c{ "shader" };
+UiComponent paper_shader() {
+	UiComponent c;
 	c.on_app_started = [] {
 		auto& shader = fetch_shader("paper");
 		shader.initShader("assets/cube.vs", "assets/cube.fs");

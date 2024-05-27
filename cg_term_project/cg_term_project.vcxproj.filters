@@ -14,10 +14,7 @@
     <Filter Include="entities">
       <UniqueIdentifier>{770ab3b7-e468-4a2f-825f-660225c2c02e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ui\shaders">
-      <UniqueIdentifier>{f737c8c0-12b6-4acd-b5af-a6df2a0ac243}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ui\geometries">
+    <Filter Include="ui\components">
       <UniqueIdentifier>{697a1653-7730-40ff-ae6f-c4c2539167d1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -43,9 +40,6 @@
     <ClCompile Include="ui\include_components.cpp">
       <Filter>ui</Filter>
     </ClCompile>
-    <ClCompile Include="stb_impl.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
     <ClCompile Include="ui\on_keyboard_action.cpp">
       <Filter>ui</Filter>
     </ClCompile>
@@ -53,6 +47,12 @@
       <Filter>entities</Filter>
     </ClCompile>
     <ClCompile Include="entities\create_world.cpp">
+      <Filter>entities</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_impl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="entities\create_system_forest.cpp">
       <Filter>entities</Filter>
     </ClCompile>
   </ItemGroup>
@@ -88,19 +88,19 @@
       <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="ui\geometries\flame.hpp">
-      <Filter>ui\geometries</Filter>
+      <Filter>ui\components</Filter>
     </ClInclude>
     <ClInclude Include="ui\geometries\stage.hpp">
-      <Filter>ui\geometries</Filter>
+      <Filter>ui\components</Filter>
     </ClInclude>
     <ClInclude Include="ui\geometries\wolf.hpp">
-      <Filter>ui\geometries</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\shaders\paper.hpp">
-      <Filter>ui\shaders</Filter>
+      <Filter>ui\components</Filter>
     </ClInclude>
     <ClInclude Include="ui\camera.hpp">
       <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\shaders\paper_shader.hpp">
+      <Filter>ui\components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

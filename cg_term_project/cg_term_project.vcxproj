@@ -155,6 +155,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="entities\body.cpp" />
+    <ClCompile Include="entities\create_system_forest.cpp" />
     <ClCompile Include="entities\create_world.cpp" />
     <ClCompile Include="entities\prelude.cpp" />
     <ClCompile Include="stb_impl.cpp" />
@@ -177,7 +178,7 @@
     <ClInclude Include="ui\geometries\stage.hpp" />
     <ClInclude Include="ui\geometries\wolf.hpp" />
     <ClInclude Include="ui\ui_component.hpp" />
-    <ClInclude Include="ui\shaders\paper.hpp" />
+    <ClInclude Include="ui\shaders\paper_shader.hpp" />
     <ClInclude Include="ui\ui.hpp" />
   </ItemGroup>
   <ItemGroup>

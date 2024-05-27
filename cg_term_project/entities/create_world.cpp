@@ -21,7 +21,7 @@ ecs::World create_world() {
 
 	auto wolf_id = world.spawn_entity()
 		.with(LocomotionWalking{})
-		.with(Body{ .w = 2,.h = 2, .x = 0.1,.y = 4 })
+		.with(Body{ .w = 2,.h = 2, .x = 2,.y = 4 })
 		.with(FrozenState{})
 		.id();
 

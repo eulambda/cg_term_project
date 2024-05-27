@@ -1,13 +1,14 @@
 #pragma once
 #include "../ui.hpp"
 
-UiComponent get_flame_model() {
+UiComponent flame_component() {
 	auto scaling_life = fn_from_points({ {0,0},{0.1,1},{0.9,1}, { 1,0 } });
 	auto rotating_life = fn_from_points({ {0,2},{0.1,1},{0.9,1}, { 1,2 } });
 	auto noisy = [](double x) {return 0.3 * std::sin(x * 200);};
 	auto particle_path = [](double x) {return 0.3 * std::sin(x * 2);};
 
-	UiComponent c{ "geometry" };
+	UiComponent c;
+
 	c.on_app_started = [] {
 		auto& scaling = fetch_curve("flame.scaling");
 		scaling.y_x = [](double x) { return 1 + 0.1 * std::sin(x * 20);};
@@ -15,24 +16,23 @@ UiComponent get_flame_model() {
 		rotating.y_x = [](double x) { return x;};
 		};
 
-	c.on_before_render = [] {
+	c.render = [=] {
 		auto render_data = fetch<RenderData>();
+		auto world = render_data->world;
+		auto flames = world->get_entities_with<HitDamage, Body, Facing, Life>();
+		if (flames.empty()) return;
+
 		auto render_elapsed = render_data->render_elapsed();
 		fetch_curve("flame.scaling").t += render_elapsed;
 		fetch_curve("flame.rotating").t += render_elapsed;
-		};
 
-	c.render = [=] {
 		auto& model = fetch_model("assets/triangle.dae");
 		auto& shader = fetch_shader("paper");
 		shader.use();
 
-		auto render_data = fetch<RenderData>();
-
 		auto simulation_elapsed = render_data->simulation_elapsed();
-		auto world = render_data->world;
 		auto ticks = world->get_resource<Elapsed>()->ticks;
-		for (auto& [id, hit_damage, body, facing, life] : world->get_entities_with<HitDamage, Body, Facing, Life>()) {
+		for (auto& [id, hit_damage, body, facing, life] : flames) {
 			auto trans_0 = glm::translate(glm::mat4{ 1 }, glm::vec3(body->x, body->y, 0));
 			auto life_ratio = life->ratio(ticks + simulation_elapsed);
 			switch (facing->inner) {

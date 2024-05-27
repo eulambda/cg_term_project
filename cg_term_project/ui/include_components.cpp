@@ -2,16 +2,14 @@
 #include "geometries/wolf.hpp"
 #include "geometries/flame.hpp"
 #include "geometries/stage.hpp"
-#include "shaders/paper.hpp"
+#include "shaders/paper_shader.hpp"
 
 void include_components() {
 	auto& components = fetch<RenderData>()->components;
 
-	// shaders
-	components.emplace_back(get_paper_shader());
+	components.emplace_back(paper_shader());
 
-	// models
-	components.emplace_back(get_wolf_model());
-	components.emplace_back(get_flame_model());
-	components.emplace_back(get_stage_model());
+	components.emplace_back(wolf_component());
+	components.emplace_back(flame_component());
+	components.emplace_back(stage_component());
 }

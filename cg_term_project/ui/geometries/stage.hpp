@@ -1,8 +1,8 @@
 #pragma once
 #include "../ui.hpp"
 
-UiComponent get_stage_model() {
-	UiComponent c{ "geometry" };
+UiComponent stage_component() {
+	UiComponent c;
 
 	c.render = [] {
 		auto& model = fetch_model("assets/cube.dae");
@@ -12,7 +12,6 @@ UiComponent get_stage_model() {
 		auto render_data = fetch<RenderData>();
 		auto simulation_elapsed = render_data->simulation_elapsed();
 		auto world = render_data->world;
-
 
 		shader.setVec3("objectColor", 1, 0, 0);
 		auto trans = glm::scale(glm::mat4{ 1 }, glm::vec3(0.1, 0.1, 0.1));
