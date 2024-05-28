@@ -160,7 +160,7 @@
     <ClCompile Include="entities\prelude.cpp" />
     <ClCompile Include="stb_impl.cpp" />
     <ClCompile Include="ui\camera.cpp" />
-    <ClCompile Include="ui\include_components.cpp" />
+    <ClCompile Include="ui\components\include_components.cpp" />
     <ClCompile Include="ui\on_keyboard_action.cpp" />
     <ClCompile Include="ui\ui.cpp" />
     <ClInclude Include="ecs\diff.hpp" />
@@ -172,13 +172,14 @@
     <ClCompile Include="main.cpp" />
     <ClInclude Include="entities\prelude.hpp" />
     <ClInclude Include="ui\camera.hpp" />
+    <ClInclude Include="ui\components\flame.hpp" />
+    <ClInclude Include="ui\components\paper_shader.hpp" />
+    <ClInclude Include="ui\components\pig.hpp" />
+    <ClInclude Include="ui\components\stage.hpp" />
+    <ClInclude Include="ui\components\wolf.hpp" />
     <ClInclude Include="ui\curve.hpp" />
     <ClInclude Include="ui\data_loader.hpp" />
-    <ClInclude Include="ui\geometries\flame.hpp" />
-    <ClInclude Include="ui\geometries\stage.hpp" />
-    <ClInclude Include="ui\geometries\wolf.hpp" />
     <ClInclude Include="ui\ui_component.hpp" />
-    <ClInclude Include="ui\shaders\paper_shader.hpp" />
     <ClInclude Include="ui\ui.hpp" />
   </ItemGroup>
   <ItemGroup>

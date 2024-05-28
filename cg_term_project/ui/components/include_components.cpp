@@ -1,8 +1,8 @@
-#include "ui.hpp"
-#include "geometries/wolf.hpp"
-#include "geometries/flame.hpp"
-#include "geometries/stage.hpp"
-#include "shaders/paper_shader.hpp"
+#include "../ui.hpp"
+#include "wolf.hpp"
+#include "flame.hpp"
+#include "stage.hpp"
+#include "paper_shader.hpp"
 
 void include_components() {
 	auto& components = fetch<RenderData>()->components;
