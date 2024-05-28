@@ -37,9 +37,6 @@
     <ClCompile Include="ui\camera.cpp">
       <Filter>ui</Filter>
     </ClCompile>
-    <ClCompile Include="ui\include_components.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
     <ClCompile Include="ui\on_keyboard_action.cpp">
       <Filter>ui</Filter>
     </ClCompile>
@@ -54,6 +51,9 @@
     </ClCompile>
     <ClCompile Include="entities\create_system_forest.cpp">
       <Filter>entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\components\include_components.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -87,22 +87,19 @@
     <ClInclude Include="ui\data_loader.hpp">
       <Filter>ui</Filter>
     </ClInclude>
-    <ClInclude Include="ui\geometries\flame.hpp">
-      <Filter>ui\components</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\geometries\stage.hpp">
-      <Filter>ui\components</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\geometries\wolf.hpp">
-      <Filter>ui\components</Filter>
-    </ClInclude>
     <ClInclude Include="ui\camera.hpp">
       <Filter>ui</Filter>
     </ClInclude>
-    <ClInclude Include="ui\shaders\paper_shader.hpp">
+    <ClInclude Include="ui\components\flame.hpp">
       <Filter>ui\components</Filter>
     </ClInclude>
-    <ClInclude Include="ui\components\pig.hpp">
+    <ClInclude Include="ui\components\paper_shader.hpp">
+      <Filter>ui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\components\stage.hpp">
+      <Filter>ui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\components\wolf.hpp">
       <Filter>ui\components</Filter>
     </ClInclude>
   </ItemGroup>

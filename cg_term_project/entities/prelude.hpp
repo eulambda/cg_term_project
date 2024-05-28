@@ -23,12 +23,10 @@ struct Stage {
 struct Wolf {
 	bool operator==(const Wolf&) const = default;
 	size_t entity_id;
-	bool dead{ false };
 };
 struct Pig {
 	bool operator==(const Pig&) const = default;
 	size_t entity_id;
-	bool dead{ false };
 };
 
 // components
