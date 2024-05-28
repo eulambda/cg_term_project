@@ -102,5 +102,8 @@
     <ClInclude Include="ui\shaders\paper_shader.hpp">
       <Filter>ui\components</Filter>
     </ClInclude>
+    <ClInclude Include="ui\components\pig.hpp">
+      <Filter>ui\components</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

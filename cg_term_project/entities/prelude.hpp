@@ -22,11 +22,12 @@ struct Stage {
 };
 struct Wolf {
 	bool operator==(const Wolf&) const = default;
-	size_t entity_id{ 0 };
+	size_t entity_id;
 	bool dead{ false };
 };
 struct Pig {
 	bool operator==(const Pig&) const = default;
+	size_t entity_id;
 	bool dead{ false };
 };
 
@@ -62,6 +63,10 @@ struct LocomotionWalking {
 };
 struct LocomotionFlying {
 	bool operator==(const LocomotionFlying&) const = default;
+};
+struct Mass {
+	bool operator==(const Mass&) const = default;
+	double val;
 };
 struct HitDamage {
 	bool operator==(const HitDamage&) const = default;
