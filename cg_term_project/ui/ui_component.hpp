@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include <GLFW/glfw3.h>
 
 struct UiComponent {
 	std::function<void(void)> on_app_exiting{ [] {} };

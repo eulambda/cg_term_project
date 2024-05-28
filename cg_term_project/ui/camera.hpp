@@ -9,8 +9,8 @@ struct Camera {
 	float fov{ glm::radians(45.0f) };
 	float distance_near{ 0.1f };
 	float distance_far{ 100.0f };
-	float pan_inertia{ 200.0f };
-	float boom_inertia{ 100.0f };
+	float pan_inertia{0.05f };
+	float boom_inertia{ 0.08f };
 	glm::mat4 view();
 	void on_framebuffer_resized();
 	void on_app_started();

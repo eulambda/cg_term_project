@@ -28,10 +28,10 @@ void Camera::on_before_render() {
 	if (wolf_body->vy >= 0) y += 2;
 
 	auto focus = glm::vec3(x, y, 0);
-	auto pan_weight = (float)glm::exp2(-pan_inertia * render_elapsed);
-	auto boom_weight = (float)glm::exp2(-boom_inertia * render_elapsed);
-	target = glm::vec3(1 - pan_weight) * target + glm::vec3(pan_weight) * focus;
-	position = glm::vec3(1 - boom_weight, 1 - boom_weight, 1) * position + glm::vec3(boom_weight, boom_weight, 0) * focus;
+	auto pan_weight = (float)glm::exp2(-render_elapsed / pan_inertia);
+	auto boom_weight = (float)glm::exp2(-render_elapsed / boom_inertia);
+	target = glm::vec3(pan_weight) * target + glm::vec3(1 - pan_weight) * focus;
+	position = glm::vec3(boom_weight, boom_weight, 1) * position + glm::vec3(1 - boom_weight, 1 - boom_weight, 0) * focus;
 }
 glm::mat4 Camera::view() {
 	return glm::lookAt(position, target, up);
