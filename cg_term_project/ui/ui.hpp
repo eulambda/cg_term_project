@@ -8,7 +8,6 @@
 
 #include <shader.h>
 #include <cube.h>
-#include <model.h>
 
 #include <vector>
 #include "../ecs/prelude.hpp"
