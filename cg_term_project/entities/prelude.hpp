@@ -74,6 +74,17 @@ struct HitDamage {
 	double power{ 0 };
 	DamageType type{ DamageType::none };
 };
+struct Health {
+	bool operator==(const Health&) const = default;
+	int max{ 100 };
+	int current{ 100 };
+	int receiving{ 0 };
+};
+struct DamageReceiver {
+	bool operator==(const DamageReceiver&) const = default;
+	int multiplier{ 1 };
+	int multiplier_fire{ 1 };
+};
 struct Life {
 	bool operator==(const Life&) const = default;
 	size_t from{ 0 };

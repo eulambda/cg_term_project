@@ -40,13 +40,13 @@ void apply_character_input(
 	if (!is_touching_floor && input->jumping) ay = 0.2;
 	if (input->emit_flame) {
 		input->emit_flame = false;
-		double mouth_x = facing->inner == FacingValue::pos_x ? 2 : -2;
+		double x_offset = facing->inner == FacingValue::pos_x ? 4 : -4;
 		frozen_state->from = elapsed.ticks;
 		frozen_state->until = elapsed.ticks + 6;
 		api.spawn()
-			.with(Body{ .w = 4,.h = 1, .x = wolf_character->x + mouth_x,.y = wolf_character->y + .5,.vx = 0.1 })
+			.with(Body{ .w = 4,.h = 1, .x = wolf_character->x + x_offset,.y = wolf_character->y,.vx = 0.1 })
 			.with(LocomotionFlying{})
-			.with(HitDamage{ .from = wolf.entity_id,.power = 1 })
+			.with(HitDamage{ .from = wolf.entity_id,.power = 1,.type = DamageType::fire })
 			.with(Life{ .from = elapsed.ticks, .until = elapsed.ticks + 24, .delete_on_death = true })
 			.with(Facing{ facing->inner })
 			;
@@ -82,6 +82,19 @@ void update_elapsed(
 		if (life->delete_on_death) api.remove(id);
 	}
 }
+void apply_hit_damages(ecs::EntitiesWithWritable<Body, Health, DamageReceiver> characters, ecs::EntitiesWith<HitDamage, Body> damage_sources) {
+	for (auto& [character_id, character_body, health, receiver] : characters) {
+		health->current = std::clamp(health->current + health->receiving, 0, health->max);
+		health->receiving = 0;
+		for (auto& [_, damage, damage_body] : damage_sources) {
+			if (character_id == damage->from) continue;
+			if (!character_body->is_colliding(*damage_body)) continue;
+			double power = damage->power * receiver->multiplier;
+			if (damage->type == DamageType::fire) power *= receiver->multiplier_fire;
+			health->receiving -= (int)power;
+		}
+	}
+}
 std::tuple<double, double> solve_elastic_collision(double m0, double m1, double v0, double v1) {
 	double u0 = ((m0 - m1) * v0 + 2 * m1 * v1) / (m0 + m1);
 	double u1 = ((m1 - m0) * v1 + 2 * m0 * v0) / (m0 + m1);
@@ -103,7 +116,7 @@ void apply_elastic_collision(ecs::EntitiesWithWritable<Body, Mass, LocomotionWal
 				auto [ux0, ux1] = solve_elastic_collision(mass0->val, mass1->val, body0->vx, body1->vx);
 				body0->vx = ux0;
 				body1->vx = ux1;
-				
+
 			}
 		}
 	}
@@ -160,6 +173,7 @@ ecs::SystemForest create_system_forest(ecs::World* world) {
 		.followed_by(run_pig_agent)
 		.followed_by(apply_character_input)
 		.followed_by(apply_elastic_collision)
+		.followed_by(apply_hit_damages)
 		.followed_by(constrain_velocity)
 		.followed_by(print_console)
 		;

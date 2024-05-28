@@ -21,7 +21,7 @@ UiComponent pig_component() {
 		auto pig = world->get_resource<Pig>();
 		auto ticks = world->get_resource<Elapsed>()->ticks + simulation_elapsed;
 
-		auto [body, facing] = world->get_entity_with<Body, Facing>(pig->entity_id);
+		auto [body, facing, health] = world->get_entity_with<Body, Facing, Health>(pig->entity_id);
 
 		fetch_curve("pig.shaking").t += (body->vx + body->vy) * render_elapsed;
 		switch (facing->inner) {
@@ -36,18 +36,20 @@ UiComponent pig_component() {
 		auto& model = fetch_model("assets/wolf.dae");
 		auto& shader = fetch_shader("paper");
 
-		auto wolf_x = body->x + simulation_elapsed * body->vx;
-		auto wolf_y = body->y0() + simulation_elapsed * body->vy - 0.5;
+		auto pig_x = body->x + simulation_elapsed * body->vx;
+		auto pig_y = body->y0() + simulation_elapsed * body->vy - 0.5;
 		auto shaking = fetch_curve("pig.shaking").eval();
 		auto flipping = fetch_curve("pig.flipping").eval();
-		auto frozen = world->get_component<FrozenState>(pig->entity_id)->ratio(ticks);
 
-		auto trans = glm::translate(glm::mat4{ 1 }, glm::vec3(wolf_x + shaking, wolf_y, 0));
+		auto trans = glm::translate(glm::mat4{ 1 }, glm::vec3(pig_x + shaking, pig_y, 0));
 		trans = glm::rotate(trans, (float)flipping, glm::vec3(0, 1, 0));
 		auto r = shaking + rotating_vy(body->vy);
 		trans = glm::rotate(trans, (float)r, glm::vec3(0, 0, 1));
 
-		shader.setVec3("objectColor", 1, 0.2f, 0.2f);
+		auto body_color = glm::vec3((health->current / (float)health->max), 0.2f, 0.2f);
+		auto body_color_flashing = glm::vec3(1, 1, 1);
+		auto w = 0;
+		shader.setVec3("objectColor", body_color* glm::vec3(1-w, 1-w, 1-w) + body_color_flashing*glm::vec3(w,w,w));
 		shader.setMat4("model", trans);
 		model.Draw(shader);
 		};

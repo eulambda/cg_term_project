@@ -12,6 +12,8 @@ ecs::World create_world() {
 	world.register_component<Life>();
 	world.register_component<FrozenState>();
 	world.register_component<Mass>();
+	world.register_component<Health>();
+	world.register_component<DamageReceiver>();
 
 	world.spawn_entity().with(Floor{}).with(Body{ .w = 1,.h = 50,.x = -17,.y = 0 });
 	world.spawn_entity().with(Floor{}).with(Body{ .w = 1,.h = 50,.x = 17,.y = 0 });
@@ -25,12 +27,16 @@ ecs::World create_world() {
 		.with(Body{ .w = 2,.h = 2, .x = 2,.y = 4 })
 		.with(FrozenState{})
 		.with(Mass{ 1 })
+		.with(Health{})
+		.with(DamageReceiver{})
 		.id();
 
 	auto pig_id = world.spawn_entity()
 		.with(LocomotionWalking{})
 		.with(Body{ .w = 2,.h = 2, .x = 8,.y = 4 })
 		.with(Mass{ 2 })
+		.with(Health{})
+		.with(DamageReceiver{.multiplier=1,.multiplier_fire=20})
 		.id();
 
 
