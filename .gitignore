@@ -2,4 +2,6 @@
 .git
 x64
 .DS_Store
-/utils
+/utils/lib
+/utils/include/*
+!/utils/include/model.h
