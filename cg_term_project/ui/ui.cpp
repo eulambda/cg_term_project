@@ -137,3 +137,7 @@ double RenderData::simulation_elapsed() {
 	auto seconds_per_tick = fetch<RenderConfig>()->seconds_per_tick;
 	return std::clamp((curr_time - last_simulated_time) / seconds_per_tick, 0.0, 1.0);
 }
+
+void RenderData::load() {
+	camera.load();
+}

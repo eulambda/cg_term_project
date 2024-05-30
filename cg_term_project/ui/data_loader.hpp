@@ -4,6 +4,18 @@
 #include <string>
 
 template<typename T>
+concept Loadable = !std::is_same_v<void,decltype(T::load)>;
+
+template<Loadable T>
+T* fetch() {
+	static T* ptr = nullptr;
+	if (!ptr) {
+		ptr = new T{};
+		ptr->load();
+	}
+	return ptr;
+}
+template<typename T>
 T* fetch() {
 	static T* ptr = nullptr;
 	if (!ptr) ptr = new T{};

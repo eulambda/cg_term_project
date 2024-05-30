@@ -17,6 +17,9 @@
     <Filter Include="ui\components">
       <UniqueIdentifier>{697a1653-7730-40ff-ae6f-c4c2539167d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="essentials">
+      <UniqueIdentifier>{b11ce6ce-c6c3-4900-ba88-e125f4b2f61f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -55,6 +58,9 @@
     <ClCompile Include="ui\components\include_components.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="essentials\json_parser.cpp">
+      <Filter>essentials</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ecs\system_forest.hpp">
@@ -78,9 +84,6 @@
     <ClInclude Include="entities\prelude.hpp">
       <Filter>entities</Filter>
     </ClInclude>
-    <ClInclude Include="ui\curve.hpp">
-      <Filter>ui</Filter>
-    </ClInclude>
     <ClInclude Include="ui\ui_component.hpp">
       <Filter>ui</Filter>
     </ClInclude>
@@ -101,6 +104,12 @@
     </ClInclude>
     <ClInclude Include="ui\components\wolf.hpp">
       <Filter>ui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="essentials\curve.hpp">
+      <Filter>essentials</Filter>
+    </ClInclude>
+    <ClInclude Include="essentials\json_parser.hpp">
+      <Filter>essentials</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

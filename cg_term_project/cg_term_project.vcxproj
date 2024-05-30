@@ -158,6 +158,7 @@
     <ClCompile Include="entities\create_system_forest.cpp" />
     <ClCompile Include="entities\create_world.cpp" />
     <ClCompile Include="entities\prelude.cpp" />
+    <ClCompile Include="essentials\json_parser.cpp" />
     <ClCompile Include="stb_impl.cpp" />
     <ClCompile Include="ui\camera.cpp" />
     <ClCompile Include="ui\components\include_components.cpp" />
@@ -171,12 +172,13 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
     <ClInclude Include="entities\prelude.hpp" />
+    <ClInclude Include="essentials\curve.hpp" />
+    <ClInclude Include="essentials\json_parser.hpp" />
     <ClInclude Include="ui\camera.hpp" />
     <ClInclude Include="ui\components\flame.hpp" />
     <ClInclude Include="ui\components\paper_shader.hpp" />
     <ClInclude Include="ui\components\stage.hpp" />
     <ClInclude Include="ui\components\wolf.hpp" />
-    <ClInclude Include="ui\curve.hpp" />
     <ClInclude Include="ui\data_loader.hpp" />
     <ClInclude Include="ui\ui_component.hpp" />
     <ClInclude Include="ui\ui.hpp" />

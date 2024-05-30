@@ -12,7 +12,7 @@
 #include <vector>
 #include "../ecs/prelude.hpp"
 #include "../entities/prelude.hpp"
-#include "curve.hpp"
+#include "../essentials/curve.hpp"
 #include "ui_component.hpp"
 #include "data_loader.hpp"
 #include "camera.hpp"
@@ -44,6 +44,8 @@ struct RenderData {
 	double last_simulated_time{ -1 };
 	double render_elapsed();
 	double simulation_elapsed();
+
+	void load();
 };
 struct RenderConfig {
 	double seconds_per_tick{ 1 / 24.0 };

@@ -1,0 +1,8 @@
+{
+    "pos_z": 20.0,
+    "fov": 45.0,
+    "distance_near": 0.1,
+    "distance_far": 100.0,
+    "pan_inertia": 0.05,
+    "boom_inertia": 0.08
+}

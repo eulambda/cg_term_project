@@ -36,3 +36,14 @@ void Camera::on_before_render() {
 glm::mat4 Camera::view() {
 	return glm::lookAt(position, target, up);
 }
+void Camera::load() {
+	auto json = json::Value::parse("assets/camera.json");
+	auto& obj = *json.as_obj();
+
+	fov = glm::radians((float)*obj["fov"].as_num());
+	distance_near = (float)*obj["distance_near"].as_num();
+	distance_far = (float)*obj["distance_far"].as_num();
+	pan_inertia = (float)*obj["pan_inertia"].as_num();
+	boom_inertia = (float)*obj["boom_inertia"].as_num();
+	position = glm::vec3{ 0,0,*obj["pos_z"].as_num() };
+}
