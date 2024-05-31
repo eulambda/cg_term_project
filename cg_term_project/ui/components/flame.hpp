@@ -36,18 +36,16 @@ UiComponent flame_component() {
 			shader.setVec3("objectColor", 1, 0, 0);
 
 			auto trans_0 = glm::mat4{ 1 };
-			auto z = 0.1;
+			auto z = facing->sign_x();
 			auto life_ratio = life->ratio(ticks + simulation_elapsed);
 			switch (facing->inner) {
 			case FacingValue::pos_x:
 				trans_0 = glm::translate(trans_0, glm::vec3(body->x0(), body->y, 0));
 				trans_0 = glm::rotate(trans_0, glm::radians(0.0f), glm::vec3(0, 1, 0));
-				z = 1;
 				break;
 			case FacingValue::neg_x:
 				trans_0 = glm::translate(trans_0, glm::vec3(body->x1(), body->y, 0));
 				trans_0 = glm::rotate(trans_0, glm::radians(180.0f), glm::vec3(0, 1, 0));
-				z = -1;
 				break;
 			}
 			trans_0 = glm::translate(trans_0, glm::vec3(1, 0, 0));

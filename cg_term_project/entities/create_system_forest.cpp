@@ -3,6 +3,7 @@
 #include <vector>
 #include <random>
 #include <sstream>
+#include "../essentials/sign.hpp"
 
 void run_pig_agent(ecs::Writable<Pig> pig, Wolf wolf, ecs::EntitiesWithWritable<Health, Body, LocomotionWalking, Facing> characters) {
 	auto pig_fetched = characters.get_by_id(pig->entity_id);
@@ -52,13 +53,13 @@ void apply_character_input(
 	if (input->emit_flame) {
 		input->emit_flame = false;
 		double w = 4;
-		double x_offset = (2+w/2)*(facing->inner == FacingValue::pos_x ? 1 : -1);
+		double x_offset = (2 + w / 2) * facing->sign_x();
 		frozen_state->from = elapsed.ticks;
 		frozen_state->until = elapsed.ticks + 6;
 		api.spawn()
-			.with(Body{ .w = w,.h = 1, .x = wolf_character->x + x_offset,.y = wolf_character->y+0.2 })
+			.with(Body{ .w = w,.h = 1, .x = wolf_character->x + x_offset,.y = wolf_character->y + 0.2 })
 			.with(LocomotionFlying{})
-			.with(HitDamage{ .from = wolf.entity_id,.power = 1,.type = DamageType::fire })
+			.with(HitDamage{ .from = wolf.entity_id,.power = 1,.knockback = 1, .type = DamageType::fire })
 			.with(Life{ .from = elapsed.ticks, .until = elapsed.ticks + 10, .delete_on_death = true })
 			.with(Facing{ facing->inner })
 			;
@@ -94,16 +95,20 @@ void update_elapsed(
 		if (life->delete_on_death) api.remove(id);
 	}
 }
-void apply_hit_damages(ecs::EntitiesWithWritable<Body, Health, DamageReceiver> characters, ecs::EntitiesWith<HitDamage, Body> damage_sources) {
+void apply_hit_damages(ecs::EntitiesWithWritable<Body, Health, DamageReceiver> characters, ecs::EntitiesWith<HitDamage, Body,Facing> damage_sources) {
 	for (auto& [character_id, character_body, health, receiver] : characters) {
 		health->current = std::clamp(health->current + health->receiving, 0, health->max);
 		health->receiving = 0;
-		for (auto& [_, damage, damage_body] : damage_sources) {
+		for (auto& [_, damage, damage_body,damage_facing] : damage_sources) {
 			if (character_id == damage->from) continue;
 			if (!character_body->is_colliding(*damage_body)) continue;
 			double power = damage->power * receiver->multiplier;
 			if (damage->type == DamageType::fire) power *= receiver->multiplier_fire;
+			if (damage->type == DamageType::wind) power *= receiver->multiplier_wind;
 			health->receiving -= (int)power;
+			if (damage->knockback == 0 || receiver->multiplier_knockback == 0) continue;
+			auto knockback = damage->knockback * receiver->multiplier_knockback;
+			character_body->vx += knockback * damage_facing->sign_x();
 		}
 	}
 }
@@ -135,8 +140,8 @@ void apply_elastic_collision(ecs::EntitiesWithWritable<Body, Mass, LocomotionWal
 }
 void constrain_velocity(ecs::EntitiesWith<Floor, Body> floors, ecs::EntitiesWithWritable<Body, LocomotionWalking> characters) {
 	const double speed_lower_cut = 0.01;
-	const double wall_stiffness = 1.1;
-	const double floor_stiffness = 1.1;
+	const double wall_stiffness = 1.0;
+	const double floor_stiffness = 1.0;
 	const double max_speed_x = 1.0;
 	const double max_speed_y = 1.5;
 	for (auto& [_, character, locomotion] : characters) {
@@ -184,8 +189,8 @@ ecs::SystemForest create_system_forest(ecs::World* world) {
 		.followed_by(apply_velocity)
 		.followed_by(run_pig_agent)
 		.followed_by(apply_character_input)
-		.followed_by(apply_elastic_collision)
 		.followed_by(apply_hit_damages)
+		.followed_by(apply_elastic_collision)
 		.followed_by(constrain_velocity)
 		.followed_by(print_console)
 		;

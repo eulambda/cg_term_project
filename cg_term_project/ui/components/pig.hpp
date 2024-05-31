@@ -24,15 +24,8 @@ UiComponent pig_component() {
 		auto [body, facing, health] = world->get_entity_with<Body, Facing, Health>(pig->entity_id);
 
 		fetch_curve("pig.shaking").t += (body->vx + body->vy) * render_elapsed;
-		switch (facing->inner) {
-		case FacingValue::pos_x:
-			fetch_curve("pig.flipping").t += render_elapsed;
-			break;
-		case FacingValue::neg_x:
-			fetch_curve("pig.flipping").t += -render_elapsed;
-			break;
-		}
-
+		fetch_curve("pig.flipping").t += render_elapsed * facing->sign_x();
+		
 		auto& model = fetch_model("assets/wolf.dae");
 		auto& shader = fetch_shader("paper");
 

@@ -25,14 +25,7 @@ UiComponent wolf_component() {
 		auto [body, facing] = world->get_entity_with<Body, Facing>(wolf->entity_id);
 
 		fetch_curve("wolf.shaking").t += (body->vx + body->vy) * render_elapsed;
-		switch (facing->inner) {
-		case FacingValue::pos_x:
-			fetch_curve("wolf.flipping").t += render_elapsed;
-			break;
-		case FacingValue::neg_x:
-			fetch_curve("wolf.flipping").t += -render_elapsed;
-			break;
-		}
+		fetch_curve("wolf.flipping").t += render_elapsed* facing->sign_x();
 
 		auto& model = fetch_model("assets/wolf.dae");
 		auto& shader = fetch_shader("paper");

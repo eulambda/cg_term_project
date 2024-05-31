@@ -15,3 +15,7 @@ double Life::ratio(double ticks) {
 double FrozenState::ratio(double ticks) {
 	return get_ratio(from, until, ticks);
 }
+
+int Facing::sign_x() const {
+	return (inner == FacingValue::pos_x) ? 1 : -1;
+}

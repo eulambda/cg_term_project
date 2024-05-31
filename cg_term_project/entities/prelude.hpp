@@ -2,7 +2,7 @@
 #include "../ecs/prelude.hpp"
 
 // enums
-enum class DamageType { none, fire };
+enum class DamageType { normal, fire, wind };
 enum class FacingValue { pos_x, neg_x };
 
 // resources
@@ -53,6 +53,7 @@ struct Floor {
 struct Facing {
 	bool operator==(const Facing&) const = default;
 	FacingValue inner{ FacingValue::pos_x };
+	int sign_x() const;
 };
 struct LocomotionWalking {
 	bool operator==(const LocomotionWalking&) const = default;
@@ -70,7 +71,8 @@ struct HitDamage {
 	bool operator==(const HitDamage&) const = default;
 	size_t from;
 	double power{ 0 };
-	DamageType type{ DamageType::none };
+	double knockback{ 0 };
+	DamageType type{ DamageType::normal };
 };
 struct Health {
 	bool operator==(const Health&) const = default;
@@ -82,6 +84,8 @@ struct DamageReceiver {
 	bool operator==(const DamageReceiver&) const = default;
 	int multiplier{ 1 };
 	int multiplier_fire{ 1 };
+	int multiplier_wind{ 1 };
+	int multiplier_knockback{ 1 };
 };
 struct Life {
 	bool operator==(const Life&) const = default;

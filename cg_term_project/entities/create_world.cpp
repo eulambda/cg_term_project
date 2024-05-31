@@ -22,21 +22,25 @@ ecs::World create_world() {
 	world.spawn_entity().with(Floor{}).with(Body{ .w = 2,.h = 1,.x = 16,.y = 0 });
 	world.spawn_entity().with(Floor{}).with(Body{ .w = 2,.h = 1,.x = 4,.y = 6 });
 
-	auto wolf_id = world.spawn_entity()
-		.with(LocomotionWalking{})
+	auto wolf = world.spawn_entity();
+	auto wolf_id = wolf.id();
+	wolf.with(LocomotionWalking{})
 		.with(Body{ .w = 2,.h = 2, .x = 2,.y = 4 })
+		.with(Facing{ .inner = FacingValue::pos_x })
 		.with(FrozenState{})
 		.with(Mass{ 1 })
 		.with(Health{})
 		.with(DamageReceiver{})
+		.with(HitDamage{ .from = wolf_id,.power = 1, .knockback = 0,.type = DamageType::normal })
 		.id();
 
 	auto pig_id = world.spawn_entity()
 		.with(LocomotionWalking{})
 		.with(Body{ .w = 2,.h = 2, .x = 8,.y = 4 })
+		.with(Facing{ .inner = FacingValue::pos_x })
 		.with(Mass{ 2 })
 		.with(Health{})
-		.with(DamageReceiver{.multiplier=1,.multiplier_fire=20})
+		.with(DamageReceiver{ .multiplier = 1,.multiplier_fire = 20 })
 		.id();
 
 
