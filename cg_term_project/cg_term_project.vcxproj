@@ -185,6 +185,7 @@
     <ClInclude Include="essentials\json_parser.hpp" />
     <ClInclude Include="essentials\sign.hpp" />
     <ClInclude Include="ui\camera.hpp" />
+    <ClInclude Include="ui\components\breath.hpp" />
     <ClInclude Include="ui\components\debugging.hpp" />
     <ClInclude Include="ui\components\flame.hpp" />
     <ClInclude Include="ui\components\paper_shader.hpp" />

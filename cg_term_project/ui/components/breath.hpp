@@ -1,10 +1,10 @@
 #pragma once
 #include "../ui.hpp"
 
-UiComponent flame_component() {
+UiComponent breath_component() {
 	auto scaling_life = fn_from_points({ {0,0},{0.1,1},{0.9,1}, { 1,0 } });
 	auto rotating_life = fn_from_points({ {0,2},{0.1,1},{0.9,1}, { 1,2 } });
-	auto noise = [](double x) {return 0.3 * std::sin(x * 200); };
+	auto noise = [](double x) {return 0.7 * std::sin(x * 200); };
 	auto particle_path = [](double x) {return 0.3 * std::sin(x * 2); };
 
 	UiComponent c;
@@ -19,22 +19,22 @@ UiComponent flame_component() {
 	c.render = [=] {
 		auto render_data = fetch<RenderData>();
 		auto world = render_data->world;
-		auto flames = world->get_entities_with<HitDamage, Body, Facing, Life>();
-		if (flames.empty()) return;
+		auto breathes = world->get_entities_with<HitDamage, Body, Facing, Life>();
+		if (breathes.empty()) return;
 
 		auto render_elapsed = render_data->render_elapsed();
 		fetch_curve("flame.scaling").t += render_elapsed;
 		fetch_curve("flame.rotating").t += render_elapsed;
 
-		auto& model = fetch_model("assets/triangle.dae");
-		auto& model_big = fetch_model("assets/triangle_big.dae");
+		auto& model = fetch_model("assets/rectangle.dae");
+		auto& model_big = fetch_model("assets/rectangle_big.dae");
 		auto& shader = fetch_shader("paper");
 		shader.use();
 
 		auto simulation_elapsed = render_data->simulation_elapsed();
 		auto ticks = world->get_resource<Elapsed>()->ticks;
-		for (auto& [id, hit_damage, body, facing, life] : flames) {
-			if (hit_damage->type != DamageType::fire) continue;
+		for (auto& [id, hit_damage, body, facing, life] : breathes) {
+			if (hit_damage->type != DamageType::wind) continue;
 			auto trans_0 = glm::mat4{ 1 };
 			auto z = facing->sign_x();
 			auto life_ratio = life->ratio(ticks + simulation_elapsed);
@@ -52,8 +52,8 @@ UiComponent flame_component() {
 
 			auto& scaling = fetch_curve("flame.scaling");
 			auto& rotating = fetch_curve("flame.rotating");
-			shader.setVec3("color1", 1.5f, 0.5f, 0.5f);
-			shader.setVec3("color2", 2, 0, 0);
+			shader.setVec3("color1", 1,1, 1.5f);
+			shader.setVec3("color2", 1.5f, 1.5f, 1.5f);
 			double i_max = 4;
 			double speed = 1.5;
 			for (int i = 0; i < i_max; i++) {
@@ -62,15 +62,15 @@ UiComponent flame_component() {
 				auto x = i / i_max * body->w;
 				if (t > 1 || t < 0) continue;
 				auto trans = glm::translate(trans_0, glm::vec3(x, 0, z));
-				auto s = scaling.eval() * scaling_life(t) * (1 + noise(i));
+				auto s = scaling.eval() * scaling_life(t) * (1.2 + noise(i));
 				trans = glm::scale(trans, glm::vec3(s, s, s));
 				auto r = rotating.eval() * rotating_life(t) + noise(i);
 				trans = glm::rotate(trans, (float)r, glm::vec3(0, 0, 1));
 				shader.setMat4("model", trans);
 				model_big.Draw(shader);
 			}
-			shader.setVec3("color1", 2, 1, 1);
-			shader.setVec3("color2", 2, 1, 1);
+			shader.setVec3("color1", 1, 1, 2);
+			shader.setVec3("color2", 1, 1, 2);
 			i_max = 5;
 			speed = 2;
 			for (int i = 0; i < i_max; i++) {
@@ -108,14 +108,14 @@ UiComponent flame_component() {
 			shader.setVec3("color1", 2, 2, 2);
 			shader.setVec3("color2", 2, 2, 2);
 			i_max = 10;
-			speed = 3;
+			speed = 7;
 			for (int i = 0; i < i_max; i++) {
 				auto t = speed * life_ratio - (speed - 1) * i / (i_max - 1);
 				auto x = i / i_max * body->w;
-				x = 0.5 * x + 0.5 * t;
+				x = 0.8 * x + 0.2 * t;
 				if (t > 1 || t < 0) continue;
-				x = 1.1 * x + noise(i);
-				auto y = particle_path(t + i) * (0.1 + 2*i / (i_max - 1)) + 1.5 * noise(i);
+				x = 1.2 * x + noise(i);
+				auto y = particle_path(t + i) * (0.1 + 2 * i / (i_max - 1)) + 1.5 * noise(i);
 				auto trans = glm::translate(trans_0, glm::vec3(x, y, 1.2 * z));
 				auto s = 0.2;
 				trans = glm::scale(trans, glm::vec3(s, s, s));
