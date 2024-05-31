@@ -55,11 +55,14 @@
     <ClCompile Include="entities\create_system_forest.cpp">
       <Filter>entities</Filter>
     </ClCompile>
-    <ClCompile Include="ui\components\include_components.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="essentials\json_parser.cpp">
       <Filter>essentials</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\components\include_components.cpp">
+      <Filter>ui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\lighting.cpp">
+      <Filter>ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +113,12 @@
     </ClInclude>
     <ClInclude Include="essentials\json_parser.hpp">
       <Filter>essentials</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\components\pig.hpp">
+      <Filter>ui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\lighting.hpp">
+      <Filter>ui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,0 +1,48 @@
+{
+    "environment": [
+        0,
+        0.2,
+        0.1
+    ],
+    "camera_lights": [
+        {
+            "intensity": 0.7,
+            "color": [
+                1,
+                1,
+                1
+            ],
+            "offset": [
+                10,
+                20,
+                0
+            ]
+        },
+        {
+            "intensity": 1,
+            "color": [
+                1,
+                1,
+                1
+            ],
+            "offset": [
+                -10,
+                20,
+                -40
+            ]
+        },
+        {
+            "intensity": 0.1,
+            "color": [
+                1,
+                1,
+                1
+            ],
+            "offset": [
+                -30,
+                10,
+                10
+            ]
+        }
+    ]
+}

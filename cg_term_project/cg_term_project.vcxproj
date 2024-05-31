@@ -162,6 +162,7 @@
     <ClCompile Include="stb_impl.cpp" />
     <ClCompile Include="ui\camera.cpp" />
     <ClCompile Include="ui\components\include_components.cpp" />
+    <ClCompile Include="ui\lighting.cpp" />
     <ClCompile Include="ui\on_keyboard_action.cpp" />
     <ClCompile Include="ui\ui.cpp" />
     <ClInclude Include="ecs\diff.hpp" />
@@ -177,9 +178,11 @@
     <ClInclude Include="ui\camera.hpp" />
     <ClInclude Include="ui\components\flame.hpp" />
     <ClInclude Include="ui\components\paper_shader.hpp" />
+    <ClInclude Include="ui\components\pig.hpp" />
     <ClInclude Include="ui\components\stage.hpp" />
     <ClInclude Include="ui\components\wolf.hpp" />
     <ClInclude Include="ui\data_loader.hpp" />
+    <ClInclude Include="ui\lighting.hpp" />
     <ClInclude Include="ui\ui_component.hpp" />
     <ClInclude Include="ui\ui.hpp" />
   </ItemGroup>

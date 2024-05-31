@@ -47,17 +47,21 @@ UiComponent pig_component() {
 		trans = glm::rotate(trans, (float)r, glm::vec3(0, 0, 1));
 
 		auto body_color = glm::vec3(0, 0.2f, 0.2f);
+		shader.use();
 		shader.setVec3("objectColor", body_color);
 		shader.setMat4("model", trans);
 		model.Draw(shader);
 
-		auto& bar = fetch_model("assets/cube.dae");
-		auto trans_bar = glm::translate(glm::mat4{ 1 }, glm::vec3(pig_x, pig_y + body->h + 1, 0));
-		auto health_ratio = (std::max(health->current+health->receiving*simulation_elapsed,0.0)) / health->max;
-		trans_bar = glm::scale(trans_bar, glm::vec3(2 *health_ratio, 0.1, 0.1));
-		shader.setMat4("model", trans_bar);
-		shader.setVec3("objectColor", 1, 0, 0);
-		bar.Draw(shader);
+		auto health_ratio = (std::max(health->current + health->receiving * simulation_elapsed, 0.0)) / health->max;
+		if (health_ratio) {
+			auto& bar = fetch_model("assets/rectangle.dae");
+			auto trans_bar = glm::translate(glm::mat4{ 1 }, glm::vec3(pig_x, pig_y + body->h + 1, 0));
+			trans_bar = glm::scale(trans_bar, glm::vec3(2 * health_ratio, 0.1, 0.1));
+			shader.use();
+			shader.setMat4("model", trans_bar);
+			shader.setVec3("objectColor", 1,0,0);
+			bar.Draw(shader);
+		}
 		};
 	return c;
 }

@@ -48,6 +48,7 @@ UiComponent wolf_component() {
 		auto r = shaking + rotating_frozen(frozen) + rotating_vy(body->vy);
 		trans = glm::rotate(trans, (float)r, glm::vec3(0, 0, 1));
 
+		shader.use();
 		shader.setVec3("objectColor", 1, 1, 1);
 		shader.setMat4("model", trans);
 		model.Draw(shader);
