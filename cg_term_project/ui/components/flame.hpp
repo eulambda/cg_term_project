@@ -51,7 +51,8 @@ UiComponent flame_component() {
 
 			auto& scaling = fetch_curve("flame.scaling");
 			auto& rotating = fetch_curve("flame.rotating");
-			shader.setVec3("objectColor", 2, 0, 0);
+			shader.setVec3("color1", 2, 0, 0);
+			shader.setVec3("color2", 2, 0, 0);
 			double i_max = 4;
 			double speed = 1.5;
 			for (int i = 0; i < i_max; i++) {
@@ -67,7 +68,8 @@ UiComponent flame_component() {
 				shader.setMat4("model", trans);
 				model.Draw(shader);
 			}
-			shader.setVec3("objectColor", 2, 1, 1);
+			shader.setVec3("color1", 2, 1, 1);
+			shader.setVec3("color2", 2, 1, 1);
 			i_max = 5;
 			speed = 2;
 			for (int i = 0; i < i_max; i++) {
@@ -102,7 +104,8 @@ UiComponent flame_component() {
 				shader.setMat4("model", trans);
 				model.Draw(shader);
 			}
-			shader.setVec3("objectColor", 2, 2, 2);
+			shader.setVec3("color1", 2, 2, 2);
+			shader.setVec3("color2", 2, 2, 2);
 			i_max = 10;
 			speed = 3;
 			for (int i = 0; i < i_max; i++) {

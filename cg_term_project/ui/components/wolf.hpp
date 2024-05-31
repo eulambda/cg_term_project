@@ -2,8 +2,8 @@
 #include "../ui.hpp"
 
 UiComponent wolf_component() {
-	auto rotating_frozen = fn_from_points({ {0,0},{0.2,glm::radians(15.0)},{0.8,glm::radians(5.0)},{1,0} });
-	auto rotating_charging = fn_from_points({ {0,0},{0.2,glm::radians(-5.0)},{1,glm::radians(-10.0)} });
+	auto rotating_frozen = fn_from_points({ {0,0},{0.2,glm::radians(-15.0)},{0.8,glm::radians(-5.0)},{1,0} });
+	auto rotating_charging = fn_from_points({ {0,0},{0.2,glm::radians(5.0)},{1,glm::radians(10.0)} });
 	auto rotating_vy = [](double t) {return glm::radians(-15.0) * std::clamp(t, -1.0, 1.0); };
 	UiComponent c;
 
@@ -11,7 +11,7 @@ UiComponent wolf_component() {
 		auto& shaking = fetch_curve("wolf.shaking");
 		shaking.y_x = [](double x) { return 0.1 * std::sin(x * 20);};
 		auto& flipping = fetch_curve("wolf.flipping");
-		flipping.x_t = [](double t) {return std::clamp(t, 0.0, 0.1);};
+		flipping.x_t = [](double t) {return std::clamp(t, -0.1, 0.0);};
 		flipping.y_x = [](double x) {return x * glm::radians(180.0) / 0.1;};
 		};
 
@@ -48,7 +48,8 @@ UiComponent wolf_component() {
 		trans = glm::rotate(trans, (float)r, glm::vec3(0, 0, 1));
 
 		shader.use();
-		shader.setVec3("objectColor", 1, 1, 1);
+		shader.setVec3("color1", 0.8f, 0.8f, 0.8f);
+		shader.setVec3("color2", 0.2f, 0.2f, 0.2f);
 		shader.setMat4("model", trans);
 		model.Draw(shader);
 
@@ -58,7 +59,7 @@ UiComponent wolf_component() {
 			trans_bar = glm::scale(trans_bar, glm::vec3(2 * charging, 0.1, 0.1));
 			shader.use();
 			shader.setMat4("model", trans_bar);
-			shader.setVec3("objectColor", 0.5, 0.5, 1.5);
+			shader.setVec3("color1", 0.5, 0.5, 1.5);
 			bar.Draw(shader);
 		}
 		};

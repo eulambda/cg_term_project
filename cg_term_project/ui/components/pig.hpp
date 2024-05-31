@@ -9,7 +9,7 @@ UiComponent pig_component() {
 		auto& shaking = fetch_curve("pig.shaking");
 		shaking.y_x = [](double x) { return 0.1 * std::sin(x * 20); };
 		auto& flipping = fetch_curve("pig.flipping");
-		flipping.x_t = [](double t) {return std::clamp(t, 0.0, 0.1); };
+		flipping.x_t = [](double t) {return std::clamp(t, -0.1, 0.0); };
 		flipping.y_x = [](double x) {return x * glm::radians(180.0) / 0.1; };
 		};
 
@@ -25,7 +25,7 @@ UiComponent pig_component() {
 
 		fetch_curve("pig.shaking").t += (body->vx + body->vy) * render_elapsed;
 		fetch_curve("pig.flipping").t += render_elapsed * facing->sign_x();
-		
+
 		auto& model = fetch_model("assets/wolf.dae");
 		auto& shader = fetch_shader("paper");
 
@@ -41,7 +41,8 @@ UiComponent pig_component() {
 
 		auto body_color = glm::vec3(0, 0.2f, 0.2f);
 		shader.use();
-		shader.setVec3("objectColor", body_color);
+		shader.setVec3("color1", 0.5f, 0.8f, 0.8f);
+		shader.setVec3("color2", 0, 0.2f, 0.2f);
 		shader.setMat4("model", trans);
 		model.Draw(shader);
 
@@ -52,7 +53,7 @@ UiComponent pig_component() {
 			trans_bar = glm::scale(trans_bar, glm::vec3(2 * health_ratio, 0.1, 0.1));
 			shader.use();
 			shader.setMat4("model", trans_bar);
-			shader.setVec3("objectColor", 1,0,0);
+			shader.setVec3("color1", 1, 0, 0);
 			bar.Draw(shader);
 		}
 		};

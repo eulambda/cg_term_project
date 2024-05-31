@@ -20,6 +20,7 @@ UiComponent debugging_component() {
 		auto render_data = fetch<RenderData>();
 		auto& camera = render_data->camera;
 		auto& world = render_data->world;
+		auto simulation_elapsed = render_data->simulation_elapsed();
 		auto lighting = fetch<Lighting>();
 
 		if (show_hitbox) {
@@ -27,9 +28,11 @@ UiComponent debugging_component() {
 			shader.use();
 			auto entities = world->get_entities_with<Body>();
 			for (auto& [id, body] : entities) {
-				auto trans = glm::translate(glm::mat4{ 1 }, glm::vec3(body->x, body->y, 0));
+				auto x = body->x + body->vx * simulation_elapsed;
+				auto y = body->y + body->vy * simulation_elapsed;
+				auto trans = glm::translate(glm::mat4{ 1 }, glm::vec3(x, y, 0));
 				trans = glm::scale(trans, glm::vec3(body->w, body->h, 1));
-				shader.setVec3("objectColor", 1, 1, 1);
+				shader.setVec3("color1", 1, 1, 1);
 				shader.setMat4("model", trans);
 				rectangle.Draw(shader);
 			}

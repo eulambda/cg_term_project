@@ -11,7 +11,8 @@ struct CameraLight {
 in vec3 Normal;  
 in vec3 FragPos;
   
-uniform vec3 objectColor;
+uniform vec3 color1;
+uniform vec3 color2;
 uniform vec3 viewPos;
 uniform vec3 ambientColor;
 uniform float ambientStrength;
@@ -50,5 +51,11 @@ void main()
     for(int i=0;i<NR_CAMERA_LIGHTS;i++){
         result+=CalcCameraLight(camera_lights[i], viewDir, norm);
     }
-    FragColor =  vec4(result * objectColor, 1.0);
+    if(dot(viewDir, norm) >0){
+        FragColor =  vec4(result * color1, 1.0);
+    }
+    else{
+        FragColor =  vec4(result * color2, 1.0);
+    }
+
 } 
