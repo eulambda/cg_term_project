@@ -33,8 +33,7 @@ UiComponent flame_component() {
 		auto simulation_elapsed = render_data->simulation_elapsed();
 		auto ticks = world->get_resource<Elapsed>()->ticks;
 		for (auto& [id, hit_damage, body, facing, life] : flames) {
-			shader.setVec3("objectColor", 1, 0, 0);
-
+			if (hit_damage->type != DamageType::fire) continue;
 			auto trans_0 = glm::mat4{ 1 };
 			auto z = facing->sign_x();
 			auto life_ratio = life->ratio(ticks + simulation_elapsed);

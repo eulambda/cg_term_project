@@ -24,5 +24,9 @@ void on_keyboard_action(GLFWwindow* window, int key, int scancode, int action, i
 		if (action == GLFW_PRESS) get_input()->emit_flame = true;
 		if (action == GLFW_RELEASE) get_input()->emit_flame = false;
 	}
+	if (key == GLFW_KEY_C) {
+		if (action == GLFW_PRESS) get_input()->charge_breath = true;
+		if (action == GLFW_RELEASE) get_input()->charge_breath = false;
+	}
 	return;
 }

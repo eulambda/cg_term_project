@@ -10,6 +10,7 @@ struct CharacterInput {
 	bool operator==(const CharacterInput&) const = default;
 	bool left{ 0 }, right{ 0 }, jump{ 0 }, jumping{ 0 };
 	bool emit_flame{ 0 };
+	bool charge_breath{ 0 };
 };
 struct Elapsed {
 	bool operator==(const Elapsed&) const = default;
@@ -99,6 +100,14 @@ struct FrozenState {
 	size_t from{ 0 };
 	size_t until{ 0 };
 	double ratio(double ticks);
+};
+struct BreathCharged {
+	bool operator==(const BreathCharged&) const = default;
+	size_t val{ 0 };
+	size_t max{ 5 };
+	double ratio() const;
+	DamageType type{ DamageType::normal };
+	bool is_charging{ false };
 };
 
 // apis

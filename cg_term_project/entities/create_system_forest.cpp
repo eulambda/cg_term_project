@@ -22,12 +22,12 @@ void run_pig_agent(ecs::Writable<Pig> pig, Wolf wolf, ecs::EntitiesWithWritable<
 	if (ax < 0) pig_facing->inner = FacingValue::neg_x;
 }
 void apply_character_input(
-	ecs::EntitiesWithWritable<Body, LocomotionWalking, Facing, FrozenState> characters,
+	ecs::EntitiesWithWritable<Body, LocomotionWalking, Facing, FrozenState, BreathCharged> characters,
 	Wolf wolf, ecs::Writable<CharacterInput> input, ecs::EntityApi api, Elapsed elapsed
 ) {
 	auto wolf_fetched = characters.get_by_id(wolf.entity_id);
 	if (!wolf_fetched) return;
-	auto& [_, wolf_character, locomotion, facing, frozen_state] = *wolf_fetched;
+	auto& [_, wolf_character, locomotion, facing, frozen_state, breath_charged] = *wolf_fetched;
 
 	if (frozen_state->ratio((double)elapsed.ticks) < 1.0) {
 		input->jump = false;
@@ -53,16 +53,42 @@ void apply_character_input(
 	if (input->emit_flame) {
 		input->emit_flame = false;
 		double w = 4;
+		double h = 1;
 		double x_offset = (2 + w / 2) * facing->sign_x();
 		frozen_state->from = elapsed.ticks;
 		frozen_state->until = elapsed.ticks + 6;
 		api.spawn()
-			.with(Body{ .w = w,.h = 1, .x = wolf_character->x + x_offset,.y = wolf_character->y + 0.2 })
+			.with(Body{ .w = w,.h = h, .x = wolf_character->x + x_offset,.y = wolf_character->y + 0.2 })
 			.with(LocomotionFlying{})
 			.with(HitDamage{ .from = wolf.entity_id,.power = 1,.knockback = 1, .type = DamageType::fire })
 			.with(Life{ .from = elapsed.ticks, .until = elapsed.ticks + 10, .delete_on_death = true })
 			.with(Facing{ facing->inner })
 			;
+		ax = -0.1 * facing->sign_x();
+	}
+	if (input->charge_breath) {
+		breath_charged->val = std::min(breath_charged->val + 1, breath_charged->max);
+		breath_charged->is_charging = true;
+		ax *= 0.2;
+		ay *= 0;
+	}
+	if (!input->charge_breath && breath_charged->is_charging) {
+		double w = 6;
+		double h = 4;
+		double x_offset = (2 + w / 2) * facing->sign_x();
+		double ratio = breath_charged->ratio();
+		frozen_state->from = elapsed.ticks;
+		frozen_state->until = elapsed.ticks + 15;
+		api.spawn()
+			.with(Body{ .w = w,.h = h, .x = wolf_character->x + x_offset,.y = wolf_character->y + 0.2 })
+			.with(LocomotionFlying{})
+			.with(HitDamage{ .from = wolf.entity_id,.power = ratio,.knockback = 1, .type = breath_charged->type })
+			.with(Life{ .from = elapsed.ticks, .until = elapsed.ticks + 15, .delete_on_death = true })
+			.with(Facing{ facing->inner })
+			;
+		ax = -0.5 * ratio * facing->sign_x();
+		breath_charged->val = 0;
+		breath_charged->is_charging = false;
 	}
 
 	wolf_character->vx += ax;
@@ -95,11 +121,11 @@ void update_elapsed(
 		if (life->delete_on_death) api.remove(id);
 	}
 }
-void apply_hit_damages(ecs::EntitiesWithWritable<Body, Health, DamageReceiver> characters, ecs::EntitiesWith<HitDamage, Body,Facing> damage_sources) {
+void apply_hit_damages(ecs::EntitiesWithWritable<Body, Health, DamageReceiver> characters, ecs::EntitiesWith<HitDamage, Body, Facing> damage_sources) {
 	for (auto& [character_id, character_body, health, receiver] : characters) {
 		health->current = std::clamp(health->current + health->receiving, 0, health->max);
 		health->receiving = 0;
-		for (auto& [_, damage, damage_body,damage_facing] : damage_sources) {
+		for (auto& [_, damage, damage_body, damage_facing] : damage_sources) {
 			if (character_id == damage->from) continue;
 			if (!character_body->is_colliding(*damage_body)) continue;
 			double power = damage->power * receiver->multiplier;
