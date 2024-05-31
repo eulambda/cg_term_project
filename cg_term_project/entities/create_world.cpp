@@ -48,7 +48,6 @@ ecs::World create_world() {
 
 	world.manage_resource(CharacterInput{});
 	world.manage_resource(Elapsed{});
-	world.manage_resource(Stage{});
 	world.manage_resource(Wolf{ .entity_id = wolf_id });
 	world.manage_resource(Pig{ .entity_id = pig_id });
 

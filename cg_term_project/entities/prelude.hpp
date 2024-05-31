@@ -16,11 +16,6 @@ struct Elapsed {
 	bool operator==(const Elapsed&) const = default;
 	size_t ticks{ 0 };
 };
-struct Stage {
-	bool operator==(const Stage&) const = default;
-	double width{ 11.0 };
-	double height{ 11.0 };
-};
 struct Wolf {
 	bool operator==(const Wolf&) const = default;
 	size_t entity_id;
