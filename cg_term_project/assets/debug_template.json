@@ -1,0 +1,6 @@
+{
+    "$schema": "./debug_schema.json",
+    "features": [
+        "show_hitbox"
+    ]
+}

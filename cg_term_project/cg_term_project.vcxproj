@@ -176,6 +176,7 @@
     <ClInclude Include="essentials\curve.hpp" />
     <ClInclude Include="essentials\json_parser.hpp" />
     <ClInclude Include="ui\camera.hpp" />
+    <ClInclude Include="ui\components\debugging.hpp" />
     <ClInclude Include="ui\components\flame.hpp" />
     <ClInclude Include="ui\components\paper_shader.hpp" />
     <ClInclude Include="ui\components\pig.hpp" />

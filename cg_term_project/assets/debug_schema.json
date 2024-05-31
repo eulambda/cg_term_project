@@ -1,0 +1,13 @@
+{
+    "type": "object",
+    "properties": {
+        "features": {
+            "type": "array",
+            "items": {
+                "enum": [
+                    "show_hitbox"
+                ]
+            }
+        }
+    }
+}

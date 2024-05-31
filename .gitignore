@@ -4,3 +4,4 @@ x64
 /utils/lib
 !/utils/include/*
 .DS_Store
+/cg_term_project/assets/debug.json

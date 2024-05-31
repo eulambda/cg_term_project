@@ -47,6 +47,12 @@ namespace json {
 		val.str = str;
 		return val;
 	}
+	Value Value::create_bool(bool boolean) {
+		Value val;
+		val.m_type = ValueType::boolean;
+		val.boolean = boolean;
+		return val;
+	}
 	ValueType Value::type() {
 		return m_type;
 	}
@@ -61,6 +67,9 @@ namespace json {
 	}
 	double* Value::as_num() {
 		if (m_type != ValueType::number) return nullptr; else return &num;
+	}
+	bool* Value::as_bool() {
+		if (m_type != ValueType::boolean) return nullptr; else return &boolean;
 	}
 
 	bool Value::is_valid() {
@@ -113,6 +122,15 @@ namespace json {
 		it.consume(t);
 		return val;
 	}
+	Value Value::parse_bool(Tokenizer::It& it) {
+		Value val;
+		auto [t, tn, ts] = *it;
+		if (t != TokenType::boolean) return val;
+		val.m_type = ValueType::boolean;
+		val.boolean = tn != 0;
+		it.consume(t);
+		return val;
+	}
 	Value Value::parse_arr(Tokenizer::It& it) {
 		Value val;
 		auto [t, tn, ts] = *it;
@@ -152,6 +170,8 @@ namespace json {
 		if (num.is_valid()) return num;
 		auto str = parse_str(it);
 		if (str.is_valid()) return str;
+		auto boolean = parse_bool(it);
+		if (boolean.is_valid()) return boolean;
 		auto arr = parse_arr(it);
 		if (arr.is_valid()) return arr;
 		auto obj = parse_obj(it);
@@ -234,6 +254,27 @@ namespace json {
 
 			next_string = ss.str();
 			next = TokenType::string;
+		}
+		else if (c == 't' || c == 'f') {
+			std::stringstream ss{};
+			ss << c;
+			inner++;
+			while (inner != Inner{}) {
+				c = *inner;
+				if (c < 'a' || c>'z') break;
+				inner++;
+			}
+			if (ss.str() == "true") {
+				next_number = 1;
+				next = TokenType::boolean;
+			}
+			else if (ss.str() == "false") {
+				next_number = 0;
+				next = TokenType::boolean;
+			}
+			else {
+				next = TokenType::invalid;
+			}
 		}
 		return std::make_tuple(next, next_number, next_string);
 	}
