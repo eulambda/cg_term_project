@@ -155,9 +155,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="entities\body.cpp" />
-    <ClCompile Include="entities\create_system_forest.cpp" />
     <ClCompile Include="entities\create_world.cpp" />
     <ClCompile Include="entities\prelude.cpp" />
+    <ClCompile Include="entities\systems\create_system_forest.cpp" />
     <ClCompile Include="essentials\json_parser.cpp" />
     <ClCompile Include="stb_impl.cpp" />
     <ClCompile Include="ui\camera.cpp" />
@@ -173,6 +173,14 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
     <ClInclude Include="entities\prelude.hpp" />
+    <ClInclude Include="entities\systems\apply_character_input.hpp" />
+    <ClInclude Include="entities\systems\apply_elastic_collision.hpp" />
+    <ClInclude Include="entities\systems\apply_hit_damages.hpp" />
+    <ClInclude Include="entities\systems\apply_velocity.hpp" />
+    <ClInclude Include="entities\systems\constrain_velocity.hpp" />
+    <ClInclude Include="entities\systems\print_console.hpp" />
+    <ClInclude Include="entities\systems\run_pig_agent.hpp" />
+    <ClInclude Include="entities\systems\update_elapsed.hpp" />
     <ClInclude Include="essentials\curve.hpp" />
     <ClInclude Include="essentials\json_parser.hpp" />
     <ClInclude Include="essentials\sign.hpp" />
