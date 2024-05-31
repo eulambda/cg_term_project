@@ -38,7 +38,7 @@ UiComponent wolf_component() {
 		auto& shader = fetch_shader("paper");
 
 		auto wolf_x = body->x + simulation_elapsed * body->vx;
-		auto wolf_y = body->y0() + simulation_elapsed * body->vy - 0.5;
+		auto wolf_y = body->y0() + simulation_elapsed * body->vy;
 		auto shaking = fetch_curve("wolf.shaking").eval();
 		auto flipping = fetch_curve("wolf.flipping").eval();
 		auto frozen = world->get_component<FrozenState>(wolf->entity_id)->ratio(ticks);

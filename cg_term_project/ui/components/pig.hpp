@@ -37,7 +37,7 @@ UiComponent pig_component() {
 		auto& shader = fetch_shader("paper");
 
 		auto pig_x = body->x + simulation_elapsed * body->vx;
-		auto pig_y = body->y0() + simulation_elapsed * body->vy - 0.5;
+		auto pig_y = body->y0() + simulation_elapsed * body->vy;
 		auto shaking = fetch_curve("pig.shaking").eval();
 		auto flipping = fetch_curve("pig.flipping").eval();
 

@@ -51,14 +51,15 @@ void apply_character_input(
 	if (!is_touching_floor && input->jumping) ay = 0.2;
 	if (input->emit_flame) {
 		input->emit_flame = false;
-		double x_offset = facing->inner == FacingValue::pos_x ? 4 : -4;
+		double w = 4;
+		double x_offset = (2+w/2)*(facing->inner == FacingValue::pos_x ? 1 : -1);
 		frozen_state->from = elapsed.ticks;
 		frozen_state->until = elapsed.ticks + 6;
 		api.spawn()
-			.with(Body{ .w = 4,.h = 1, .x = wolf_character->x + x_offset,.y = wolf_character->y,.vx = 0.1 })
+			.with(Body{ .w = w,.h = 1, .x = wolf_character->x + x_offset,.y = wolf_character->y+0.2 })
 			.with(LocomotionFlying{})
 			.with(HitDamage{ .from = wolf.entity_id,.power = 1,.type = DamageType::fire })
-			.with(Life{ .from = elapsed.ticks, .until = elapsed.ticks + 24, .delete_on_death = true })
+			.with(Life{ .from = elapsed.ticks, .until = elapsed.ticks + 10, .delete_on_death = true })
 			.with(Facing{ facing->inner })
 			;
 	}
