@@ -28,7 +28,7 @@ void constrain_velocity(ecs::EntitiesWith<Floor, Body> floors, ecs::EntitiesWith
 					locomotion->is_touching_floor = true;
 				}
 			}
-			if (floor->is_colliding_x(*character) && character->y_distance_to(*floor) != 0) {
+			else {
 				character->vx = character->x_distance_to(*floor) / wall_stiffness;
 				if (std::abs(character->vx) < speed_lower_cut) {
 					character->vx = 0;
