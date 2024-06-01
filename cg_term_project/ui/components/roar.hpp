@@ -2,18 +2,18 @@
 #include "../ui.hpp"
 
 UiComponent roar_component() {
-	auto scaling_life = fn_from_points({ {0,0},{0.1,1},{0.9,1}, { 1,0 } });
-	auto rotating_life = fn_from_points({ {0,2},{0.1,1},{0.9,1}, { 1,2 } });
+	auto scaling_life = fn_from_points({ {0,0},{0.2,1},{0.8,1}, { 1,0 } });
+	auto rotating_life = fn_from_points({ {0,2},{0.2,1},{0.8,1}, { 1,2 } });
 	auto noise = [](double x) {return 0.7 * std::sin(x * 200); };
 	auto particle_path = [](double x) {return 0.3 * std::sin(x * 2); };
 
 	UiComponent c;
 
 	c.on_app_started = [] {
-		auto& scaling = fetch_curve("flame.scaling");
+		auto& scaling = fetch_curve("roar.scaling");
 		scaling.y_x = [](double x) { return 1 + 0.1 * std::sin(x * 20); };
-		auto& rotating = fetch_curve("flame.rotating");
-		rotating.y_x = [](double x) { return x; };
+		auto& rotating = fetch_curve("roar.rotating");
+		rotating.y_x = [](double x) { return x / 20; };
 		};
 
 	c.render = [=] {
@@ -23,8 +23,8 @@ UiComponent roar_component() {
 		if (breathes.empty()) return;
 
 		auto render_elapsed = render_data->render_elapsed();
-		fetch_curve("flame.scaling").t += render_elapsed;
-		fetch_curve("flame.rotating").t += render_elapsed;
+		fetch_curve("roar.scaling").t += render_elapsed;
+		fetch_curve("roar.rotating").t += render_elapsed;
 
 		auto& model = fetch_model("assets/rectangle.dae");
 		auto& model_big = fetch_model("assets/rectangle_big.dae");
@@ -50,43 +50,45 @@ UiComponent roar_component() {
 			}
 			trans_0 = glm::translate(trans_0, glm::vec3(1, 0, 0));
 
-			auto& scaling = fetch_curve("flame.scaling");
-			auto& rotating = fetch_curve("flame.rotating");
-			shader.setVec3("color1", 1,1, 1.5f);
+			auto& scaling = fetch_curve("roar.scaling");
+			auto& rotating = fetch_curve("roar.rotating");
+			shader.setVec3("color1", 1, 1, 1.5f);
 			shader.setVec3("color2", 1.5f, 1.5f, 1.5f);
 			double i_max = 4;
 			double speed = 1.5;
-			for (int i = 0; i < i_max; i++) {
-				auto t = speed * life_ratio - (speed - 1) * i / (i_max - 1);
-				t = 3.0 * t - 0.6;
-				auto x = i / i_max * body->w;
-				if (t > 1 || t < 0) continue;
-				auto trans = glm::translate(trans_0, glm::vec3(x, 0, z));
-				auto s = scaling.eval() * scaling_life(t) * (1.2 + noise(i));
-				trans = glm::scale(trans, glm::vec3(s, s, s));
-				auto r = rotating.eval() * rotating_life(t) + noise(i);
-				trans = glm::rotate(trans, (float)r, glm::vec3(0, 0, 1));
-				shader.setMat4("model", trans);
-				model_big.Draw(shader);
-			}
-			shader.setVec3("color1", 1, 1, 2);
-			shader.setVec3("color2", 1, 1, 2);
-			i_max = 5;
-			speed = 2;
-			for (int i = 0; i < i_max; i++) {
-				auto t = speed * life_ratio - (speed - 1) * i / (i_max - 1);
-				t = 2.5 * t - 0.2;
-				auto x = i / i_max * body->w;
-				x = 0.5 * x + 0.5 * t + noise(i);
-				auto y = particle_path(t + i) * (0.1 + 2 * i / (i_max - 1)) + noise(i);
-				if (t > 1 || t < 0) continue;
-				auto trans = glm::translate(trans_0, glm::vec3(x, y, 1.1 * z));
-				auto s = scaling.eval() * scaling_life(t) * 0.6;
-				trans = glm::scale(trans, glm::vec3(s, s, s));
-				auto r = rotating.eval() * 3;
-				trans = glm::rotate(trans, (float)r, glm::vec3(0, 0, 1));
-				shader.setMat4("model", trans);
-				model.Draw(shader);
+			if (hit_damage->power > 0) {
+				for (int i = 0; i < i_max; i++) {
+					auto t = speed * life_ratio - (speed - 1) * i / (i_max - 1);
+					t = 3.0 * t - 0.6;
+					auto x = i / i_max * body->w;
+					if (t > 1 || t < 0) continue;
+					auto trans = glm::translate(trans_0, glm::vec3(x, noise(i * 10), z));
+					auto s = scaling.eval() * scaling_life(t) * (1.2 + 0.2 * noise(i));
+					trans = glm::scale(trans, glm::vec3(s, s, s));
+					auto r = rotating.eval() * rotating_life(t) + noise(i);
+					trans = glm::rotate(trans, (float)r, glm::vec3(0, 0, 1));
+					shader.setMat4("model", trans);
+					model_big.Draw(shader);
+				}
+				shader.setVec3("color1", 1, 1, 2);
+				shader.setVec3("color2", 1, 1, 2);
+				i_max = 5;
+				speed = 2;
+				for (int i = 0; i < i_max; i++) {
+					auto t = speed * life_ratio - (speed - 1) * i / (i_max - 1);
+					t = 2.5 * t - 0.2;
+					auto x = i / i_max * body->w;
+					x = 0.5 * x + 0.5 * t + noise(i);
+					auto y = particle_path(t + i) * (0.1 + 2 * i / (i_max - 1)) + noise(i);
+					if (t > 1 || t < 0) continue;
+					auto trans = glm::translate(trans_0, glm::vec3(x, y, 1.1 * z));
+					auto s = scaling.eval() * scaling_life(t) * 0.6;
+					trans = glm::scale(trans, glm::vec3(s, s, s));
+					auto r = rotating.eval() * 3;
+					trans = glm::rotate(trans, (float)r, glm::vec3(0, 0, 1));
+					shader.setMat4("model", trans);
+					model.Draw(shader);
+				}
 			}
 			i_max = 5;
 			speed = 2;

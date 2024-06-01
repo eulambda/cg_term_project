@@ -55,16 +55,17 @@ void apply_character_input(
 		ay *= 0;
 	}
 	if (!input->charge_roar && roar_charged->is_charging) {
-		double w = 6;
-		double h = 4;
-		double x_offset = (2 + w / 2) * facing->sign_x();
 		double ratio = roar_charged->ratio();
+		double power = ratio == 1 ? 1 : 0;
+		double w = ratio == 1 ? 6 : 3;
+		double h = ratio == 1 ? 4 : 2;
+		double x_offset = (2 + w / 2) * facing->sign_x();
 		frozen_state->from = elapsed.ticks;
 		frozen_state->until = elapsed.ticks + 15;
 		api.spawn()
 			.with(Body{ .w = w,.h = h, .x = wolf_character->x + x_offset,.y = wolf_character->y + 0.2 })
 			.with(LocomotionFlying{})
-			.with(HitDamage{ .from = wolf.entity_id,.power = ratio,.knockback = 1, .type = roar_charged->type })
+			.with(HitDamage{ .from = wolf.entity_id,.power = power,.knockback = 1, .type = roar_charged->type })
 			.with(Life{ .from = elapsed.ticks, .until = elapsed.ticks + 15, .delete_on_death = true })
 			.with(Facing{ facing->inner })
 			.with(DebugInfo{ .name = "roar" })
