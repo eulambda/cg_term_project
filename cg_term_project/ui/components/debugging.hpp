@@ -26,8 +26,8 @@ UiComponent debugging_component() {
 		if (show_hitbox) {
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			shader.use();
-			auto entities = world->get_entities_with<Body>();
-			for (auto& [id, body] : entities) {
+			auto entities = world->get_entities_with<Body, DebugInfo>();
+			for (auto& [id, body, debug_info] : entities) {
 				auto x = body->x + body->vx * simulation_elapsed;
 				auto y = body->y + body->vy * simulation_elapsed;
 				auto trans = glm::translate(glm::mat4{ 1 }, glm::vec3(x, y, 0));
@@ -35,6 +35,11 @@ UiComponent debugging_component() {
 				shader.setVec3("color1", 1, 1, 1);
 				shader.setMat4("model", trans);
 				rectangle.Draw(shader);
+				render_data->render_text([=](Text& t) {
+					t.set_content(debug_info->name.c_str());
+					t.set_color(1, 1, 1, 1);
+					t.set_transform(x - body->w / 2, y + body->h / 2, 1, 0.04);
+					});
 			}
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}

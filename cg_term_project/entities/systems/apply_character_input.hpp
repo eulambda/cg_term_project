@@ -44,6 +44,7 @@ void apply_character_input(
 			.with(HitDamage{ .from = wolf.entity_id,.power = 1,.knockback = 1, .type = DamageType::fire })
 			.with(Life{ .from = elapsed.ticks, .until = elapsed.ticks + 10, .delete_on_death = true })
 			.with(Facing{ facing->inner })
+			.with(DebugInfo{ .name = "flame" })
 			;
 		ax = -0.1 * facing->sign_x();
 	}
@@ -66,6 +67,7 @@ void apply_character_input(
 			.with(HitDamage{ .from = wolf.entity_id,.power = ratio,.knockback = 1, .type = roar_charged->type })
 			.with(Life{ .from = elapsed.ticks, .until = elapsed.ticks + 15, .delete_on_death = true })
 			.with(Facing{ facing->inner })
+			.with(DebugInfo{ .name = "roar" })
 			;
 		ax = -0.5 * ratio * facing->sign_x();
 		roar_charged->val = 0;

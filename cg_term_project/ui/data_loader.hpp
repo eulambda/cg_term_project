@@ -4,7 +4,7 @@
 #include <string>
 
 template<typename T>
-concept Loadable = !std::is_same_v<void,decltype(T::load)>;
+concept Loadable = !std::is_same_v<void, decltype(T::load)>;
 
 template<Loadable T>
 T* fetch() {

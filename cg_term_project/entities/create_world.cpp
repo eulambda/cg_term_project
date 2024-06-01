@@ -35,6 +35,7 @@ ecs::World create_world() {
 		.with(DamageReceiver{})
 		.with(HitDamage{ .from = wolf_id,.power = 1, .knockback = 0,.type = DamageType::normal })
 		.with(RoarCharged{ .val = 0, .max = 5, .type = DamageType::wind })
+		.with(DebugInfo{ .name = "wolf" })
 		;
 
 	auto pig_id = world.spawn_entity()
@@ -44,6 +45,7 @@ ecs::World create_world() {
 		.with(Mass{ 2 })
 		.with(Health{})
 		.with(DamageReceiver{ .multiplier = 1,.multiplier_fire = 20 })
+		.with(DebugInfo{ .name = "pig" })
 		.id();
 
 

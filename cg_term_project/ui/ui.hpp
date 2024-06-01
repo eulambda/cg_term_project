@@ -5,6 +5,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#define GLT_IMPLEMENTATION
+#include "../gltext.h"
 
 #include <shader.h>
 #include <cube.h>
@@ -17,6 +19,7 @@
 #include "data_loader.hpp"
 #include "camera.hpp"
 #include "lighting.hpp"
+#include "text.hpp"
 
 struct WindowConfig {
 	int width{ 720 };
@@ -42,17 +45,16 @@ struct RenderData {
 	double render_elapsed();
 	double simulation_elapsed();
 
+	// text
+	std::vector<std::function<void(Text&)>> queued_texts;
+	void render_text(std::function<void(Text&)>);
+
 	void load();
 };
 struct RenderConfig {
 	double seconds_per_tick{ 1 / 24.0 };
 };
 void include_components();
-void initialize_window();
-void on_app_started();
-void on_app_exiting();
-void on_before_render();
-void render();
 void launch();
 
 void on_keyboard_action(GLFWwindow* window, int key, int scancode, int action, int mods);

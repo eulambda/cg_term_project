@@ -164,6 +164,7 @@
     <ClCompile Include="ui\components\include_components.cpp" />
     <ClCompile Include="ui\lighting.cpp" />
     <ClCompile Include="ui\on_keyboard_action.cpp" />
+    <ClCompile Include="ui\text.cpp" />
     <ClCompile Include="ui\ui.cpp" />
     <ClInclude Include="ecs\diff.hpp" />
     <ClInclude Include="ecs\prelude.hpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="essentials\curve.hpp" />
     <ClInclude Include="essentials\json_parser.hpp" />
     <ClInclude Include="essentials\sign.hpp" />
+    <ClInclude Include="gltext.h" />
     <ClInclude Include="ui\camera.hpp" />
     <ClInclude Include="ui\components\roar.hpp" />
     <ClInclude Include="ui\components\debugging.hpp" />
@@ -194,6 +196,7 @@
     <ClInclude Include="ui\components\wolf.hpp" />
     <ClInclude Include="ui\data_loader.hpp" />
     <ClInclude Include="ui\lighting.hpp" />
+    <ClInclude Include="ui\text.hpp" />
     <ClInclude Include="ui\ui_component.hpp" />
     <ClInclude Include="ui\ui.hpp" />
   </ItemGroup>

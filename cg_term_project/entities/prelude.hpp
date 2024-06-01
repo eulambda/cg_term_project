@@ -104,7 +104,10 @@ struct RoarCharged {
 	DamageType type{ DamageType::normal };
 	bool is_charging{ false };
 };
-
+struct DebugInfo {
+	bool operator==(const DebugInfo&) const = default;
+	std::string name;
+};
 // apis
 ecs::World create_world();
 ecs::SystemForest create_system_forest(ecs::World* world);
