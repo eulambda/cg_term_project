@@ -19,6 +19,7 @@ namespace ecs::internal {
 	}
 
 	void EntityStorage::dispose_entity_id(size_t id) {
+		if (entity_ids.find(id) == entity_ids.end()) return;
 		entity_ids.erase(id);
 		unused_entity_ids.insert(id);
 	}

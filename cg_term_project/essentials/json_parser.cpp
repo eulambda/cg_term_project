@@ -65,11 +65,20 @@ namespace json {
 	std::string* Value::as_str() {
 		if (m_type != ValueType::string) return nullptr; else return &str;
 	}
+	std::string Value::str_or(std::string def) {
+		if (m_type != ValueType::string) return def; else return str;
+	}
 	double* Value::as_num() {
 		if (m_type != ValueType::number) return nullptr; else return &num;
 	}
+	double Value::num_or(double def) {
+		if (m_type != ValueType::number) return def; else return num;
+	}
 	bool* Value::as_bool() {
 		if (m_type != ValueType::boolean) return nullptr; else return &boolean;
+	}
+	bool Value::bool_or(bool def) {
+		if (m_type != ValueType::boolean) return def; else return boolean;
 	}
 
 	bool Value::is_valid() {

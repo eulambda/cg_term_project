@@ -54,6 +54,14 @@ struct RenderData {
 struct RenderConfig {
 	double seconds_per_tick{ 1 / 24.0 };
 };
+struct UiDebugInfo {
+	bool is_enabled{ false };
+	bool show_coords{ false };
+	bool show_hitbox{ false };
+	bool enable_stage_navigation{ false };
+
+	void load();
+};
 void include_components();
 void launch();
 

@@ -5,7 +5,9 @@
             "type": "array",
             "items": {
                 "enum": [
-                    "show_hitbox"
+                    "show_hitbox",
+                    "enable_stage_navigation",
+                    "show_coords"
                 ]
             }
         }

@@ -4,6 +4,8 @@
 // enums
 enum class DamageType { normal, fire, wind };
 enum class FacingValue { pos_x, neg_x };
+enum class PigAction { run_away };
+enum class ParticleType { none, wood, hay };
 
 // resources
 struct CharacterInput {
@@ -16,13 +18,10 @@ struct Elapsed {
 	bool operator==(const Elapsed&) const = default;
 	size_t ticks{ 0 };
 };
-struct Wolf {
-	bool operator==(const Wolf&) const = default;
-	size_t entity_id;
-};
-struct Pig {
-	bool operator==(const Pig&) const = default;
-	size_t entity_id;
+struct Stage {
+	bool operator==(const Stage&) const = default;
+	std::string to_load;
+	bool is_paused{ true };
 };
 
 // components
@@ -58,6 +57,7 @@ struct LocomotionWalking {
 };
 struct LocomotionFlying {
 	bool operator==(const LocomotionFlying&) const = default;
+	double falloff{ 1.0 };
 };
 struct Mass {
 	bool operator==(const Mass&) const = default;
@@ -78,7 +78,7 @@ struct Health {
 };
 struct DamageReceiver {
 	bool operator==(const DamageReceiver&) const = default;
-	int multiplier{ 1 };
+	int multiplier_normal{ 1 };
 	int multiplier_fire{ 1 };
 	int multiplier_wind{ 1 };
 	int multiplier_knockback{ 1 };
@@ -107,6 +107,35 @@ struct RoarCharged {
 struct DebugInfo {
 	bool operator==(const DebugInfo&) const = default;
 	std::string name;
+};
+struct StageText {
+	bool operator==(const StageText&) const = default;
+	std::string contents;
+	double x, y;
+};
+struct Obstacle {
+	bool operator==(const Obstacle&) const = default;
+	ParticleType made_of{ ParticleType::none };
+};
+struct Flame {
+	bool operator==(const Flame&) const = default;
+};
+struct Roar {
+	bool operator==(const Roar&) const = default;
+};
+struct Wolf {
+	bool operator==(const Wolf&) const = default;
+};
+struct Pig {
+	bool operator==(const Pig&) const = default;
+};
+struct ParticleDomain {
+	bool operator==(const ParticleDomain&) const = default;
+	ParticleType type;
+};
+struct Portal {
+	bool operator==(const Portal&) const = default;
+	std::string to_load;
 };
 // apis
 ecs::World create_world();

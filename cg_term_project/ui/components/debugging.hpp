@@ -3,16 +3,8 @@
 #include <set>
 UiComponent debugging_component() {
 	UiComponent c;
-	auto debugging = json::Value::parse("assets/debug.json");
-	if (!debugging.is_valid()) return c;
-	auto& obj = *debugging.as_obj();
-	std::set<std::string> features{};
-	for (auto& f : *obj["features"].as_arr()) {
-		features.insert(*f.as_str());
-	}
-	if (features.size() == 0) return c;
-
-	bool show_hitbox = features.find("show_hitbox") != features.end();
+	auto debug = fetch<UiDebugInfo>();
+	if (!debug->is_enabled) return c;
 
 	c.render = [=] {
 		auto& shader = fetch_shader("paper");
@@ -23,7 +15,7 @@ UiComponent debugging_component() {
 		auto simulation_elapsed = render_data->simulation_elapsed();
 		auto lighting = fetch<Lighting>();
 
-		if (show_hitbox) {
+		if (debug->show_hitbox) {
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			shader.use();
 			auto entities = world->get_entities_with<Body, DebugInfo>();
@@ -43,6 +35,18 @@ UiComponent debugging_component() {
 			}
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
+		if (debug->show_coords) {
+			auto [_1,_2,body] = world->get_entities_with<Wolf,Body>()[0];
+			auto x = body->x + body->vx * simulation_elapsed;
+			auto y = body->y + body->vy * simulation_elapsed;
+			auto coords = std::format("({:.1f},{:.1f})", x,y);
+			render_data->render_text([=](Text& t) {
+				t.set_content(coords.c_str());
+				t.set_color(1, 1, 1, 1);
+				t.set_transform(x + body->w / 2, y + body->h / 2, 1, 0.04);
+				});
+		}
+
 		};
 	return c;
 }

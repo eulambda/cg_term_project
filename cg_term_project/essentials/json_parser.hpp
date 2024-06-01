@@ -7,7 +7,7 @@
 namespace json {
 	struct CharReader {
 		std::istream& is;
-		using It = std::istream_iterator<char>;
+		using It = std::istreambuf_iterator<char>;
 		It begin();
 		It end();
 	};
@@ -17,7 +17,7 @@ namespace json {
 	struct Tokenizer {
 		CharReader& reader;
 		struct It {
-			using Inner = std::istream_iterator<char>;
+			using Inner = std::istreambuf_iterator<char>;
 			Inner inner;
 			TokenType next{ TokenType::eof };
 			double next_number{ 0 };
@@ -49,8 +49,11 @@ namespace json {
 		std::vector<Value>* as_arr();
 		std::map<std::string, Value>* as_obj();
 		std::string* as_str();
+		std::string str_or(std::string def);
 		double* as_num();
+		double num_or(double def);
 		bool* as_bool();
+		bool bool_or(bool def);
 
 		static Value parse_num(Tokenizer::It& it);
 		static Value parse_str(Tokenizer::It& it);

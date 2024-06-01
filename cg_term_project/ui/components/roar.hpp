@@ -19,8 +19,8 @@ UiComponent roar_component() {
 	c.render = [=] {
 		auto render_data = fetch<RenderData>();
 		auto world = render_data->world;
-		auto breathes = world->get_entities_with<HitDamage, Body, Facing, Life>();
-		if (breathes.empty()) return;
+		auto roars = world->get_entities_with<Roar, HitDamage, Body, Facing, Life>();
+		if (roars.empty()) return;
 
 		auto render_elapsed = render_data->render_elapsed();
 		fetch_curve("roar.scaling").t += render_elapsed;
@@ -33,8 +33,7 @@ UiComponent roar_component() {
 
 		auto simulation_elapsed = render_data->simulation_elapsed();
 		auto ticks = world->get_resource<Elapsed>()->ticks;
-		for (auto& [id, hit_damage, body, facing, life] : breathes) {
-			if (hit_damage->type != DamageType::wind) continue;
+		for (auto& [id, _, hit_damage, body, facing, life] : roars) {
 			auto trans_0 = glm::mat4{ 1 };
 			auto z = facing->sign_x();
 			auto life_ratio = life->ratio(ticks + simulation_elapsed);
@@ -52,11 +51,12 @@ UiComponent roar_component() {
 
 			auto& scaling = fetch_curve("roar.scaling");
 			auto& rotating = fetch_curve("roar.rotating");
-			shader.setVec3("color1", 1, 1, 1.5f);
-			shader.setVec3("color2", 1.5f, 1.5f, 1.5f);
+
 			double i_max = 4;
 			double speed = 1.5;
 			if (hit_damage->power > 0) {
+				shader.setVec3("color1", 1, 1, 1.5f);
+				shader.setVec3("color2", 1.5f, 1.5f, 1.5f);
 				for (int i = 0; i < i_max; i++) {
 					auto t = speed * life_ratio - (speed - 1) * i / (i_max - 1);
 					t = 3.0 * t - 0.6;
@@ -90,6 +90,8 @@ UiComponent roar_component() {
 					model.Draw(shader);
 				}
 			}
+			shader.setVec3("color1", 1, 1, 2);
+			shader.setVec3("color2", 1, 1, 2);
 			i_max = 5;
 			speed = 2;
 			for (int i = 0; i < i_max; i++) {

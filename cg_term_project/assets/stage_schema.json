@@ -1,0 +1,152 @@
+{
+    "type": "object",
+    "required": [
+        "start",
+        "stage_texts",
+        "portals",
+        "floors",
+        "obstacles"
+    ],
+    "properties": {
+        "start": {
+            "type": "object",
+            "properties": {
+                "x": {
+                    "type": "number"
+                },
+                "y": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "x",
+                "y"
+            ]
+        },
+        "stage_texts": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "x": {
+                        "type": "number"
+                    },
+                    "y": {
+                        "type": "number"
+                    },
+                    "contents": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "x",
+                    "y",
+                    "contents"
+                ]
+            }
+        },
+        "portals": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "x": {
+                        "type": "number"
+                    },
+                    "y": {
+                        "type": "number"
+                    },
+                    "w": {
+                        "type": "number"
+                    },
+                    "h": {
+                        "type": "number"
+                    },
+                    "to_load": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                    "to_load"
+                ]
+            }
+        },
+        "floors": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "x": {
+                        "type": "number"
+                    },
+                    "y": {
+                        "type": "number"
+                    },
+                    "w": {
+                        "type": "number"
+                    },
+                    "h": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h"
+                ]
+            }
+        },
+        "obstacles": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "x": {
+                        "type": "number"
+                    },
+                    "y": {
+                        "type": "number"
+                    },
+                    "w": {
+                        "type": "number"
+                    },
+                    "h": {
+                        "type": "number"
+                    },
+                    "health": {
+                        "type": "number"
+                    },
+                    "multiplier_normal": {
+                        "type": "number"
+                    },
+                    "multiplier_fire": {
+                        "type": "number"
+                    },
+                    "multiplier_wind": {
+                        "type": "number"
+                    },
+                    "multiplier_knockback": {
+                        "type": "number"
+                    },
+                    "made_of": {
+                        "enum": [
+                            "hay",
+                            "wood"
+                        ]
+                    }
+                },
+                "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h"
+                ]
+            }
+        }
+    }
+}

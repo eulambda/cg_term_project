@@ -1,8 +1,12 @@
 #include "ui.hpp"
 
 void on_keyboard_action(GLFWwindow* window, int key, int scancode, int action, int mods) {
+	auto debug = fetch<UiDebugInfo>();
 	auto get_input = [] {
 		return fetch<RenderData>()->world->get_resource<CharacterInput>();
+		};
+	auto get_stage= [] {
+		return fetch<RenderData>()->world->get_resource<Stage>();
 		};
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
 		glfwSetWindowShouldClose(window, true);
@@ -27,6 +31,9 @@ void on_keyboard_action(GLFWwindow* window, int key, int scancode, int action, i
 	if (key == GLFW_KEY_C) {
 		if (action == GLFW_PRESS) get_input()->charge_roar = true;
 		if (action == GLFW_RELEASE) get_input()->charge_roar = false;
+	}
+	if (debug->enable_stage_navigation && key == GLFW_KEY_1) {
+		if (action == GLFW_PRESS) get_stage()->to_load = "assets/stage1.json";
 	}
 	return;
 }

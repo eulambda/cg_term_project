@@ -211,6 +211,7 @@ namespace ecs::internal {
 		std::map<size_t, T>* get_component_lut();
 		template <typename T>
 		void register_component();
+		std::vector<std::function<void(size_t)>> delete_entity;
 	};
 
 	template<typename>
@@ -302,6 +303,7 @@ namespace ecs::internal {
 		auto lut = new std::map<size_t, T>();
 		auto [_, ok] = component_lut.emplace(get_type_id<T>(), lut);
 		if (!ok) delete lut;
+		delete_entity.push_back([=](size_t id) {lut->erase(id);});
 	}
 
 	template<typename T>

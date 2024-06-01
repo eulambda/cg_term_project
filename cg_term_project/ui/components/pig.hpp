@@ -18,10 +18,9 @@ UiComponent pig_component() {
 		auto render_elapsed = render_data->render_elapsed();
 		auto simulation_elapsed = render_data->simulation_elapsed();
 		auto world = render_data->world;
-		auto pig = world->get_resource<Pig>();
 		auto ticks = world->get_resource<Elapsed>()->ticks + simulation_elapsed;
 
-		auto [body, facing, health] = world->get_entity_with<Body, Facing, Health>(pig->entity_id);
+		auto [_1, _2, body, facing, health] = world->get_entities_with<Pig, Body, Facing, Health>()[0];
 
 		fetch_curve("pig.shaking").t += (body->vx + body->vy) * render_elapsed;
 		fetch_curve("pig.flipping").t += render_elapsed * facing->sign_x();
@@ -45,17 +44,6 @@ UiComponent pig_component() {
 		shader.setVec3("color2", 0, 0.2f, 0.2f);
 		shader.setMat4("model", trans);
 		model.Draw(shader);
-
-		auto health_ratio = (std::max(health->current + health->receiving * simulation_elapsed, 0.0)) / health->max;
-		if (health_ratio) {
-			auto& bar = fetch_model("assets/rectangle.dae");
-			auto trans_bar = glm::translate(glm::mat4{ 1 }, glm::vec3(pig_x, pig_y + body->h + 1, 0));
-			trans_bar = glm::scale(trans_bar, glm::vec3(2 * health_ratio, 0.1, 0.1));
-			shader.use();
-			shader.setMat4("model", trans_bar);
-			shader.setVec3("color1", 1, 0, 0);
-			bar.Draw(shader);
-		}
 		};
 	return c;
 }

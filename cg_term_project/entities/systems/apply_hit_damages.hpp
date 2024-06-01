@@ -8,12 +8,15 @@ void apply_hit_damages(ecs::EntitiesWithWritable<Body, Health, DamageReceiver> c
 		for (auto& [_, damage, damage_body, damage_facing] : damage_sources) {
 			if (character_id == damage->from) continue;
 			if (!character_body->is_colliding(*damage_body)) continue;
-			double power = damage->power * receiver->multiplier;
-			if (damage->type == DamageType::fire) power *= receiver->multiplier_fire;
-			if (damage->type == DamageType::wind) power *= receiver->multiplier_wind;
+			double power = damage->power;
+			double multiplier = 1;
+			if (damage->type == DamageType::normal) multiplier = receiver->multiplier_normal;
+			if (damage->type == DamageType::fire) multiplier = receiver->multiplier_fire;
+			if (damage->type == DamageType::wind) multiplier = receiver->multiplier_wind;
+			power *= multiplier;
 			health->receiving -= (int)power;
-			if (damage->knockback == 0 || receiver->multiplier_knockback == 0) continue;
-			auto knockback = damage->knockback * receiver->multiplier_knockback;
+			if (multiplier == 0 || damage->knockback == 0 || receiver->multiplier_knockback == 0) continue;
+			auto knockback = damage->knockback * receiver->multiplier_knockback * multiplier;
 			character_body->vx += knockback * damage_facing->sign_x();
 		}
 	}

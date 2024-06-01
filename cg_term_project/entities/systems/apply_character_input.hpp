@@ -3,12 +3,12 @@
 
 
 void apply_character_input(
-	ecs::EntitiesWithWritable<Body, LocomotionWalking, Facing, FrozenState, RoarCharged> characters,
-	Wolf wolf, ecs::Writable<CharacterInput> input, ecs::EntityApi api, Elapsed elapsed
+	ecs::EntitiesWithWritable<Wolf, Body, LocomotionWalking, Facing, FrozenState, RoarCharged> wolves,
+	ecs::Writable<CharacterInput> input, ecs::EntityApi api, Elapsed elapsed
 ) {
-	auto wolf_fetched = characters.get_by_id(wolf.entity_id);
-	if (!wolf_fetched) return;
-	auto& [_, wolf_character, locomotion, facing, frozen_state, roar_charged] = *wolf_fetched;
+	auto wolf_fetched = wolves.begin();
+	if (wolf_fetched == wolves.end()) return;
+	auto& [wolf_id, _, wolf_body, locomotion, facing, frozen_state, roar_charged] = *wolf_fetched;
 
 	if (frozen_state->ratio((double)elapsed.ticks) < 1.0) {
 		input->jump = false;
@@ -39,12 +39,13 @@ void apply_character_input(
 		frozen_state->from = elapsed.ticks;
 		frozen_state->until = elapsed.ticks + 6;
 		api.spawn()
-			.with(Body{ .w = w,.h = h, .x = wolf_character->x + x_offset,.y = wolf_character->y + 0.2 })
+			.with(Flame{})
+			.with(DebugInfo{ .name = "flame" })
+			.with(Body{ .w = w,.h = h, .x = wolf_body->x + x_offset,.y = wolf_body->y + 0.2 })
 			.with(LocomotionFlying{})
-			.with(HitDamage{ .from = wolf.entity_id,.power = 1,.knockback = 1, .type = DamageType::fire })
+			.with(HitDamage{ .from = wolf_id,.power = 1,.knockback = 1, .type = DamageType::fire })
 			.with(Life{ .from = elapsed.ticks, .until = elapsed.ticks + 10, .delete_on_death = true })
 			.with(Facing{ facing->inner })
-			.with(DebugInfo{ .name = "flame" })
 			;
 		ax = -0.1 * facing->sign_x();
 	}
@@ -63,19 +64,20 @@ void apply_character_input(
 		frozen_state->from = elapsed.ticks;
 		frozen_state->until = elapsed.ticks + 15;
 		api.spawn()
-			.with(Body{ .w = w,.h = h, .x = wolf_character->x + x_offset,.y = wolf_character->y + 0.2 })
+			.with(Roar{})
+			.with(DebugInfo{ .name = "roar" })
+			.with(Body{ .w = w,.h = h, .x = wolf_body->x + x_offset,.y = wolf_body->y + 0.2 })
 			.with(LocomotionFlying{})
-			.with(HitDamage{ .from = wolf.entity_id,.power = power,.knockback = 1, .type = roar_charged->type })
+			.with(HitDamage{ .from = wolf_id,.power = power,.knockback = 1, .type = roar_charged->type })
 			.with(Life{ .from = elapsed.ticks, .until = elapsed.ticks + 15, .delete_on_death = true })
 			.with(Facing{ facing->inner })
-			.with(DebugInfo{ .name = "roar" })
 			;
 		ax = -0.5 * ratio * facing->sign_x();
 		roar_charged->val = 0;
 		roar_charged->is_charging = false;
 	}
 
-	wolf_character->vx += ax;
-	wolf_character->vy += ay;
+	wolf_body->vx += ax;
+	wolf_body->vy += ay;
 	input->jump = false;
 }

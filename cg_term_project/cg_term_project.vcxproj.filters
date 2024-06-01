@@ -20,6 +20,9 @@
     <Filter Include="essentials">
       <UniqueIdentifier>{b11ce6ce-c6c3-4900-ba88-e125f4b2f61f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="entities\systems">
+      <UniqueIdentifier>{30120a5a-30a8-461c-bca6-61aef133f1ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -52,9 +55,6 @@
     <ClCompile Include="stb_impl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="entities\create_system_forest.cpp">
-      <Filter>entities</Filter>
-    </ClCompile>
     <ClCompile Include="essentials\json_parser.cpp">
       <Filter>essentials</Filter>
     </ClCompile>
@@ -62,6 +62,12 @@
       <Filter>ui\components</Filter>
     </ClCompile>
     <ClCompile Include="ui\lighting.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="entities\systems\create_system_forest.cpp">
+      <Filter>entities\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\text.cpp">
       <Filter>ui</Filter>
     </ClCompile>
   </ItemGroup>
@@ -119,6 +125,57 @@
     </ClInclude>
     <ClInclude Include="ui\lighting.hpp">
       <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="entities\systems\apply_character_input.hpp">
+      <Filter>entities\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="entities\systems\apply_elastic_collision.hpp">
+      <Filter>entities\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="entities\systems\apply_hit_damages.hpp">
+      <Filter>entities\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="entities\systems\apply_velocity.hpp">
+      <Filter>entities\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="entities\systems\constrain_velocity.hpp">
+      <Filter>entities\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="entities\systems\run_pig_agent.hpp">
+      <Filter>entities\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="gltext.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\components\debugging.hpp">
+      <Filter>ui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="entities\systems\load_stage.hpp">
+      <Filter>entities\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="entities\systems\print_console.hpp">
+      <Filter>entities\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\components\roar.hpp">
+      <Filter>ui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="essentials\sign.hpp">
+      <Filter>essentials</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\text.hpp">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="entities\systems\update_elapsed.hpp">
+      <Filter>entities\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\components\bars.hpp">
+      <Filter>ui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="entities\systems\clear_obstacles.hpp">
+      <Filter>entities\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="entities\systems\activate_portal.hpp">
+      <Filter>entities\systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

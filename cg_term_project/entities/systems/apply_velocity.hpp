@@ -1,7 +1,10 @@
 #pragma once
 #include "../prelude.hpp"
 
-void apply_velocity(ecs::EntitiesWithWritable<Body, LocomotionWalking> walking_entities) {
+void apply_velocity(
+	ecs::EntitiesWithWritable<Body, LocomotionWalking> walking_entities,
+	ecs::EntitiesWithWritable<Body, LocomotionFlying> flying_entities
+) {
 	for (auto& [_, body, locomotion] : walking_entities) {
 		if (body->vx != 0) {
 			body->x += body->vx;
@@ -14,6 +17,14 @@ void apply_velocity(ecs::EntitiesWithWritable<Body, LocomotionWalking> walking_e
 		}
 		if (!locomotion->is_touching_floor) {
 			body->vy -= 0.4;
+		}
+	}
+	for (auto& [_, body, locomotion] : flying_entities) {
+		if (body->vx != 0) {
+			body->x += body->vx * locomotion->falloff;
+		}
+		if (body->vy != 0) {
+			body->y += body->vy * locomotion->falloff;
 		}
 	}
 }

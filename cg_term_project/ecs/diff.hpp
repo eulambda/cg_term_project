@@ -89,6 +89,9 @@ namespace ecs::internal {
 					std::ranges::for_each(state->to_remove, [&](size_t id) {
 						std::function<void(EntityStorage*, ComponentStorage*)> apply_change = [=](EntityStorage* entity_storage, ComponentStorage*) {
 							entity_storage->dispose_entity_id(id);
+							std::ranges::for_each(component_storage->delete_entity, [=](std::function<void(size_t)> fn) {
+								fn(id);
+								});
 							};
 						diffs.emplace_back(apply_change);
 						});

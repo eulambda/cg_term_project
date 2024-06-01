@@ -20,10 +20,9 @@ UiComponent wolf_component() {
 		auto render_elapsed = render_data->render_elapsed();
 		auto simulation_elapsed = render_data->simulation_elapsed();
 		auto world = render_data->world;
-		auto wolf = world->get_resource<Wolf>();
 		auto ticks = world->get_resource<Elapsed>()->ticks + simulation_elapsed;
 
-		auto [body, facing, roar_charged] = world->get_entity_with<Body, Facing, RoarCharged>(wolf->entity_id);
+		auto [id, _, body, facing, roar_charged,frozen_state] = world->get_entities_with<Wolf, Body, Facing, RoarCharged, FrozenState>()[0];
 
 		fetch_curve("wolf.shaking").t += (body->vx + body->vy) * render_elapsed;
 		fetch_curve("wolf.flipping").t += render_elapsed * facing->sign_x();
@@ -35,7 +34,7 @@ UiComponent wolf_component() {
 		auto wolf_y = body->y0() + simulation_elapsed * body->vy;
 		auto shaking = fetch_curve("wolf.shaking").eval();
 		auto flipping = fetch_curve("wolf.flipping").eval();
-		auto frozen = world->get_component<FrozenState>(wolf->entity_id)->ratio(ticks);
+		auto frozen = frozen_state->ratio(ticks);
 		auto charging = 0.0;
 		if (roar_charged->is_charging) {
 			charging = roar_charged->val + simulation_elapsed;
@@ -52,16 +51,6 @@ UiComponent wolf_component() {
 		shader.setVec3("color2", 0.2f, 0.2f, 0.2f);
 		shader.setMat4("model", trans);
 		model.Draw(shader);
-
-		if (roar_charged->is_charging) {
-			auto& bar = fetch_model("assets/rectangle.dae");
-			auto trans_bar = glm::translate(glm::mat4{ 1 }, glm::vec3(wolf_x, wolf_y + body->h + 1, 0));
-			trans_bar = glm::scale(trans_bar, glm::vec3(2 * charging, 0.1, 0.1));
-			shader.use();
-			shader.setMat4("model", trans_bar);
-			shader.setVec3("color1", 0.5, 0.5, 1.5);
-			bar.Draw(shader);
-		}
 		};
 	return c;
 }

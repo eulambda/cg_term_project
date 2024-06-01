@@ -7,7 +7,7 @@ void constrain_velocity(ecs::EntitiesWith<Floor, Body> floors, ecs::EntitiesWith
 	const double floor_stiffness = 1.0;
 	const double max_speed_x = 1.0;
 	const double max_speed_y = 1.5;
-	for (auto& [_, character, locomotion] : characters) {
+	for (auto& [character_id, character, locomotion] : characters) {
 		if (std::abs(character->vx) < speed_lower_cut) character->vx = 0;
 		if (std::abs(character->vy) < speed_lower_cut) character->vy = 0;
 		character->vx = std::clamp(character->vx, -max_speed_x, max_speed_x);
@@ -16,6 +16,7 @@ void constrain_velocity(ecs::EntitiesWith<Floor, Body> floors, ecs::EntitiesWith
 		locomotion->is_touching_floor = false;
 		locomotion->is_touching_wall = false;
 		for (auto& [id, _, floor] : floors) {
+			if (id == character_id) continue;
 			if (!floor->is_colliding(*character)) continue;
 
 			if (floor->is_colliding_y(*character) && character->x_distance_to(*floor) != 0) {

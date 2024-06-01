@@ -18,7 +18,7 @@ void apply_elastic_collision(ecs::EntitiesWithWritable<Body, Mass, LocomotionWal
 				if (body0->y > body1->y) body0->vy = 4;
 				else body1->vy = 4;
 			}
-			if (body0->is_colliding_x(*body1) && body1->y_distance_to(*body0) != 0) {
+			else {
 				auto [ux0, ux1] = solve_elastic_collision(mass0->val, mass1->val, body0->vx, body1->vx);
 				body0->vx = ux0;
 				body1->vx = ux1;

@@ -174,11 +174,14 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
     <ClInclude Include="entities\prelude.hpp" />
+    <ClInclude Include="entities\systems\activate_portal.hpp" />
     <ClInclude Include="entities\systems\apply_character_input.hpp" />
     <ClInclude Include="entities\systems\apply_elastic_collision.hpp" />
     <ClInclude Include="entities\systems\apply_hit_damages.hpp" />
     <ClInclude Include="entities\systems\apply_velocity.hpp" />
+    <ClInclude Include="entities\systems\clear_obstacles.hpp" />
     <ClInclude Include="entities\systems\constrain_velocity.hpp" />
+    <ClInclude Include="entities\systems\load_stage.hpp" />
     <ClInclude Include="entities\systems\print_console.hpp" />
     <ClInclude Include="entities\systems\run_pig_agent.hpp" />
     <ClInclude Include="entities\systems\update_elapsed.hpp" />
@@ -187,6 +190,7 @@
     <ClInclude Include="essentials\sign.hpp" />
     <ClInclude Include="gltext.h" />
     <ClInclude Include="ui\camera.hpp" />
+    <ClInclude Include="ui\components\bars.hpp" />
     <ClInclude Include="ui\components\roar.hpp" />
     <ClInclude Include="ui\components\debugging.hpp" />
     <ClInclude Include="ui\components\flame.hpp" />

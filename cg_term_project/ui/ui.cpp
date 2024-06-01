@@ -1,6 +1,5 @@
 #include <iostream>
 #include "ui.hpp"
-#include "../gltext.h"
 
 void render() {
 	auto render_data = fetch<RenderData>();
@@ -172,4 +171,18 @@ void RenderData::render_text(std::function<void(Text&)> fn) {
 
 void RenderData::load() {
 	camera.load();
+}
+
+void UiDebugInfo::load() {
+	auto debug_v = json::Value::parse("assets/debug.json");
+	if (!debug_v.is_valid()) return;
+	auto& debug = *debug_v.as_obj();
+	std::set<std::string> features{};
+	for (auto& f : *debug["features"].as_arr()) {
+		features.insert(*f.as_str());
+	}
+	is_enabled = features.size() > 0;
+	show_hitbox = features.end() != features.find("show_hitbox");
+	enable_stage_navigation = features.end() != features.find("enable_stage_navigation");
+	show_coords = features.end() != features.find("show_coords");
 }

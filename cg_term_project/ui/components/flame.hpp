@@ -19,7 +19,7 @@ UiComponent flame_component() {
 	c.render = [=] {
 		auto render_data = fetch<RenderData>();
 		auto world = render_data->world;
-		auto flames = world->get_entities_with<HitDamage, Body, Facing, Life>();
+		auto flames = world->get_entities_with<Flame, HitDamage, Body, Facing, Life>();
 		if (flames.empty()) return;
 
 		auto render_elapsed = render_data->render_elapsed();
@@ -33,8 +33,7 @@ UiComponent flame_component() {
 
 		auto simulation_elapsed = render_data->simulation_elapsed();
 		auto ticks = world->get_resource<Elapsed>()->ticks;
-		for (auto& [id, hit_damage, body, facing, life] : flames) {
-			if (hit_damage->type != DamageType::fire) continue;
+		for (auto& [id, _, hit_damage, body, facing, life] : flames) {
 			auto trans_0 = glm::mat4{ 1 };
 			auto z = facing->sign_x();
 			auto life_ratio = life->ratio(ticks + simulation_elapsed);
@@ -115,7 +114,7 @@ UiComponent flame_component() {
 				x = 0.5 * x + 0.5 * t;
 				if (t > 1 || t < 0) continue;
 				x = 1.1 * x + noise(i);
-				auto y = particle_path(t + i) * (0.1 + 2*i / (i_max - 1)) + 1.5 * noise(i);
+				auto y = particle_path(t + i) * (0.1 + 2 * i / (i_max - 1)) + 1.5 * noise(i);
 				auto trans = glm::translate(trans_0, glm::vec3(x, y, 1.2 * z));
 				auto s = 0.2;
 				trans = glm::scale(trans, glm::vec3(s, s, s));

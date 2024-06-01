@@ -16,17 +16,21 @@ ecs::World create_world() {
 	world.register_component<DamageReceiver>();
 	world.register_component<RoarCharged>();
 	world.register_component<DebugInfo>();
-
-	world.spawn_entity().with(Floor{}).with(Body{ .w = 1,.h = 50,.x = -17,.y = 0 });
-	world.spawn_entity().with(Floor{}).with(Body{ .w = 1,.h = 50,.x = 17,.y = 0 });
-	world.spawn_entity().with(Floor{}).with(Body{ .w = 32,.h = 1,.x = 0,.y = -1 });
-	world.spawn_entity().with(Floor{}).with(Body{ .w = 2,.h = 1,.x = -16,.y = 0 });
-	world.spawn_entity().with(Floor{}).with(Body{ .w = 2,.h = 1,.x = 16,.y = 0 });
-	world.spawn_entity().with(Floor{}).with(Body{ .w = 2,.h = 1,.x = 4,.y = 6 });
+	world.register_component<StageText>();
+	world.register_component<Wolf>();
+	world.register_component<Pig>();
+	world.register_component<Flame>();
+	world.register_component<Roar>();
+	world.register_component<Obstacle>();
+	world.register_component<ParticleDomain>();
+	world.register_component<Portal>();
 
 	auto wolf = world.spawn_entity();
 	auto wolf_id = wolf.id();
-	wolf.with(LocomotionWalking{})
+	wolf
+		.with(Wolf{})
+		.with(DebugInfo{ .name = "wolf" })
+		.with(LocomotionWalking{})
 		.with(Body{ .w = 2,.h = 2, .x = 2,.y = 4 })
 		.with(Facing{ .inner = FacingValue::pos_x })
 		.with(FrozenState{})
@@ -35,24 +39,22 @@ ecs::World create_world() {
 		.with(DamageReceiver{})
 		.with(HitDamage{ .from = wolf_id,.power = 1, .knockback = 0,.type = DamageType::normal })
 		.with(RoarCharged{ .val = 0, .max = 5, .type = DamageType::wind })
-		.with(DebugInfo{ .name = "wolf" })
 		;
 
 	auto pig_id = world.spawn_entity()
+		.with(Pig{})
+		.with(DebugInfo{ .name = "pig" })
 		.with(LocomotionWalking{})
 		.with(Body{ .w = 2,.h = 2, .x = 8,.y = 4 })
 		.with(Facing{ .inner = FacingValue::pos_x })
 		.with(Mass{ 2 })
 		.with(Health{})
-		.with(DamageReceiver{ .multiplier = 1,.multiplier_fire = 20 })
-		.with(DebugInfo{ .name = "pig" })
+		.with(DamageReceiver{ .multiplier_fire = 20 })
 		.id();
-
 
 	world.manage_resource(CharacterInput{});
 	world.manage_resource(Elapsed{});
-	world.manage_resource(Wolf{ .entity_id = wolf_id });
-	world.manage_resource(Pig{ .entity_id = pig_id });
+	world.manage_resource(Stage{ .to_load = "assets/stage1.json" });
 
 	return world;
 }

@@ -13,11 +13,11 @@ void Camera::on_before_render() {
 	auto render_elapsed = render_data->render_elapsed();
 	auto simulation_elapsed = render_data->simulation_elapsed();
 	auto world = render_data->world;
-	auto wolf = world->get_resource<Wolf>();
-	auto [wolf_body, wolf_facing] = world->get_entity_with<Body, Facing>(wolf->entity_id);
-	auto x = wolf_body->x + wolf_body->vx * simulation_elapsed + 2*wolf_facing->sign_x();
+	//auto wolves = world->get_entities_with<Wolf, Body, Facing>();
+	auto [_1, _2, wolf_body, wolf_facing] = world->get_entities_with<Wolf, Body, Facing>()[0];
+	auto x = wolf_body->x + wolf_body->vx * simulation_elapsed + 2 * wolf_facing->sign_x();
 	auto y = wolf_body->y + wolf_body->vy * simulation_elapsed;
-	
+
 	if (wolf_body->vy >= 0) y += 2;
 
 	auto focus = glm::vec3(x, y, 0);
