@@ -6,6 +6,11 @@
     },
     "stage_texts": [
         {
+            "x": 4,
+            "y": 5,
+            "contents": "Use arrows to move."
+        },
+        {
             "x": 20,
             "y": 5,
             "contents": "Press [Z] to jump."
@@ -24,6 +29,11 @@
             "x": 100,
             "y": -10,
             "contents": "Hold [C] and release to blow away obstacles."
+        },
+        {
+            "x": 140,
+            "y": -10,
+            "contents": "Now you are ready to proceed .."
         }
     ],
     "portals": [
