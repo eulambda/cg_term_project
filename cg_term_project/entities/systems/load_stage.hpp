@@ -4,9 +4,8 @@
 #include <iostream>
 void load_stage(
 	ecs::EntitiesWithWritable<Wolf, Body> wolves, ecs::Writable<Stage> stage, ecs::EntityApi api
-	, ecs::EntitiesWith<Floor> prev_floors
+	, ecs::EntitiesWith<Body> bodies
 	, ecs::EntitiesWith<StageText> prev_stage_texts
-	, ecs::EntitiesWith<Portal> prev_portals
 ) {
 	if (!stage->to_load.length()) return;
 	auto json = json::Value::parse(stage->to_load);
@@ -23,13 +22,15 @@ void load_stage(
 	auto& floors_v = (*obj)["floors"];
 	auto& stage_texts_v = (*obj)["stage_texts"];
 	auto& obstacles_v = (*obj)["obstacles"];
+	auto& pig_houses_v = (*obj)["pig_houses"];
 	auto& portals_v = (*obj)["portals"];
 	auto start = start_v.as_obj();
 	auto floors = floors_v.as_arr();
 	auto stage_texts = stage_texts_v.as_arr();
 	auto obstacles = obstacles_v.as_arr();
+	auto pig_houses = pig_houses_v.as_arr();
 	auto portals = portals_v.as_arr();
-	if (!start || !floors || !stage_texts || !obstacles || !portals) return;
+	if (!start || !floors || !stage_texts || !obstacles || !portals || !pig_houses) return;
 
 	auto start_x = (*start)["x"].as_num();
 	auto start_y = (*start)["y"].as_num();
@@ -38,15 +39,14 @@ void load_stage(
 	auto wolf_fetched = wolves.begin();
 	if (wolf_fetched == wolves.end()) return;
 
-	auto& [_1, _2, wolf_body] = *wolf_fetched;
+	auto& [wolf_id, _2, wolf_body] = *wolf_fetched;
 	wolf_body->vx = 0;
 	wolf_body->vy = 0;
 	wolf_body->x = *start_x;
 	wolf_body->y = *start_y;
 
-	for (auto& [id, _] : prev_floors) api.remove(id);
+	for (auto& [id, _] : bodies) if (id != wolf_id) api.remove(id);
 	for (auto& [id, _] : prev_stage_texts) api.remove(id);
-	for (auto& [id, _] : prev_portals) api.remove(id);
 
 	for (auto& floor_v : *floors) {
 		auto floor = floor_v.as_obj();
@@ -87,11 +87,40 @@ void load_stage(
 
 		api.spawn()
 			.with(Floor{})
-			.with(Obstacle{ .made_of = made_of })
+			.with(Obstacle{})
+			.with(Compound{ .made_of = made_of })
 			.with(Body{ .w = *w,.h = *h,.x = *x,.y = *y })
 			.with(LocomotionWalking{})
 			.with(Health{ .max = health,.current = health })
 			.with(DamageReceiver{ .multiplier_normal = multiplier_normal,.multiplier_fire = multiplier_fire, .multiplier_wind = multiplier_wind,.multiplier_knockback = multiplier_knockback })
+			;
+	}
+	for (auto& pig_house_v : *pig_houses) {
+		auto pig_house = pig_house_v.as_obj();
+		if (!pig_house) return;
+		auto w = (*pig_house)["w"].as_num();
+		auto h = (*pig_house)["h"].as_num();
+		auto x = (*pig_house)["x"].as_num();
+		auto y = (*pig_house)["y"].as_num();
+		auto health = (int)(*pig_house)["health"].num_or(100);
+		auto multiplier_normal = (int)(*pig_house)["multiplier_normal"].num_or(0);
+		auto multiplier_fire = (int)(*pig_house)["multiplier_fire"].num_or(0);
+		auto multiplier_wind = (int)(*pig_house)["multiplier_wind"].num_or(0);
+		auto to_load_on_clear = (*pig_house)["to_load_on_clear"].str_or("");
+		auto made_of_s = (*pig_house)["made_of"].str_or("none");
+		if (!w || !h || !x || !y) return;
+		auto made_of = ParticleType::none;
+		if (made_of_s == "hay") made_of = ParticleType::hay;
+		else if (made_of_s == "wood") made_of = ParticleType::wood;
+
+		api.spawn()
+			.with(PigHouse{ .to_load = to_load_on_clear })
+			.with(DebugInfo{ .name = "pig house" })
+			.with(Compound{ .made_of = made_of })
+			.with(Body{ .w = *w,.h = *h,.x = *x,.y = *y })
+			.with(Health{ .max = health,.current = health })
+			.with(LocomotionStationery{})
+			.with(DamageReceiver{ .multiplier_normal = multiplier_normal,.multiplier_fire = multiplier_fire, .multiplier_wind = multiplier_wind,.multiplier_knockback = 0 })
 			;
 	}
 	for (auto& portal_v : *portals) {

@@ -4,7 +4,7 @@
 // enums
 enum class DamageType { normal, fire, wind };
 enum class FacingValue { pos_x, neg_x };
-enum class PigAction { run_away };
+enum class PigAction { run, dying };
 enum class ParticleType { none, wood, hay };
 
 // resources
@@ -49,6 +49,7 @@ struct Facing {
 	bool operator==(const Facing&) const = default;
 	FacingValue inner{ FacingValue::pos_x };
 	int sign_x() const;
+	void set_sign_x(int sign_x);
 };
 struct LocomotionWalking {
 	bool operator==(const LocomotionWalking&) const = default;
@@ -58,6 +59,9 @@ struct LocomotionWalking {
 struct LocomotionFlying {
 	bool operator==(const LocomotionFlying&) const = default;
 	double falloff{ 1.0 };
+};
+struct LocomotionStationery {
+	bool operator==(const LocomotionStationery&) const = default;
 };
 struct Mass {
 	bool operator==(const Mass&) const = default;
@@ -115,6 +119,9 @@ struct StageText {
 };
 struct Obstacle {
 	bool operator==(const Obstacle&) const = default;
+};
+struct Compound {
+	bool operator==(const Compound&) const = default;
 	ParticleType made_of{ ParticleType::none };
 };
 struct Flame {
@@ -128,6 +135,9 @@ struct Wolf {
 };
 struct Pig {
 	bool operator==(const Pig&) const = default;
+	PigAction action{ PigAction::run };
+	size_t until{ 0 };
+	std::string to_load;
 };
 struct ParticleDomain {
 	bool operator==(const ParticleDomain&) const = default;
@@ -135,6 +145,10 @@ struct ParticleDomain {
 };
 struct Portal {
 	bool operator==(const Portal&) const = default;
+	std::string to_load;
+};
+struct PigHouse {
+	bool operator==(const PigHouse&) const = default;
 	std::string to_load;
 };
 // apis

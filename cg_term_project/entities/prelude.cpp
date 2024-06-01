@@ -20,6 +20,16 @@ int Facing::sign_x() const {
 	return (inner == FacingValue::pos_x) ? 1 : -1;
 }
 
+void Facing::set_sign_x(int sign_x) {
+	if (sign_x > 0) {
+		inner = FacingValue::pos_x;
+	}
+	else if (sign_x < 0) {
+		inner = FacingValue::neg_x;
+	}
+
+}
+
 double RoarCharged::ratio() const {
-	return val/(double)max;
+	return val / (double)max;
 }

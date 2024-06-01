@@ -5,7 +5,8 @@
         "stage_texts",
         "portals",
         "floors",
-        "obstacles"
+        "obstacles",
+        "pig_houses"
     ],
     "properties": {
         "start": {
@@ -138,6 +139,53 @@
                             "hay",
                             "wood"
                         ]
+                    }
+                },
+                "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h"
+                ]
+            }
+        },
+        "pig_houses": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "x": {
+                        "type": "number"
+                    },
+                    "y": {
+                        "type": "number"
+                    },
+                    "w": {
+                        "type": "number"
+                    },
+                    "h": {
+                        "type": "number"
+                    },
+                    "health": {
+                        "type": "number"
+                    },
+                    "multiplier_normal": {
+                        "type": "number"
+                    },
+                    "multiplier_fire": {
+                        "type": "number"
+                    },
+                    "multiplier_wind": {
+                        "type": "number"
+                    },
+                    "made_of": {
+                        "enum": [
+                            "hay",
+                            "wood"
+                        ]
+                    },
+                    "to_load_on_clear": {
+                        "type": "string"
                     }
                 },
                 "required": [

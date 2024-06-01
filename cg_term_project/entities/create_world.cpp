@@ -8,6 +8,7 @@ ecs::World create_world() {
 	world.register_component<Facing>();
 	world.register_component<LocomotionWalking>();
 	world.register_component<LocomotionFlying>();
+	world.register_component<LocomotionStationery>();
 	world.register_component<HitDamage>();
 	world.register_component<Life>();
 	world.register_component<FrozenState>();
@@ -24,6 +25,8 @@ ecs::World create_world() {
 	world.register_component<Obstacle>();
 	world.register_component<ParticleDomain>();
 	world.register_component<Portal>();
+	world.register_component<PigHouse>();
+	world.register_component<Compound>();
 
 	auto wolf = world.spawn_entity();
 	auto wolf_id = wolf.id();
@@ -31,7 +34,7 @@ ecs::World create_world() {
 		.with(Wolf{})
 		.with(DebugInfo{ .name = "wolf" })
 		.with(LocomotionWalking{})
-		.with(Body{ .w = 2,.h = 2, .x = 2,.y = 4 })
+		.with(Body{ .w = 2,.h = 2 })
 		.with(Facing{ .inner = FacingValue::pos_x })
 		.with(FrozenState{})
 		.with(Mass{ 1 })
@@ -40,17 +43,6 @@ ecs::World create_world() {
 		.with(HitDamage{ .from = wolf_id,.power = 1, .knockback = 0,.type = DamageType::normal })
 		.with(RoarCharged{ .val = 0, .max = 5, .type = DamageType::wind })
 		;
-
-	auto pig_id = world.spawn_entity()
-		.with(Pig{})
-		.with(DebugInfo{ .name = "pig" })
-		.with(LocomotionWalking{})
-		.with(Body{ .w = 2,.h = 2, .x = 8,.y = 4 })
-		.with(Facing{ .inner = FacingValue::pos_x })
-		.with(Mass{ 2 })
-		.with(Health{})
-		.with(DamageReceiver{ .multiplier_fire = 20 })
-		.id();
 
 	world.manage_resource(CharacterInput{});
 	world.manage_resource(Elapsed{});

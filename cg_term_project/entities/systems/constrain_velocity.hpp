@@ -15,25 +15,28 @@ void constrain_velocity(ecs::EntitiesWith<Floor, Body> floors, ecs::EntitiesWith
 
 		locomotion->is_touching_floor = false;
 		locomotion->is_touching_wall = false;
-		for (auto& [id, _, floor] : floors) {
+		for (auto& [id, _, floor_0] : floors) {
 			if (id == character_id) continue;
-			if (!floor->is_colliding(*character)) continue;
+			Body floor = *floor_0;
+			floor.vx = 0;
+			floor.vy = 0;
+			if (!floor.is_colliding(*character)) continue;
 
-			if (floor->is_colliding_y(*character) && character->x_distance_to(*floor) != 0) {
-				character->vy = character->y_distance_to(*floor) / floor_stiffness;
+			if (floor.is_colliding_y(*character) && character->x_distance_to(floor) != 0) {
+				character->vy = character->y_distance_to(floor) / floor_stiffness;
 				if (std::abs(character->vy) < speed_lower_cut) {
 					character->vy = 0;
-					character->y += character->y_distance_to(*floor);
+					character->y += character->y_distance_to(floor);
 				}
-				if (character->y0() >= floor->y1()) {
+				if (character->y0() >= floor.y1()) {
 					locomotion->is_touching_floor = true;
 				}
 			}
 			else {
-				character->vx = character->x_distance_to(*floor) / wall_stiffness;
+				character->vx = character->x_distance_to(floor) / wall_stiffness;
 				if (std::abs(character->vx) < speed_lower_cut) {
 					character->vx = 0;
-					character->x += character->x_distance_to(*floor);
+					character->x += character->x_distance_to(floor);
 					locomotion->is_touching_wall = true;
 				}
 			}

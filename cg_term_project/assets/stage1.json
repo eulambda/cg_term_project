@@ -42,7 +42,7 @@
             "h": 10,
             "x": 150,
             "y": -10,
-            "to_load": "assets/stage1.json"
+            "to_load": "assets/stage2.json"
         }
     ],
     "floors": [
@@ -127,5 +127,6 @@
             "multiplier_knockback": 10,
             "made_of": "hay"
         }
-    ]
+    ],
+    "pig_houses": []
 }

@@ -177,5 +177,8 @@
     <ClInclude Include="entities\systems\activate_portal.hpp">
       <Filter>entities\systems</Filter>
     </ClInclude>
+    <ClInclude Include="entities\systems\clear_pig_houses.hpp">
+      <Filter>entities\systems</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -3,8 +3,9 @@
 
 void apply_velocity(
 	ecs::EntitiesWithWritable<Body, LocomotionWalking> walking_entities,
-	ecs::EntitiesWithWritable<Body, LocomotionFlying> flying_entities
-) {
+	ecs::EntitiesWithWritable<Body, LocomotionFlying> flying_entities,
+	ecs::EntitiesWithWritable<Body, LocomotionStationery> stationery_entities
+	) {
 	for (auto& [_, body, locomotion] : walking_entities) {
 		if (body->vx != 0) {
 			body->x += body->vx;
@@ -26,5 +27,9 @@ void apply_velocity(
 		if (body->vy != 0) {
 			body->y += body->vy * locomotion->falloff;
 		}
+	}
+	for (auto& [_, body, locomotion] : stationery_entities) {
+		body->vx = 0;
+		body->vy = 0;
 	}
 }
