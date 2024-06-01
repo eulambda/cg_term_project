@@ -1,7 +1,7 @@
 #pragma once
 #include "../ui.hpp"
 
-UiComponent breath_component() {
+UiComponent roar_component() {
 	auto scaling_life = fn_from_points({ {0,0},{0.1,1},{0.9,1}, { 1,0 } });
 	auto rotating_life = fn_from_points({ {0,2},{0.1,1},{0.9,1}, { 1,2 } });
 	auto noise = [](double x) {return 0.7 * std::sin(x * 200); };

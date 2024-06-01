@@ -14,7 +14,8 @@ ecs::World create_world() {
 	world.register_component<Mass>();
 	world.register_component<Health>();
 	world.register_component<DamageReceiver>();
-	world.register_component<BreathCharged>();
+	world.register_component<RoarCharged>();
+	world.register_component<DebugInfo>();
 
 	world.spawn_entity().with(Floor{}).with(Body{ .w = 1,.h = 50,.x = -17,.y = 0 });
 	world.spawn_entity().with(Floor{}).with(Body{ .w = 1,.h = 50,.x = 17,.y = 0 });
@@ -33,8 +34,8 @@ ecs::World create_world() {
 		.with(Health{})
 		.with(DamageReceiver{})
 		.with(HitDamage{ .from = wolf_id,.power = 1, .knockback = 0,.type = DamageType::normal })
-		.with(BreathCharged{ .val = 0, .max=5, .type = DamageType::wind })
-		.id();
+		.with(RoarCharged{ .val = 0, .max = 5, .type = DamageType::wind })
+		;
 
 	auto pig_id = world.spawn_entity()
 		.with(LocomotionWalking{})
