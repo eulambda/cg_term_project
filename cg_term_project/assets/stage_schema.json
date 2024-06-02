@@ -24,6 +24,9 @@
                 "y"
             ]
         },
+        "reset_ticks": {
+            "type": "boolean"
+        },
         "stage_texts": {
             "type": "array",
             "items": {

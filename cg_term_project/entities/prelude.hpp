@@ -23,6 +23,9 @@ struct Stage {
 	std::string to_load;
 	bool is_paused{ true };
 };
+struct SimulationSpeed {
+	double seconds_per_tick;
+};
 
 // components
 struct Body {

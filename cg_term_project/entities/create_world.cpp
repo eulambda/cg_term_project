@@ -44,6 +44,7 @@ ecs::World create_world() {
 		.with(RoarCharged{ .val = 0, .max = 5, .type = DamageType::wind })
 		;
 
+	world.manage_resource(SimulationSpeed{});
 	world.manage_resource(CharacterInput{});
 	world.manage_resource(Elapsed{});
 	world.manage_resource(Stage{ .to_load = "assets/stage1.json" });

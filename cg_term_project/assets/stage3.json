@@ -1,0 +1,39 @@
+{
+    "$schema": "./stage_schema.json",
+    "start": {
+        "x": -4,
+        "y": 10
+    },
+    "stage_texts": [],
+    "portals": [
+        {
+            "w": 2,
+            "h": 6,
+            "x": 4,
+            "y": 4,
+            "to_load": "assets/stage4.json"
+        }
+    ],
+    "floors": [
+        {
+            "w": 2,
+            "h": 20,
+            "x": -10,
+            "y": 10
+        },
+        {
+            "w": 20,
+            "h": 5,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "w": 2,
+            "h": 20,
+            "x": 10,
+            "y": 10
+        }
+    ],
+    "obstacles": [],
+    "pig_houses": []
+}

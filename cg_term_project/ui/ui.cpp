@@ -119,6 +119,7 @@ void launch() {
 	auto render_data = fetch<RenderData>();
 	render_data->world = &world;
 	render_data->system_forest = &system_forest;
+	render_data->world->get_resource<SimulationSpeed>()->seconds_per_tick = render_config->seconds_per_tick;
 
 	include_components();
 	on_app_started();

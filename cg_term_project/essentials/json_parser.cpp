@@ -271,6 +271,7 @@ namespace json {
 			while (inner != Inner{}) {
 				c = *inner;
 				if (c < 'a' || c>'z') break;
+				ss << c;
 				inner++;
 			}
 			if (ss.str() == "true") {

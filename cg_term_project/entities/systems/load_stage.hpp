@@ -2,10 +2,15 @@
 #include "../prelude.hpp"
 #include "../../essentials/json_parser.hpp"
 #include <iostream>
+#include <regex>
+#include <format>
+
 void load_stage(
-	ecs::EntitiesWithWritable<Wolf, Body> wolves, ecs::Writable<Stage> stage, ecs::EntityApi api
+	ecs::EntitiesWithWritable<Wolf, Body, FrozenState> wolves, ecs::Writable<Stage> stage, ecs::EntityApi api
 	, ecs::EntitiesWith<Body> bodies
 	, ecs::EntitiesWith<StageText> prev_stage_texts
+	, ecs::Writable<Elapsed> elapsed
+	, SimulationSpeed simulation_speed
 ) {
 	if (!stage->to_load.length()) return;
 	auto json = json::Value::parse(stage->to_load);
@@ -24,12 +29,14 @@ void load_stage(
 	auto& obstacles_v = (*obj)["obstacles"];
 	auto& pig_houses_v = (*obj)["pig_houses"];
 	auto& portals_v = (*obj)["portals"];
+	auto& reset_ticks_v = (*obj)["reset_ticks"];
 	auto start = start_v.as_obj();
 	auto floors = floors_v.as_arr();
 	auto stage_texts = stage_texts_v.as_arr();
 	auto obstacles = obstacles_v.as_arr();
 	auto pig_houses = pig_houses_v.as_arr();
 	auto portals = portals_v.as_arr();
+	auto reset_ticks = reset_ticks_v.bool_or(false);
 	if (!start || !floors || !stage_texts || !obstacles || !portals || !pig_houses) return;
 
 	auto start_x = (*start)["x"].as_num();
@@ -39,7 +46,7 @@ void load_stage(
 	auto wolf_fetched = wolves.begin();
 	if (wolf_fetched == wolves.end()) return;
 
-	auto& [wolf_id, _2, wolf_body] = *wolf_fetched;
+	auto& [wolf_id, _2, wolf_body, wolf_frozen_state] = *wolf_fetched;
 	wolf_body->vx = 0;
 	wolf_body->vy = 0;
 	wolf_body->x = *start_x;
@@ -58,6 +65,8 @@ void load_stage(
 		if (!w || !h || !x || !y) return;
 		api.spawn().with(Floor{}).with(Body{ .w = *w,.h = *h,.x = *x,.y = *y });
 	}
+	auto record_seconds = (int)(simulation_speed.seconds_per_tick * elapsed->ticks);
+	auto record_string = std::format("{:01}:{:02}", record_seconds / 60, record_seconds % 60);
 	for (auto& stage_text_v : *stage_texts) {
 		auto stage_text = stage_text_v.as_obj();
 		if (!stage_text) return;
@@ -65,6 +74,7 @@ void load_stage(
 		auto y = (*stage_text)["y"].as_num();
 		auto contents = (*stage_text)["contents"].as_str();
 		if (!x || !y || !contents) return;
+		*contents = std::regex_replace(*contents, std::regex{ "\\{record\\}" }, record_string);
 		api.spawn().with(StageText{ .contents = *contents, .x = *x,.y = *y });
 	}
 	for (auto& obstacle_v : *obstacles) {
@@ -88,6 +98,7 @@ void load_stage(
 		api.spawn()
 			.with(Floor{})
 			.with(Obstacle{})
+			.with(DebugInfo{ .name = "obstacle " + made_of_s })
 			.with(Compound{ .made_of = made_of })
 			.with(Body{ .w = *w,.h = *h,.x = *x,.y = *y })
 			.with(LocomotionWalking{})
@@ -138,5 +149,11 @@ void load_stage(
 			.with(DebugInfo{ .name = "portal to " + *to_load })
 			.with(Body{ .w = *w,.h = *h,.x = *x,.y = *y })
 			;
+	}
+
+	if (reset_ticks) {
+		elapsed->ticks = 0;
+		wolf_frozen_state->from = 0;
+		wolf_frozen_state->until = 0;
 	}
 }

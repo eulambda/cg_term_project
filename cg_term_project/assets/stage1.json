@@ -4,6 +4,7 @@
         "x": 0,
         "y": 10
     },
+    "reset_ticks": true,
     "stage_texts": [
         {
             "x": 4,
