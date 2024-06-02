@@ -1,16 +1,30 @@
 #include "ui.hpp"
 
+inline void goto_next_stage() {
+	auto& world = fetch<RenderData>()->world;
+	auto portals = world->get_entities_with<Portal>();
+	if (!portals.empty()) {
+		auto& [_, portal] = *portals.begin();
+		world->get_resource<Stage>()->to_load = portal->to_load;
+		return;
+	}
+	auto pigs = world->get_entities_with<Pig>();
+	if (!pigs.empty()) {
+		auto& [_, pig] = *pigs.begin();
+		world->get_resource<Stage>()->to_load = pig->to_load;
+		return;
+	}
+	auto pig_houses = world->get_entities_with<PigHouse>();
+	if (!pig_houses.empty()) {
+		auto& [_, pig_house] = *pig_houses.begin();
+		world->get_resource<Stage>()->to_load = pig_house->to_load;
+		return;
+	}
+}
 void on_keyboard_action(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	auto debug = fetch<UiDebugInfo>();
 	auto get_input = [] {
 		return fetch<RenderData>()->world->get_resource<CharacterInput>();
-		};
-	auto goto_next_stage = [] {
-		auto& world = fetch<RenderData>()->world;
-		auto portals = world->get_entities_with<Portal>();
-		if (portals.empty()) return;
-		auto& [_, portal] = *portals.begin();
-		world->get_resource<Stage>()->to_load = portal->to_load;
 		};
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
 		glfwSetWindowShouldClose(window, true);
