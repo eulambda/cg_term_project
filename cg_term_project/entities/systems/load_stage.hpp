@@ -96,7 +96,7 @@ void load_stage(
 		else if (made_of_s == "wood") made_of = ParticleType::wood;
 
 		api.spawn()
-			.with(Floor{})
+			.with(Floor{ .type = FloorType::special })
 			.with(Obstacle{})
 			.with(DebugInfo{ .name = "obstacle " + made_of_s })
 			.with(Compound{ .made_of = made_of })

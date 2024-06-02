@@ -6,6 +6,7 @@ enum class DamageType { normal, fire, wind };
 enum class FacingValue { pos_x, neg_x };
 enum class PigAction { run, dying };
 enum class ParticleType { none, wood, hay };
+enum class FloorType { ground, special };
 
 // resources
 struct CharacterInput {
@@ -47,6 +48,7 @@ struct Body {
 };
 struct Floor {
 	bool operator==(const Floor&) const = default;
+	FloorType type{ FloorType::ground };
 };
 struct Facing {
 	bool operator==(const Facing&) const = default;
