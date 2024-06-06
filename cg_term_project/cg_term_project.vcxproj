@@ -183,7 +183,7 @@
     <ClInclude Include="entities\systems\apply_elastic_collision.hpp" />
     <ClInclude Include="entities\systems\apply_hit_damages.hpp" />
     <ClInclude Include="entities\systems\apply_velocity.hpp" />
-    <ClInclude Include="entities\systems\clear_obstacles.hpp" />
+    <ClInclude Include="entities\systems\clear_dead.hpp" />
     <ClInclude Include="entities\systems\clear_pig_houses.hpp" />
     <ClInclude Include="entities\systems\constrain_velocity.hpp" />
     <ClInclude Include="entities\systems\load_stage.hpp" />
@@ -196,6 +196,7 @@
     <ClInclude Include="gltext.h" />
     <ClInclude Include="ui\camera.hpp" />
     <ClInclude Include="ui\components\bars.hpp" />
+    <ClInclude Include="ui\components\grass.hpp" />
     <ClInclude Include="ui\components\roar.hpp" />
     <ClInclude Include="ui\components\debugging.hpp" />
     <ClInclude Include="ui\components\flame.hpp" />

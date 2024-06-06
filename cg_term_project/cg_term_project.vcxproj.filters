@@ -171,7 +171,7 @@
     <ClInclude Include="ui\components\bars.hpp">
       <Filter>ui\components</Filter>
     </ClInclude>
-    <ClInclude Include="entities\systems\clear_obstacles.hpp">
+    <ClInclude Include="entities\systems\clear_dead.hpp">
       <Filter>entities\systems</Filter>
     </ClInclude>
     <ClInclude Include="entities\systems\activate_portal.hpp">
@@ -179,6 +179,9 @@
     </ClInclude>
     <ClInclude Include="entities\systems\clear_pig_houses.hpp">
       <Filter>entities\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\components\grass.hpp">
+      <Filter>ui\components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

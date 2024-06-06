@@ -107,7 +107,7 @@ void spawn_floors(ecs::EntityApi& api, json::Value& floors_v, json::Value& props
 		z = (z + 4) / 8;
 		z -= 1 - grass_density;
 		z = std::max(z, 0.0);
-		return z;
+		return 2 * z;
 		};
 	auto grass_random_translation = [](double x) {
 		return sin(x * 200 + 100);
@@ -127,7 +127,12 @@ void spawn_floors(ecs::EntityApi& api, json::Value& floors_v, json::Value& props
 			if (d == 0) continue;
 			auto x_final = xi + grass_random_translation(xi + body.y);
 			x_final = std::clamp(x_final, body.x0(), body.x1());
-			api.spawn().with(Grass{}).with(Body{ .w = d,.h = d,.x = x_final,.y = body.y1() });
+			api.spawn()
+				.with(Grass{})
+				.with(Body{ .w = d,.h = 1,.x = x_final,.y = body.y1() + 0.5 })
+				.with(Health{ .max = 1 })
+				.with(DamageReceiver{ .multiplier_normal = 0,.multiplier_fire = 1,.multiplier_wind = 0,.multiplier_knockback = 0 })
+				;
 		}
 	}
 }
