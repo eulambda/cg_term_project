@@ -11,6 +11,7 @@
 #include "clear_dead.hpp"
 #include "clear_pig_houses.hpp"
 #include "activate_portal.hpp"
+#include "run_butterfly_agent.hpp"
 
 ecs::SystemForest create_system_forest(ecs::World* world) {
 	auto system_forest = ecs::SystemForest(world);
@@ -19,6 +20,7 @@ ecs::SystemForest create_system_forest(ecs::World* world) {
 		.followed_by(load_stage)
 		.followed_by(apply_velocity)
 		.followed_by(run_pig_agent)
+		.followed_by(run_butterfly_agent)
 		.followed_by(apply_character_input)
 		.followed_by(apply_hit_damages)
 		.followed_by(apply_elastic_collision)

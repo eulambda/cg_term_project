@@ -188,6 +188,7 @@
     <ClInclude Include="entities\systems\constrain_velocity.hpp" />
     <ClInclude Include="entities\systems\load_stage.hpp" />
     <ClInclude Include="entities\systems\print_console.hpp" />
+    <ClInclude Include="entities\systems\run_butterfly_agent.hpp" />
     <ClInclude Include="entities\systems\run_pig_agent.hpp" />
     <ClInclude Include="entities\systems\update_elapsed.hpp" />
     <ClInclude Include="essentials\curve.hpp" />
