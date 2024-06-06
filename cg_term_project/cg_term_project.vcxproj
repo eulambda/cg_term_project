@@ -197,6 +197,7 @@
     <ClInclude Include="gltext.h" />
     <ClInclude Include="ui\camera.hpp" />
     <ClInclude Include="ui\components\bars.hpp" />
+    <ClInclude Include="ui\components\butterflies.hpp" />
     <ClInclude Include="ui\components\grass.hpp" />
     <ClInclude Include="ui\components\roar.hpp" />
     <ClInclude Include="ui\components\debugging.hpp" />
