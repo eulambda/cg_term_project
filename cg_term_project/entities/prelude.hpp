@@ -84,6 +84,7 @@ struct Health {
 	int max{ 100 };
 	int current{ 100 };
 	int receiving{ 0 };
+	double receiving_knockback{ 0 };
 };
 struct DamageReceiver {
 	bool operator==(const DamageReceiver&) const = default;

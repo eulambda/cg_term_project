@@ -199,6 +199,7 @@
     <ClInclude Include="ui\components\bars.hpp" />
     <ClInclude Include="ui\components\butterflies.hpp" />
     <ClInclude Include="ui\components\grass.hpp" />
+    <ClInclude Include="ui\components\particles.hpp" />
     <ClInclude Include="ui\components\roar.hpp" />
     <ClInclude Include="ui\components\debugging.hpp" />
     <ClInclude Include="ui\components\flame.hpp" />
