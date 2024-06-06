@@ -8,7 +8,7 @@
 #include "update_elapsed.hpp"
 #include "print_console.hpp"
 #include "load_stage.hpp"
-#include "clear_obstacles.hpp"
+#include "clear_dead.hpp"
 #include "clear_pig_houses.hpp"
 #include "activate_portal.hpp"
 
@@ -23,7 +23,7 @@ ecs::SystemForest create_system_forest(ecs::World* world) {
 		.followed_by(apply_hit_damages)
 		.followed_by(apply_elastic_collision)
 		.followed_by(constrain_velocity)
-		.followed_by(clear_obstacles)
+		.followed_by(clear_dead)
 		.followed_by(clear_pig_houses)
 		.followed_by(activate_portal)
 		.followed_by(print_console)

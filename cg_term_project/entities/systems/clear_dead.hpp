@@ -1,8 +1,11 @@
 #pragma once
 #include "../prelude.hpp"
 
-void clear_obstacles(ecs::EntitiesWith<Obstacle,Compound, Body, Health> obstacles, ecs::EntityApi api, Elapsed elapsed) {
-	for (auto& [id, _,compound, body, health] : obstacles) {
+void clear_dead(
+	ecs::EntitiesWith<Obstacle, Compound, Body, Health> obstacles,
+	ecs::EntitiesWith<Grass, Body, Health> grass_entities,
+	ecs::EntityApi api, Elapsed elapsed) {
+	for (auto& [id, _, compound, body, health] : obstacles) {
 		if (health->current > 0) continue;
 		api.remove(id);
 		if (compound->made_of == ParticleType::none) continue;
@@ -14,4 +17,3 @@ void clear_obstacles(ecs::EntitiesWith<Obstacle,Compound, Body, Health> obstacle
 			.with(Life{ .from = elapsed.ticks, .until = elapsed.ticks + 16,.delete_on_death = true })
 			;
 	}
-}

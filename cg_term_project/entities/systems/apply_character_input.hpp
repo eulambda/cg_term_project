@@ -34,7 +34,7 @@ void apply_character_input(
 	if (input->emit_flame) {
 		input->emit_flame = false;
 		double w = 4;
-		double h = 1;
+		double h = 2;
 		double x_offset = (2 + w / 2) * facing->sign_x();
 		frozen_state->from = elapsed.ticks;
 		frozen_state->until = elapsed.ticks + 6;

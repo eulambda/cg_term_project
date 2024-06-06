@@ -13,6 +13,7 @@ void apply_hit_damages(ecs::EntitiesWithWritable<Body, Health, DamageReceiver> c
 			if (damage->type == DamageType::normal) multiplier = receiver->multiplier_normal;
 			if (damage->type == DamageType::fire) multiplier = receiver->multiplier_fire;
 			if (damage->type == DamageType::wind) multiplier = receiver->multiplier_wind;
+			if (multiplier == 0) continue;
 			power *= multiplier;
 			health->receiving -= (int)power;
 			if (multiplier == 0 || damage->knockback == 0 || receiver->multiplier_knockback == 0) continue;
