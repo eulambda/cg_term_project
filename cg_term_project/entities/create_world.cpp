@@ -28,6 +28,7 @@ ecs::World create_world() {
 	world.register_component<PigHouse>();
 	world.register_component<Compound>();
 	world.register_component<Grass>();
+	world.register_component<Butterfly>();
 
 	auto wolf = world.spawn_entity();
 	auto wolf_id = wolf.id();

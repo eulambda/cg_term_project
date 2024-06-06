@@ -188,6 +188,7 @@
     <ClInclude Include="entities\systems\constrain_velocity.hpp" />
     <ClInclude Include="entities\systems\load_stage.hpp" />
     <ClInclude Include="entities\systems\print_console.hpp" />
+    <ClInclude Include="entities\systems\run_butterfly_agent.hpp" />
     <ClInclude Include="entities\systems\run_pig_agent.hpp" />
     <ClInclude Include="entities\systems\update_elapsed.hpp" />
     <ClInclude Include="essentials\curve.hpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="gltext.h" />
     <ClInclude Include="ui\camera.hpp" />
     <ClInclude Include="ui\components\bars.hpp" />
+    <ClInclude Include="ui\components\butterflies.hpp" />
     <ClInclude Include="ui\components\grass.hpp" />
     <ClInclude Include="ui\components\roar.hpp" />
     <ClInclude Include="ui\components\debugging.hpp" />

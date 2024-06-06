@@ -5,7 +5,8 @@
         "y": 10
     },
     "props": {
-        "grass_density": 0.3
+        "grass_density": 0.3,
+        "butterfly_chance": 0.01
     },
     "reset_ticks": true,
     "stage_texts": [

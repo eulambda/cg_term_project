@@ -24,6 +24,9 @@
             "properties": {
                 "grass_density": {
                     "type": "number"
+                },
+                "butterfly_chance": {
+                    "type": "number"
                 }
             }
         },

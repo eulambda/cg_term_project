@@ -8,6 +8,7 @@
 #include "debugging.hpp"
 #include "bars.hpp"
 #include "grass.hpp"
+#include "butterflies.hpp"
 
 void include_components() {
 	auto& components = fetch<RenderData>()->components;
@@ -21,6 +22,7 @@ void include_components() {
 	components.emplace_back(stage_component());
 	components.emplace_back(bars_component());
 	components.emplace_back(grass_component());
+	components.emplace_back(butterflies_component());
 
 	components.emplace_back(debugging_component());
 }
