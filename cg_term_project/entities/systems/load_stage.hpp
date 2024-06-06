@@ -91,9 +91,27 @@ void spawn_portals(ecs::EntityApi& api, json::Value& portals_v) {
 			;
 	}
 }
-void spawn_floors(ecs::EntityApi& api, json::Value& floors_v) {
+void spawn_floors(ecs::EntityApi& api, json::Value& floors_v, json::Value& props_v) {
 	auto floors = floors_v.as_arr();
+	auto props = props_v.as_obj();
 	if (!floors) return;
+	auto grass_density = 0.0;
+	if (props) {
+		grass_density = (*props)["grass_density"].num_or(0);
+		grass_density = std::clamp(grass_density, 0.0, 1.0);
+	}
+
+	auto get_grass_size = [=](double x, double y) {
+		auto z = sin(x + 8) + sin(x * 4 + 16) / 2 + sin(x * 16 + 32) / 4 + sin(x * 64 + 64) / 4;
+		z += sin(y + 128) + sin(y * 5 + 256) / 2 + sin(y * 16 + 512) / 4 + sin(y * 64 + 1024) / 4;
+		z = (z + 4) / 8;
+		z -= 1 - grass_density;
+		z = std::max(z, 0.0);
+		return z;
+		};
+	auto grass_random_translation = [](double x) {
+		return sin(x * 200 + 100);
+		};
 	for (auto& floor_v : *floors) {
 		auto floor = floor_v.as_obj();
 		if (!floor) return;
@@ -102,7 +120,15 @@ void spawn_floors(ecs::EntityApi& api, json::Value& floors_v) {
 		auto x = (*floor)["x"].as_num();
 		auto y = (*floor)["y"].as_num();
 		if (!w || !h || !x || !y) return;
-		api.spawn().with(Floor{}).with(Body{ .w = *w,.h = *h,.x = *x,.y = *y });
+		auto body = Body{ .w = *w,.h = *h,.x = *x,.y = *y };
+		api.spawn().with(Floor{}).with(body);
+		for (auto xi = body.x0();xi < body.x1();xi += 0.4) {
+			auto d = get_grass_size(xi, body.y);
+			if (d == 0) continue;
+			auto x_final = xi + grass_random_translation(xi + body.y);
+			x_final = std::clamp(x_final, body.x0(), body.x1());
+			api.spawn().with(Grass{}).with(Body{ .w = d,.h = d,.x = x_final,.y = body.y1() });
+		}
 	}
 }
 void spawn_texts(ecs::EntityApi& api, SimulationSpeed& simulation_speed, ecs::Writable<Elapsed>& elapsed, json::Value& stage_texts_v) {
@@ -160,7 +186,7 @@ void load_stage(
 	for (auto& [id, _] : bodies) if (id != wolf_id) api.remove(id);
 	for (auto& [id, _] : prev_stage_texts) api.remove(id);
 
-	spawn_floors(api, (*obj)["floors"]);
+	spawn_floors(api, (*obj)["floors"], (*obj)["props"]);
 	spawn_texts(api, simulation_speed, elapsed, (*obj)["stage_texts"]);
 	spawn_portals(api, (*obj)["portals"]);
 	spawn_obstacles(api, (*obj)["obstacles"]);

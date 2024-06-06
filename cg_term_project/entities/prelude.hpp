@@ -156,6 +156,9 @@ struct PigHouse {
 	bool operator==(const PigHouse&) const = default;
 	std::string to_load;
 };
+struct Grass {
+	bool operator==(const Grass&) const = default;
+};
 // apis
 ecs::World create_world();
 ecs::SystemForest create_system_forest(ecs::World* world);
