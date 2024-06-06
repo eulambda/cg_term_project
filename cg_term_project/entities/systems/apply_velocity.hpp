@@ -14,7 +14,7 @@ void apply_velocity(
 			body->y += body->vy;
 		}
 		if (body->vx != 0 && locomotion->is_touching_floor) {
-			body->vx *= 0.5;
+			body->vx *= 0.7;
 		}
 		if (!locomotion->is_touching_floor) {
 			body->vy -= 0.4;

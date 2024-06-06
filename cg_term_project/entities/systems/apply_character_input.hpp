@@ -28,7 +28,7 @@ void apply_character_input(
 	bool is_touching_floor = locomotion->is_touching_floor;
 	double ax = 0, ay = 0;
 	if (!is_touching_floor) ax = dx * 0.2;
-	if (is_touching_floor) ax = dx * 0.7;
+	if (is_touching_floor) ax = dx * 0.3;
 	if (is_touching_floor && input->jump) ay = 2;
 	if (!is_touching_floor && input->jumping) ay = 0.2;
 	if (input->emit_flame) {
