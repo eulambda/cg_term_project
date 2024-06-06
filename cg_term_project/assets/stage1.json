@@ -4,6 +4,9 @@
         "x": 0,
         "y": 10
     },
+    "props": {
+        "grass_density": 0.3
+    },
     "reset_ticks": true,
     "stage_texts": [
         {

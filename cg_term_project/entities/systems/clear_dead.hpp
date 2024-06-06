@@ -17,3 +17,15 @@ void clear_dead(
 			.with(Life{ .from = elapsed.ticks, .until = elapsed.ticks + 16,.delete_on_death = true })
 			;
 	}
+
+	for (auto& [id, _, body, health] : grass_entities) {
+		if (health->current > 0) continue;
+		api.remove(id);
+		api.spawn()
+			.with(ParticleDomain{ .type = ParticleType::hay })
+			.with(DebugInfo{ .name = "grass" })
+			.with(*body)
+			.with(Life{ .from = elapsed.ticks, .until = elapsed.ticks + 16,.delete_on_death = true })
+			;
+	}
+}

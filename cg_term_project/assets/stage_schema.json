@@ -19,6 +19,14 @@
                 "y"
             ]
         },
+        "props": {
+            "type": "object",
+            "properties": {
+                "grass_density": {
+                    "type": "number"
+                }
+            }
+        },
         "reset_ticks": {
             "type": "boolean"
         },
