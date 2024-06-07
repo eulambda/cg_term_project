@@ -5,35 +5,27 @@
         "y": 10
     },
     "props": {
-        "butterfly_chance": 0.2
+        "grass_density": 0.5,
+        "butterfly_chance": 0.01
     },
+    "reset_ticks": true,
     "stage_texts": [
         {
             "x": -2,
             "y": 10,
-            "contents": "Game Clear"
+            "contents": "Game Over"
         },
         {
-            "x": -4,
-            "y": 9,
-            "contents": "Thanks for playing."
-        },
-        {
-            "x": -2.5,
-            "y": 7,
-            "contents": "Record: {record}"
-        },
-        {
-            "x": 13,
-            "y": 7,
-            "contents": "Retry?"
+            "x": -3.5,
+            "y": 8,
+            "contents": "Go Left to Retry."
         }
     ],
     "portals": [
         {
             "w": 2,
             "h": 8,
-            "x": 16,
+            "x": -16,
             "y": 6,
             "to_load": "assets/stage1.json"
         }
@@ -42,22 +34,20 @@
         {
             "w": 2,
             "h": 20,
-            "x": -10,
+            "x": 10,
             "y": 10
         },
         {
             "w": 60,
             "h": 5,
-            "x": 18,
+            "x": -18,
             "y": 0
         },
         {
             "w": 20,
             "h": 20,
-            "x": 19,
+            "x": -19,
             "y": 20
         }
-    ],
-    "obstacles": [],
-    "pig_houses": []
+    ]
 }

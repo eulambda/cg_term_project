@@ -4,12 +4,14 @@
 
 void apply_character_input(
 	ecs::EntitiesWithWritable<Wolf, Body, LocomotionWalking, Facing, FrozenState, RoarCharged, Health> wolves,
-	ecs::Writable<CharacterInput> input, ecs::EntityApi api, Elapsed elapsed
+	ecs::Writable<CharacterInput> input, ecs::EntityApi api, Elapsed elapsed,
+	ecs::Writable<Stage> stage
 ) {
 	if (wolves.empty()) return;
 	auto& [wolf_id, _, wolf_body, locomotion, facing, frozen_state, roar_charged, health] = *wolves.begin();
 
 	if (health->current == 0) {
+		stage->to_load = "assets/stage_game_over.json";
 		return;
 	}
 	if (frozen_state->ratio((double)elapsed.ticks) < 1.0) {

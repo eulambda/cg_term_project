@@ -2,16 +2,18 @@
     "$schema": "./stage_schema.json",
     "start": {
         "x": -4,
-        "y": 10
+        "y": 20
     },
-    "stage_texts": [],
-    "portals": [],
+    "props": {
+        "grass_density": 0.4,
+        "butterfly_chance": 0.3
+    },
     "floors": [
         {
             "w": 2,
-            "h": 20,
+            "h": 40,
             "x": -10,
-            "y": 10
+            "y": 20
         },
         {
             "w": 20,
@@ -20,13 +22,59 @@
             "y": 0
         },
         {
+            "w": 12,
+            "h": 2,
+            "x": -3,
+            "y": 15
+        },
+        {
             "w": 2,
-            "h": 20,
+            "h": 40,
             "x": 10,
-            "y": 10
+            "y": 20
+        },
+        {
+            "w": 6,
+            "h": 2,
+            "x": -6,
+            "y": 30
+        },
+        {
+            "w": 4,
+            "h": 2,
+            "x": 7,
+            "y": 34
         }
     ],
-    "obstacles": [],
+    "obstacles": [
+        {
+            "w": 8,
+            "h": 5,
+            "x": 5,
+            "y": 19,
+            "health": 60,
+            "multiplier_fire": 10,
+            "made_of": "wood"
+        },
+        {
+            "w": 8,
+            "h": 5,
+            "x": 5,
+            "y": 24,
+            "health": 60,
+            "multiplier_fire": 10,
+            "made_of": "wood"
+        },
+        {
+            "w": 8,
+            "h": 5,
+            "x": 5,
+            "y": 29,
+            "health": 60,
+            "multiplier_fire": 10,
+            "made_of": "wood"
+        }
+    ],
     "pig_houses": [
         {
             "w": 5,

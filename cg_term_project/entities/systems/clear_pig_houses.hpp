@@ -1,8 +1,8 @@
 #pragma once
 #include "../prelude.hpp"
 
-void clear_pig_houses(ecs::EntitiesWith<PigHouse, Compound, Body, Health> pig_houses, ecs::EntityApi api, Elapsed elapsed) {
-	for (auto& [id, pig_house, compound, body, health] : pig_houses) {
+void clear_pig_houses(ecs::EntitiesWith<PigHouse, ShardSpawner, Compound, Body, Health> pig_houses, ecs::EntityApi api, Elapsed elapsed) {
+	for (auto& [id, pig_house, shard_spawner, compound, body, health] : pig_houses) {
 		if (health->current > 0) continue;
 		api.remove(id);
 		if (compound->made_of == ParticleType::none) continue;
@@ -17,6 +17,8 @@ void clear_pig_houses(ecs::EntitiesWith<PigHouse, Compound, Body, Health> pig_ho
 			.with(Pig{ .action = PigAction::run, .until = 0, .to_load = pig_house->to_load })
 			.with(DebugInfo{ .name = "pig" })
 			.with(LocomotionWalking{})
+			.with(*shard_spawner)
+			.with(*compound)
 			.with(Body{ .w = 2,.h = 2, .x = body->x,.y = body->y })
 			.with(Facing{ .inner = FacingValue::pos_x })
 			.with(Mass{ 2 })

@@ -1,16 +1,19 @@
 {
     "$schema": "./stage_schema.json",
     "start": {
-        "x": -4,
-        "y": 10
+        "x": -13,
+        "y": 9
     },
-    "stage_texts": [],
+    "props": {
+        "grass_density": 0.4,
+        "butterfly_chance": 0.01
+    },
     "portals": [
         {
             "w": 2,
-            "h": 6,
-            "x": 4,
-            "y": 4,
+            "h": 10,
+            "x": 40,
+            "y": 20,
             "to_load": "assets/stage4.json"
         }
     ],
@@ -18,22 +21,78 @@
         {
             "w": 2,
             "h": 20,
-            "x": -10,
+            "x": -17,
             "y": 10
         },
         {
             "w": 20,
             "h": 5,
-            "x": 0,
-            "y": 0
+            "x": -17,
+            "y": 5
         },
         {
             "w": 2,
-            "h": 20,
-            "x": 10,
+            "h": 6,
+            "x": -4,
             "y": 10
+        },
+        {
+            "w": 10,
+            "h": 2,
+            "x": 2,
+            "y": 8
+        },
+        {
+            "w": 20,
+            "h": 2,
+            "x": 0,
+            "y": 1.5
+        },
+        {
+            "w": 30,
+            "h": 2,
+            "x": -4,
+            "y": 19
+        },
+        {
+            "w": 9,
+            "h": 5,
+            "x": 25,
+            "y": 0
+        },
+        {
+            "w": 30,
+            "h": 14,
+            "x": 44,
+            "y": 9
+        },
+        {
+            "w": 12,
+            "h": 8,
+            "x": 15,
+            "y": 4
         }
     ],
-    "obstacles": [],
+    "obstacles": [
+        {
+            "w": 8,
+            "h": 8,
+            "x": 1,
+            "y": 13,
+            "health": 1000,
+            "multiplier_wind": 1,
+            "multiplier_knockback": 10,
+            "made_of": "hay"
+        },
+        {
+            "w": 2,
+            "h": 10,
+            "x": 8,
+            "y": 7.5,
+            "health": 30,
+            "multiplier_fire": 10,
+            "made_of": "wood"
+        }
+    ],
     "pig_houses": []
 }

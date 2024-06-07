@@ -1,6 +1,9 @@
 {
     "$schema": "./debug_schema.json",
+    "$comment": "to activate, copy & paste this file with the name `debug.json`",
     "features": [
-        "show_hitbox"
+        "show_hitbox",
+        "enable_stage_navigation",
+        "show_coords"
     ]
 }

@@ -13,7 +13,6 @@ void run_pig_agent(
 	if (pigs.empty() || wolves.empty()) return;
 	auto& [_1, pig, pig_health, pig_body, pig_locomotion, pig_facing] = *pigs.begin();
 	auto& [_3, _4, wolf_health, wolf_body, wolf_locomotion, wolf_facing] = *wolves.begin();
-	if (wolf_health->current == 0) return;
 
 	if (pig->action == PigAction::dying && elapsed.ticks > pig->until) {
 		stage->to_load = pig->to_load;
