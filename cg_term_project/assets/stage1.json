@@ -1,7 +1,7 @@
 {
     "$schema": "./stage_schema.json",
     "start": {
-        "x": 0,
+        "x": 5,
         "y": 10
     },
     "props": {
