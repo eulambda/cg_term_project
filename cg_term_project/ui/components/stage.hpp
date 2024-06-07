@@ -6,6 +6,7 @@ UiComponent stage_component() {
 
 	c.render = [] {
 		auto& cube = fetch_model("assets/cube.dae");
+		auto& house = fetch_model("assets/house.dae");
 		auto& obstacle_hay = fetch_model("assets/obstacle_hay.dae");
 		auto& obstacle_wood = fetch_model("assets/obstacle_wood.dae");
 		auto& shader = fetch_shader("paper");
@@ -34,13 +35,27 @@ UiComponent stage_component() {
 			if (compound->made_of == ParticleType::hay) obstacle_hay.Draw(shader);
 			else if (compound->made_of == ParticleType::wood) obstacle_wood.Draw(shader);
 		}
+
 		for (auto& [id, pig_house, compound, body] : world->get_entities_with<PigHouse, Compound, Body>()) {
 			auto x = body->x + body->vx * simulation_elapsed;
-			auto y = body->y + body->vy * simulation_elapsed;
+			auto y = body->y0() + body->vy * simulation_elapsed;
 			auto trans = glm::translate(glm::mat4{ 1 }, glm::vec3(x, y, -1));
-			trans = glm::scale(trans, glm::vec3(body->w, body->h, 0.2));
+			trans = glm::scale(trans, glm::vec3(body->w, body->w, 1));
+
+			if (compound->made_of == ParticleType::hay) {
+				shader.setVec3("color1", 0.2f, 0.3f, 0.2f);
+				shader.setVec3("color2", 0.15f, 0.2f, 0.15f);
+			}
+			else if (compound->made_of == ParticleType::wood) {
+				shader.setVec3("color1", 0.3f, 0.3f, 0.2f);
+				shader.setVec3("color2", 0.2f, 0.2f, 0.15f);
+			}
+			else if (compound->made_of == ParticleType::brick) {
+				shader.setVec3("color1", 0.4f, 0.2f, 0.2f);
+				shader.setVec3("color2", 0.2f, 0.15f, 0.15f);
+			}
 			shader.setMat4("model", trans);
-			cube.Draw(shader);
+			house.Draw(shader);
 		}
 
 		for (auto& [id, stage_text] : world->get_entities_with<StageText>()) {

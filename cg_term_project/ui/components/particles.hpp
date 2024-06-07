@@ -36,6 +36,10 @@ UiComponent particles_component() {
 				shader.setVec3("color1", 0.3f, 0.4f, 0.4f);
 				shader.setVec3("color2", 0.2f, 0.2f, 0.2f);
 			}
+			else if (particle_domain->type == ParticleType::brick) {
+				shader.setVec3("color1", 0.4f, 0.2f, 0.2f);
+				shader.setVec3("color2", 0.2f, 0.15f, 0.15f);
+			}
 			int density = 3;
 			for (int dx = 0;dx < density;dx++) {
 				for (int dy = 0;dy < density;dy++) {
@@ -70,6 +74,9 @@ UiComponent particles_component() {
 						triangle.Draw(shader);
 					}
 					else if (particle_domain->type == ParticleType::wood) {
+						rectangle.Draw(shader);
+					}
+					else if (particle_domain->type == ParticleType::brick) {
 						rectangle.Draw(shader);
 					}
 				}

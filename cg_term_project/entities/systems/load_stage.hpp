@@ -25,6 +25,7 @@ void spawn_pig_houses(ecs::EntityApi& api, json::Value& pig_houses_v) {
 		auto made_of = ParticleType::none;
 		if (made_of_s == "hay") made_of = ParticleType::hay;
 		else if (made_of_s == "wood") made_of = ParticleType::wood;
+		else if (made_of_s == "brick") made_of = ParticleType::brick;
 
 		api.spawn()
 			.with(PigHouse{ .to_load = to_load_on_clear })

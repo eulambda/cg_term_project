@@ -5,7 +5,7 @@
 enum class DamageType { normal, fire, wind };
 enum class FacingValue { pos_x, neg_x };
 enum class PigAction { run, dying };
-enum class ParticleType { none, wood, hay };
+enum class ParticleType { none, wood, brick, hay };
 enum class FloorType { ground, special };
 
 // resources

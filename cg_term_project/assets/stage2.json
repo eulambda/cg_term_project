@@ -93,9 +93,9 @@
     "pig_houses": [
         {
             "w": 5,
-            "h": 10,
+            "h": 5,
             "x": 60,
-            "y": 7,
+            "y": 4.5,
             "multiplier_fire": 3,
             "multiplier_wind": 3,
             "made_of": "hay",

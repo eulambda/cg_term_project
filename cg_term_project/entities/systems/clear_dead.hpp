@@ -15,6 +15,7 @@ void clear_dead(
 		new_body.vx = std::clamp(health->receiving_knockback, -max_speed_x, max_speed_x);
 		api.spawn()
 			.with(ParticleDomain{ .type = compound->made_of })
+			.with(DebugInfo{ .name = "particle domain" })
 			.with(new_body)
 			.with(LocomotionFlying{ .falloff = 0.7 })
 			.with(Life{ .from = elapsed.ticks, .until = elapsed.ticks + 16,.delete_on_death = true })

@@ -146,7 +146,8 @@
                     "made_of": {
                         "enum": [
                             "hay",
-                            "wood"
+                            "wood",
+                            "brick"
                         ]
                     }
                 },
@@ -190,7 +191,8 @@
                     "made_of": {
                         "enum": [
                             "hay",
-                            "wood"
+                            "wood",
+                            "brick"
                         ]
                     },
                     "to_load_on_clear": {
