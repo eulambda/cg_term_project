@@ -33,7 +33,7 @@ UiComponent particles_component() {
 				shader.setVec3("color2", 0.5f, 1, 0.2f);
 			}
 			else if (particle_domain->type == ParticleType::wood) {
-				shader.setVec3("color1", 1, 0.8f, 0.8f);
+				shader.setVec3("color1", 0.3f, 0.4f, 0.4f);
 				shader.setVec3("color2", 0.2f, 0.2f, 0.2f);
 			}
 			int density = 3;

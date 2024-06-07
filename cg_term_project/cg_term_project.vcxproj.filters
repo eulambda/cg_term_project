@@ -183,5 +183,17 @@
     <ClInclude Include="ui\components\grass.hpp">
       <Filter>ui\components</Filter>
     </ClInclude>
+    <ClInclude Include="entities\systems\run_butterfly_agent.hpp">
+      <Filter>entities\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\components\particles.hpp">
+      <Filter>ui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\components\background.hpp">
+      <Filter>ui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\components\butterflies.hpp">
+      <Filter>ui\components</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

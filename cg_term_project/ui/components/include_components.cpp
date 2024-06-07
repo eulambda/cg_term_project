@@ -10,6 +10,7 @@
 #include "grass.hpp"
 #include "butterflies.hpp"
 #include "particles.hpp"
+#include "background.hpp"
 
 void include_components() {
 	auto& components = fetch<RenderData>()->components;
@@ -25,6 +26,7 @@ void include_components() {
 	components.emplace_back(grass_component());
 	components.emplace_back(butterflies_component());
 	components.emplace_back(particles_component());
+	components.emplace_back(background_component());
 
 	components.emplace_back(debugging_component());
 }

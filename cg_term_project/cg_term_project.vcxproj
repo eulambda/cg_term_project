@@ -196,6 +196,7 @@
     <ClInclude Include="essentials\sign.hpp" />
     <ClInclude Include="gltext.h" />
     <ClInclude Include="ui\camera.hpp" />
+    <ClInclude Include="ui\components\background.hpp" />
     <ClInclude Include="ui\components\bars.hpp" />
     <ClInclude Include="ui\components\butterflies.hpp" />
     <ClInclude Include="ui\components\grass.hpp" />
