@@ -5,6 +5,7 @@
 void run_pig_agent(
 	ecs::EntitiesWithWritable<Pig, Health, Body, LocomotionWalking, Facing> pigs,
 	ecs::EntitiesWith<Wolf, Health, Body, LocomotionWalking, Facing> wolves,
+	ecs::EntitiesWith<Obstacle, Body> obstacles,
 	ecs::Writable<Stage> stage,
 	Elapsed elapsed
 
@@ -34,8 +35,11 @@ void run_pig_agent(
 	}
 
 
-	auto distance = wolf_body->x_distance_to(*pig_body);
-	if (std::abs(distance) < 3) {
+	auto distance = std::abs(wolf_body->x_distance_to(*pig_body));
+	for (auto& [_5, _6, body] : obstacles) {
+		distance = std::min(distance, std::abs(body->x_distance_to(*pig_body)));
+	}
+	if (distance < 3) {
 		ax = pig_facing->sign_x();
 		ay = 4;
 	}

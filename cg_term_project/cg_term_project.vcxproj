@@ -190,6 +190,7 @@
     <ClInclude Include="entities\systems\print_console.hpp" />
     <ClInclude Include="entities\systems\run_butterfly_agent.hpp" />
     <ClInclude Include="entities\systems\run_pig_agent.hpp" />
+    <ClInclude Include="entities\systems\spawn_shards.hpp" />
     <ClInclude Include="entities\systems\update_elapsed.hpp" />
     <ClInclude Include="essentials\curve.hpp" />
     <ClInclude Include="essentials\json_parser.hpp" />

@@ -3,13 +3,15 @@
 
 
 void apply_character_input(
-	ecs::EntitiesWithWritable<Wolf, Body, LocomotionWalking, Facing, FrozenState, RoarCharged> wolves,
+	ecs::EntitiesWithWritable<Wolf, Body, LocomotionWalking, Facing, FrozenState, RoarCharged, Health> wolves,
 	ecs::Writable<CharacterInput> input, ecs::EntityApi api, Elapsed elapsed
 ) {
-	auto wolf_fetched = wolves.begin();
-	if (wolf_fetched == wolves.end()) return;
-	auto& [wolf_id, _, wolf_body, locomotion, facing, frozen_state, roar_charged] = *wolf_fetched;
+	if (wolves.empty()) return;
+	auto& [wolf_id, _, wolf_body, locomotion, facing, frozen_state, roar_charged, health] = *wolves.begin();
 
+	if (health->current == 0) {
+		return;
+	}
 	if (frozen_state->ratio((double)elapsed.ticks) < 1.0) {
 		input->jump = false;
 		return;

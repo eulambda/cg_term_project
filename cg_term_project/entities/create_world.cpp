@@ -29,6 +29,7 @@ ecs::World create_world() {
 	world.register_component<Compound>();
 	world.register_component<Grass>();
 	world.register_component<Butterfly>();
+	world.register_component<ShardSpawner>();
 
 	auto wolf = world.spawn_entity();
 	auto wolf_id = wolf.id();
@@ -40,7 +41,7 @@ ecs::World create_world() {
 		.with(Facing{ .inner = FacingValue::pos_x })
 		.with(FrozenState{})
 		.with(Mass{ 1 })
-		.with(Health{})
+		.with(Health{ .max = 5,.current = 5 })
 		.with(DamageReceiver{})
 		.with(HitDamage{ .from = wolf_id,.power = 1, .knockback = 0,.type = DamageType::normal })
 		.with(RoarCharged{ .val = 0, .max = 5, .type = DamageType::wind })

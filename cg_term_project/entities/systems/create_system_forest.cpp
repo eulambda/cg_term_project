@@ -12,6 +12,7 @@
 #include "clear_pig_houses.hpp"
 #include "activate_portal.hpp"
 #include "run_butterfly_agent.hpp"
+#include "spawn_shards.hpp"
 
 ecs::SystemForest create_system_forest(ecs::World* world) {
 	auto system_forest = ecs::SystemForest(world);
@@ -24,6 +25,7 @@ ecs::SystemForest create_system_forest(ecs::World* world) {
 		.followed_by(apply_character_input)
 		.followed_by(apply_hit_damages)
 		.followed_by(apply_elastic_collision)
+		.followed_by(spawn_shards)
 		.followed_by(constrain_velocity)
 		.followed_by(clear_dead)
 		.followed_by(clear_pig_houses)

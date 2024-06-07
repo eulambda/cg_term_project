@@ -13,6 +13,9 @@ UiComponent wolf_component() {
 		auto& flipping = fetch_curve("wolf.flipping");
 		flipping.x_t = [](double t) {return std::clamp(t, -0.1, 0.0);};
 		flipping.y_x = [](double x) {return x * glm::radians(180.0) / 0.1;};
+		auto& dying = fetch_curve("wolf.dying");
+		dying.x_t = [](double t) {return std::clamp(t, 0.0, 0.1); };
+		dying.y_x = [](double x) {return x * glm::radians(180.0) / 0.1; };
 		};
 
 	c.render = [=] {
@@ -22,10 +25,18 @@ UiComponent wolf_component() {
 		auto world = render_data->world;
 		auto ticks = world->get_resource<Elapsed>()->ticks + simulation_elapsed;
 
-		auto [id, _, body, facing, roar_charged,frozen_state] = world->get_entities_with<Wolf, Body, Facing, RoarCharged, FrozenState>()[0];
+		auto wolves = world->get_entities_with<Wolf, Body, Facing, RoarCharged, FrozenState, Health>();
+		if (wolves.empty()) return;
+		auto [id, _, body, facing, roar_charged, frozen_state, health] = *wolves.begin();
 
 		fetch_curve("wolf.shaking").t += (body->vx + body->vy) * render_elapsed;
 		fetch_curve("wolf.flipping").t += render_elapsed * facing->sign_x();
+		if (health->current == 0) {
+			fetch_curve("wolf.dying").t += render_elapsed;
+		}
+		else {
+			fetch_curve("wolf.dying").t = 0;
+		}
 
 		auto& model = fetch_model("assets/wolf.dae");
 		auto& shader = fetch_shader("paper");
@@ -34,6 +45,7 @@ UiComponent wolf_component() {
 		auto wolf_y = body->y0() + simulation_elapsed * body->vy;
 		auto shaking = fetch_curve("wolf.shaking").eval();
 		auto flipping = fetch_curve("wolf.flipping").eval();
+		auto dying = fetch_curve("wolf.dying").eval();
 		auto frozen = frozen_state->ratio(ticks);
 		auto charging = 0.0;
 		if (roar_charged->is_charging) {
@@ -45,6 +57,9 @@ UiComponent wolf_component() {
 		trans = glm::rotate(trans, (float)flipping, glm::vec3(0, 1, 0));
 		auto r = shaking + rotating_frozen(frozen) + rotating_vy(body->vy) + rotating_charging(charging);
 		trans = glm::rotate(trans, (float)r, glm::vec3(0, 0, 1));
+		trans = glm::translate(trans, glm::vec3(0, +body->h / 2, 0));
+		trans = glm::rotate(trans, (float)dying, glm::vec3(1, 0, 0));
+		trans = glm::translate(trans, glm::vec3(0, -body->h / 2, 0));
 
 		shader.use();
 		shader.setVec3("color1", 0.8f, 0.8f, 0.8f);

@@ -34,6 +34,7 @@ void spawn_pig_houses(ecs::EntityApi& api, json::Value& pig_houses_v) {
 			.with(Health{ .max = health,.current = health })
 			.with(LocomotionStationery{})
 			.with(DamageReceiver{ .multiplier_normal = multiplier_normal,.multiplier_fire = multiplier_fire, .multiplier_wind = multiplier_wind,.multiplier_knockback = 0 })
+			.with(ShardSpawner{})
 			;
 	}
 }
@@ -171,7 +172,7 @@ void spawn_texts(ecs::EntityApi& api, SimulationSpeed& simulation_speed, ecs::Wr
 	}
 }
 void load_stage(
-	ecs::EntitiesWithWritable<Wolf, Body, FrozenState> wolves, ecs::Writable<Stage> stage, ecs::EntityApi api
+	ecs::EntitiesWithWritable<Wolf, Body, FrozenState, Health> wolves, ecs::Writable<Stage> stage, ecs::EntityApi api
 	, ecs::EntitiesWith<Body> bodies
 	, ecs::EntitiesWith<StageText> prev_stage_texts
 	, ecs::Writable<Elapsed> elapsed
@@ -200,7 +201,7 @@ void load_stage(
 
 	if (wolves.empty()) return;
 
-	auto& [wolf_id, _2, wolf_body, wolf_frozen_state] = *wolves.begin();
+	auto& [wolf_id, _2, wolf_body, wolf_frozen_state, wolf_health] = *wolves.begin();
 	wolf_body->vx = 0;
 	wolf_body->vy = 0;
 	wolf_body->x = *start_x;
@@ -219,5 +220,6 @@ void load_stage(
 		elapsed->ticks = 0;
 		wolf_frozen_state->from = 0;
 		wolf_frozen_state->until = 0;
+		wolf_health->current = wolf_health->max;
 	}
 }

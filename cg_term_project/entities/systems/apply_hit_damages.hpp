@@ -6,7 +6,8 @@ void apply_hit_damages(ecs::EntitiesWithWritable<Body, Health, DamageReceiver> c
 		health->current = std::clamp(health->current + health->receiving, 0, health->max);
 		health->receiving = 0;
 		health->receiving_knockback = 0;
-		for (auto& [_, damage, damage_body, damage_facing] : damage_sources) {
+		for (auto& [damage_source_id, damage, damage_body, damage_facing] : damage_sources) {
+			if (damage_source_id == character_id) continue;
 			if (character_id == damage->from) continue;
 			if (!character_body->is_colliding(*damage_body)) continue;
 			double power = damage->power;

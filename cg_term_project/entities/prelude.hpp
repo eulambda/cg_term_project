@@ -164,6 +164,9 @@ struct Butterfly {
 	bool operator==(const Butterfly&) const = default;
 	double start_x, start_y;
 };
+struct ShardSpawner {
+	bool operator==(const ShardSpawner&) const = default;
+};
 // apis
 ecs::World create_world();
 ecs::SystemForest create_system_forest(ecs::World* world);
