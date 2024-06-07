@@ -8,6 +8,9 @@ UiComponent background_component() {
 	c.on_app_started = [] {
 		auto& shader = fetch_shader("background");
 		shader.initShader("assets/default.vs", "assets/emission.fs");
+		auto& model = fetch_model("assets/background_stuff.dae");
+		auto id = load_texture("assets/noise.png");
+		model.meshes[0].textures.push_back(Texture{ .id = id,.type = "texture_diffuse",.path = "assets/noise.png" });
 		};
 	c.render = [=] {
 		auto render_data = fetch<RenderData>();
@@ -20,7 +23,7 @@ UiComponent background_component() {
 		auto render_elapsed = render_data->render_elapsed();
 
 		auto& shader = fetch_shader("background");
-		auto& triangle = fetch_model("assets/triangle.dae");
+		auto& model = fetch_model("assets/background_stuff.dae");
 
 		shader.use();
 		shader.setMat4("view", camera.view());
@@ -45,7 +48,7 @@ UiComponent background_component() {
 				}
 				trans = glm::scale(trans, glm::vec3(size, size, size));
 				shader.setMat4("model", trans);
-				triangle.Draw(shader);
+				model.Draw(shader);
 			}
 		}
 		};

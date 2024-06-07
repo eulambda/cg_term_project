@@ -69,3 +69,4 @@ void on_keyboard_action(GLFWwindow* window, int key, int scancode, int action, i
 void on_mouse_button(GLFWwindow* window, int button, int action, int mods);
 void on_mouse_moved(GLFWwindow* window, double x, double y);
 void on_framebuffer_resized(GLFWwindow* window, int width, int height);
+unsigned int load_texture(const char* path);

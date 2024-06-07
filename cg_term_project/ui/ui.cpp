@@ -187,3 +187,41 @@ void UiDebugInfo::load() {
 	enable_stage_navigation = features.end() != features.find("enable_stage_navigation");
 	show_coords = features.end() != features.find("show_coords");
 }
+
+unsigned int load_texture(const char* path) {
+	unsigned int texture;
+
+	// Create texture ids.
+	glGenTextures(1, &texture);
+
+	// All upcomming GL_TEXTURE_2D operations now on "texture" object
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	// Set texture parameters for wrapping.
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	// Set texture parameters for filtering.
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	int width, height, nrChannels;
+	stbi_set_flip_vertically_on_load(true);   // vertical flip the texture
+	unsigned char* image = stbi_load(path, &width, &height, &nrChannels, 0);
+	if (!image) {
+		printf("texture %s loading error ... \n", path);
+	}
+	else printf("texture %s loaded\n", path);
+
+	GLenum format;
+	if (nrChannels == 1) format = GL_RED;
+	else if (nrChannels == 3) format = GL_RGB;
+	else if (nrChannels == 4) format = GL_RGBA;
+
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, image);
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	return texture;
+}
