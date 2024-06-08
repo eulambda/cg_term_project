@@ -46,11 +46,15 @@ ecs::World create_world() {
 		.with(HitDamage{ .from = wolf_id,.power = 1, .knockback = 0,.type = DamageType::normal })
 		.with(RoarCharged{ .val = 0, .max = 5, .type = DamageType::wind })
 		;
+	world.spawn_entity().with(Floor{}).with(Body{ .w = 10,.h = 1,.x = 0,.y = -2 });
+	world.spawn_entity().with(StageText{ .contents = "failed to locate assets.",.x = 0,.y = 5 });
 
 	world.manage_resource(SimulationSpeed{});
 	world.manage_resource(CharacterInput{});
 	world.manage_resource(Elapsed{});
-	world.manage_resource(Stage{ .to_load = "assets/stage1.json" });
+	Stage stage{};
+	stage.load("assets/stage1.json");
+	world.manage_resource(stage);
 
 	return world;
 }

@@ -179,9 +179,19 @@ void load_stage(
 	, ecs::Writable<Elapsed> elapsed
 	, SimulationSpeed simulation_speed
 ) {
-	if (!stage->to_load.length()) return;
-	auto json = json::Value::parse(stage->to_load);
-	stage->to_load.clear();
+	if (!stage->queued.size()) return;
+	auto& queued = stage->queued.front();
+	if (queued.type == StageActionType::pause) {
+		stage->is_paused = true;
+		queued.num--;
+		if (queued.num > 0) return;
+		stage->is_paused = false;
+		stage->queued.pop();
+		return;
+	}
+	if (queued.type != StageActionType::load) return;
+	auto json = json::Value::parse(queued.str);
+	stage->queued.pop();
 	stage->is_paused = false;
 
 	if (!json.is_valid()) {
@@ -202,7 +212,7 @@ void load_stage(
 
 	if (wolves.empty()) return;
 
-	auto& [wolf_id, _2, wolf_body, wolf_frozen_state, wolf_health] = *wolves.begin();
+	auto& [wolf_id, wolf, wolf_body, wolf_frozen_state, wolf_health] = *wolves.begin();
 	wolf_body->vx = 0;
 	wolf_body->vy = 0;
 	wolf_body->x = *start_x;
@@ -222,5 +232,6 @@ void load_stage(
 		wolf_frozen_state->from = 0;
 		wolf_frozen_state->until = 0;
 		wolf_health->current = wolf_health->max;
+		wolf->is_dying = false;
 	}
 }

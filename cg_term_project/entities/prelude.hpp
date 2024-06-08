@@ -1,5 +1,6 @@
 #pragma once
 #include "../ecs/prelude.hpp"
+#include <queue>
 
 // enums
 enum class DamageType { normal, fire, wind };
@@ -7,6 +8,14 @@ enum class FacingValue { pos_x, neg_x };
 enum class PigAction { run, dying };
 enum class ParticleType { none, wood, brick, hay };
 enum class FloorType { ground, special };
+enum class StageActionType { load, pause };
+
+struct StageAction {
+	bool operator==(const StageAction&) const = default;
+	StageActionType type;
+	std::string str{ "" };
+	int num{ 0 };
+};
 
 // resources
 struct CharacterInput {
@@ -21,8 +30,10 @@ struct Elapsed {
 };
 struct Stage {
 	bool operator==(const Stage&) const = default;
-	std::string to_load;
 	bool is_paused{ true };
+	std::queue<StageAction> queued;
+	void load(std::string asset_path);
+	void pause(int ticks);
 };
 struct SimulationSpeed {
 	double seconds_per_tick;
@@ -138,6 +149,7 @@ struct Roar {
 };
 struct Wolf {
 	bool operator==(const Wolf&) const = default;
+	bool is_dying{ false };
 };
 struct Pig {
 	bool operator==(const Pig&) const = default;

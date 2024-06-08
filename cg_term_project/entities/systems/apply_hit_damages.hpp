@@ -1,7 +1,8 @@
 #pragma once
 #include "../prelude.hpp"
 
-void apply_hit_damages(ecs::EntitiesWithWritable<Body, Health, DamageReceiver> characters, ecs::EntitiesWith<HitDamage, Body, Facing> damage_sources) {
+void apply_hit_damages(ecs::EntitiesWithWritable<Body, Health, DamageReceiver> characters, ecs::EntitiesWith<HitDamage, Body, Facing> damage_sources, Stage stage) {
+	if (stage.is_paused) return;
 	for (auto& [character_id, character_body, health, receiver] : characters) {
 		health->current = std::clamp(health->current + health->receiving, 0, health->max);
 		health->receiving = 0;

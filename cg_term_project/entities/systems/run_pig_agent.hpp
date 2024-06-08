@@ -10,17 +10,17 @@ void run_pig_agent(
 	Elapsed elapsed
 
 ) {
-	if (pigs.empty() || wolves.empty()) return;
+	if (pigs.empty() || wolves.empty() || stage->is_paused) return;
 	auto& [_1, pig, pig_health, pig_body, pig_locomotion, pig_facing] = *pigs.begin();
 	auto& [_3, _4, wolf_health, wolf_body, wolf_locomotion, wolf_facing] = *wolves.begin();
 
-	if (pig->action == PigAction::dying && elapsed.ticks > pig->until) {
-		stage->to_load = pig->to_load;
+	if (pig->action == PigAction::dying) {
 		return;
 	}
 	if (pig_health->current == 0 && pig->action != PigAction::dying) {
 		pig->action = PigAction::dying;
-		pig->until = elapsed.ticks + 24;
+		stage->pause(24);
+		stage->load(pig->to_load);
 		return;
 	}
 	if (pig_health->current == 0) {

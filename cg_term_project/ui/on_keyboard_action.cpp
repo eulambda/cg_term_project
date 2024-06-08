@@ -5,19 +5,19 @@ inline void goto_next_stage() {
 	auto portals = world->get_entities_with<Portal>();
 	if (!portals.empty()) {
 		auto& [_, portal] = *portals.begin();
-		world->get_resource<Stage>()->to_load = portal->to_load;
+		world->get_resource<Stage>()->load(portal->to_load);
 		return;
 	}
 	auto pigs = world->get_entities_with<Pig>();
 	if (!pigs.empty()) {
 		auto& [_, pig] = *pigs.begin();
-		world->get_resource<Stage>()->to_load = pig->to_load;
+		world->get_resource<Stage>()->load(pig->to_load);
 		return;
 	}
 	auto pig_houses = world->get_entities_with<PigHouse>();
 	if (!pig_houses.empty()) {
 		auto& [_, pig_house] = *pig_houses.begin();
-		world->get_resource<Stage>()->to_load = pig_house->to_load;
+		world->get_resource<Stage>()->load(pig_house->to_load);
 		return;
 	}
 }

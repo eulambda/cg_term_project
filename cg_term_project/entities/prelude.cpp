@@ -33,3 +33,12 @@ void Facing::set_sign_x(int sign_x) {
 double RoarCharged::ratio() const {
 	return val / (double)max;
 }
+
+
+void Stage::load(std::string asset_path) {
+	queued.push(StageAction{ .type = StageActionType::load,.str = asset_path });
+}
+
+void Stage::pause(int ticks) {
+	queued.push(StageAction{ .type = StageActionType::pause,.str = "",.num = ticks });
+}

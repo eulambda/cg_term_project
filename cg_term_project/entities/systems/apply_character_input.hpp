@@ -7,11 +7,14 @@ void apply_character_input(
 	ecs::Writable<CharacterInput> input, ecs::EntityApi api, Elapsed elapsed,
 	ecs::Writable<Stage> stage
 ) {
-	if (wolves.empty()) return;
-	auto& [wolf_id, _, wolf_body, locomotion, facing, frozen_state, roar_charged, health] = *wolves.begin();
-
-	if (health->current == 0) {
-		stage->to_load = "assets/stage_game_over.json";
+	if (wolves.empty() || stage->is_paused) return;
+	auto& [wolf_id, wolf, wolf_body, locomotion, facing, frozen_state, roar_charged, health] = *wolves.begin();
+	if (wolf->is_dying) return;
+	if (health->current == 0 && wolf->is_dying == false) {
+		wolf->is_dying = true;
+		while (!stage->queued.empty()) stage->queued.pop();
+		stage->pause(24);
+		stage->load("assets/stage_game_over.json");
 		return;
 	}
 	if (frozen_state->ratio((double)elapsed.ticks) < 1.0) {
