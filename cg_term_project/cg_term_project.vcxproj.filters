@@ -73,6 +73,9 @@
     <ClCompile Include="ui\text.cpp">
       <Filter>ui</Filter>
     </ClCompile>
+    <ClCompile Include="ui\postprocessor.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ecs\system_forest.hpp">
@@ -209,6 +212,9 @@
     </ClInclude>
     <ClInclude Include="ui\components\flower.hpp">
       <Filter>ui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\postprocessor.hpp">
+      <Filter>ui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
