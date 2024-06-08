@@ -22,8 +22,8 @@
 #include "text.hpp"
 
 struct WindowConfig {
-	int width{ 720 };
-	int height{ 480 };
+	int width{ 1080 };
+	int height{ 720 };
 	char const* title{ "term project" };
 	GLFWwindow* glfw_window;
 	float aspect_ratio();

@@ -8,7 +8,10 @@
         "butterfly_chance": 0.2
     },
     "screen_texts": [
-        "test1",
+        "The pigs apologized to the wolf,",
+        "learned to bake,",
+        "and surprised him\nwith a cake the next year.",
+        "This strengthened their bond forever.",
         "-The End-"
     ],
     "stage_texts": [

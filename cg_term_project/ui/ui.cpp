@@ -1,5 +1,6 @@
 #include <iostream>
 #include "ui.hpp"
+#include "../essentials/split.hpp"
 
 void render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -292,14 +293,19 @@ void Postprocessor::on_after_render() {
 	static GLTtext* glt_text = gltCreateText();
 	if (stage->screen_texts.size() > 0) {
 		auto config = fetch<WindowConfig>();
+		auto scale = config->width / 500.0f;
+		auto x = config->width / 2.0f;
+		auto y = config->height / 2.0f;
 		gltBeginDraw();
-		gltSetText(glt_text, stage->screen_texts.front().c_str());
 		gltColor(1, 1, 1, 1);
-		auto size = config->width/300.0f;
-		gltDrawText2DAligned(glt_text, config->width / 2.0f, config->height / 2.0f, size, GLT_CENTER, GLT_BOTTOM);
-		if ((int)(render_data->curr_time*1.5) % 2 == 0) {
+		for (auto& line : split(stage->screen_texts.front())) {
+			gltSetText(glt_text, line.c_str());
+			gltDrawText2DAligned(glt_text, x, y, scale, GLT_CENTER, GLT_BOTTOM);
+			y += gltGetLineHeight(scale);
+		}
+		if ((int)(render_data->curr_time * 1.5) % 2 == 0) {
 			gltSetText(glt_text, "-");
-			gltDrawText2DAligned(glt_text, config->width / 2.0f, config->height / 2.0f, size, GLT_CENTER, GLT_TOP);
+			gltDrawText2DAligned(glt_text, x, y, scale, GLT_CENTER, GLT_TOP);
 		}
 		gltEndDraw();
 	}

@@ -198,5 +198,8 @@
     <ClInclude Include="entities\systems\spawn_shards.hpp">
       <Filter>entities\systems</Filter>
     </ClInclude>
+    <ClInclude Include="essentials\split.hpp">
+      <Filter>essentials</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

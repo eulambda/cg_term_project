@@ -195,6 +195,7 @@
     <ClInclude Include="essentials\curve.hpp" />
     <ClInclude Include="essentials\json_parser.hpp" />
     <ClInclude Include="essentials\sign.hpp" />
+    <ClInclude Include="essentials\split.hpp" />
     <ClInclude Include="gltext.h" />
     <ClInclude Include="ui\camera.hpp" />
     <ClInclude Include="ui\components\background.hpp" />

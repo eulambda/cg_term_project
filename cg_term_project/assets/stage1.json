@@ -10,8 +10,11 @@
     },
     "reset_ticks": true,
     "screen_texts": [
-        "test1",
-        "test2"
+        "In a peaceful forest,",
+        "a wolf and three pigs lived.",
+        "The wolf made a cake for his birthday.",
+        "But the pigs ate it,\nmaking the wolf angry.",
+        "He prepared to scold them gently."
     ],
     "stage_texts": [
         {

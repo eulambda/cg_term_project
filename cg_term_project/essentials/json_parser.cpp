@@ -251,8 +251,8 @@ namespace json {
 					break;
 				}
 				if (c1 == '\\') is_escaping = true;
-				if (!is_escaping) ss << c1;
-				if (is_escaping) {
+				else if (!is_escaping) ss << c1;
+				else if (is_escaping) {
 					if (c1 == 'n') ss << '\n';
 					if (c1 == '\'') ss << '\'';
 					if (c1 == '"') ss << '"';
