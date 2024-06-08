@@ -36,6 +36,9 @@
                 },
                 "butterfly_chance": {
                     "type": "number"
+                },
+                "flower_density": {
+                    "type": "number"
                 }
             }
         },

@@ -30,6 +30,7 @@ ecs::World create_world() {
 	world.register_component<Grass>();
 	world.register_component<Butterfly>();
 	world.register_component<ShardSpawner>();
+	world.register_component<Flower>();
 
 	auto wolf = world.spawn_entity();
 	auto wolf_id = wolf.id();

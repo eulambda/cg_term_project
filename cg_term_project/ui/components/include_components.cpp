@@ -9,6 +9,7 @@
 #include "bars.hpp"
 #include "grass.hpp"
 #include "butterflies.hpp"
+#include "flower.hpp"
 #include "particles.hpp"
 #include "background.hpp"
 
@@ -25,6 +26,7 @@ void include_components() {
 	components.emplace_back(bars_component());
 	components.emplace_back(grass_component());
 	components.emplace_back(butterflies_component());
+	components.emplace_back(flower_component());
 	components.emplace_back(particles_component());
 	components.emplace_back(background_component());
 
