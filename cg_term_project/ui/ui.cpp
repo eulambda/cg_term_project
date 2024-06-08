@@ -219,7 +219,6 @@ unsigned int load_texture(const char* path) {
 	if (!image) {
 		printf("texture %s loading error ... \n", path);
 	}
-	else printf("texture %s loaded\n", path);
 
 	GLenum format;
 	if (nrChannels == 1) format = GL_RED;
@@ -284,12 +283,26 @@ void Postprocessor::on_after_render() {
 	auto simulation_elapsed = render_data->simulation_elapsed();
 	auto stage = render_data->world->get_resource<Stage>();
 	shader.use();
-	shader.setFloat("transition", stage->transition_lerped(simulation_elapsed));
+	shader.setFloat("transition", (float)stage->transition_lerped(simulation_elapsed));
 	// render textured quad
 	glActiveTexture(GL_TEXTURE0);
 	this->texture.Bind();
 	glBindVertexArray(this->VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
+	static GLTtext* glt_text = gltCreateText();
+	if (stage->screen_texts.size() > 0) {
+		auto config = fetch<WindowConfig>();
+		gltBeginDraw();
+		gltSetText(glt_text, stage->screen_texts.front().c_str());
+		gltColor(1, 1, 1, 1);
+		auto size = config->width/300.0f;
+		gltDrawText2DAligned(glt_text, config->width / 2.0f, config->height / 2.0f, size, GLT_CENTER, GLT_BOTTOM);
+		if ((int)(render_data->curr_time*1.5) % 2 == 0) {
+			gltSetText(glt_text, "-");
+			gltDrawText2DAligned(glt_text, config->width / 2.0f, config->height / 2.0f, size, GLT_CENTER, GLT_TOP);
+		}
+		gltEndDraw();
+	}
 	glBindVertexArray(0);
 }
 

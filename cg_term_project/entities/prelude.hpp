@@ -34,6 +34,7 @@ struct Stage {
 	double transition{ 0 };
 	double transition_prev{ 0 };
 	std::queue<StageAction> queued;
+	std::queue<std::string> screen_texts;
 	void load(std::string asset_path);
 	void pause(int ticks);
 	double transition_lerped(double t);
@@ -167,6 +168,7 @@ struct ParticleDomain {
 struct Portal {
 	bool operator==(const Portal&) const = default;
 	std::string to_load;
+	int pause{ 0 };
 };
 struct PigHouse {
 	bool operator==(const PigHouse&) const = default;

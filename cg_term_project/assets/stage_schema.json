@@ -4,6 +4,12 @@
         "start"
     ],
     "properties": {
+        "screen_texts": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
         "start": {
             "type": "object",
             "properties": {
@@ -74,6 +80,9 @@
                     },
                     "to_load": {
                         "type": "string"
+                    },
+                    "pause": {
+                        "type": "number"
                     }
                 },
                 "required": [

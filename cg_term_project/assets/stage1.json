@@ -9,6 +9,10 @@
         "butterfly_chance": 0.01
     },
     "reset_ticks": true,
+    "screen_texts": [
+        "test1",
+        "test2"
+    ],
     "stage_texts": [
         {
             "x": 4,

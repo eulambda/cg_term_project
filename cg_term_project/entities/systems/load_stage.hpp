@@ -5,6 +5,17 @@
 #include <regex>
 #include <format>
 
+std::vector<std::string> load_screen_texts(json::Value& screen_texts_v) {
+	auto screen_texts = screen_texts_v.as_arr();
+	std::vector<std::string> loaded{};
+	if (!screen_texts) return loaded;
+	for (auto& screen_text_v : *screen_texts) {
+		auto screen_text = screen_text_v.as_str();
+		if (!screen_text) continue;
+		loaded.push_back(*screen_text);
+	}
+	return loaded;
+}
 void spawn_pig_houses(ecs::EntityApi& api, json::Value& pig_houses_v) {
 	auto pig_houses = pig_houses_v.as_arr();
 	if (!pig_houses) return;
@@ -84,10 +95,11 @@ void spawn_portals(ecs::EntityApi& api, json::Value& portals_v) {
 		auto x = (*portal)["x"].as_num();
 		auto y = (*portal)["y"].as_num();
 		auto to_load = (*portal)["to_load"].as_str();
+		auto pause = (int)(*portal)["pause"].num_or(0);
 		if (!w || !h || !x || !y || !to_load) return;
 
 		api.spawn()
-			.with(Portal{ .to_load = *to_load })
+			.with(Portal{ .to_load = *to_load,.pause = pause })
 			.with(DebugInfo{ .name = "portal to " + *to_load })
 			.with(Body{ .w = *w,.h = *h,.x = *x,.y = *y })
 			;
@@ -136,7 +148,7 @@ void spawn_floors(ecs::EntityApi& api, json::Value& floors_v, json::Value& props
 			api.spawn()
 				.with(Grass{})
 				.with(Body{ .w = d,.h = 1,.x = x_final,.y = body.y1() + 0.5 })
-				.with(Health{ .max = 1 })
+				.with(Health{ .max = 1, .current = 1 })
 				.with(DamageReceiver{ .multiplier_normal = 0,.multiplier_fire = 1,.multiplier_wind = 0,.multiplier_knockback = 0 })
 				;
 		}
@@ -150,7 +162,7 @@ void spawn_floors(ecs::EntityApi& api, json::Value& floors_v, json::Value& props
 				.with(LocomotionFlying{})
 				.with(DebugInfo{ .name = "butterfly" })
 				.with(Body{ .w = 1,.h = 1,.x = x_final,.y = y_final })
-				.with(Health{ .max = 1 })
+				.with(Health{ .max = 1, .current = 1 })
 				.with(DamageReceiver{ .multiplier_normal = 0,.multiplier_fire = 1,.multiplier_wind = 1,.multiplier_knockback = 1 })
 				;
 		}
@@ -180,24 +192,27 @@ void load_stage(
 	, SimulationSpeed simulation_speed
 ) {
 	stage->transition_prev = stage->transition;
+	stage->is_paused = true;
+
+	if (stage->screen_texts.size()) {
+		return;
+	}
 	if (!stage->queued.size()) {
 		stage->transition = std::min(stage->transition + 0.1, 1.0);
+		stage->is_paused = false;
 		return;
 	}
 	auto& queued = stage->queued.front();
 	if (queued.type == StageActionType::pause) {
-		stage->is_paused = true;
 		queued.num--;
 		stage->transition = std::min(queued.num / 24.0, 1.0);
 		if (queued.num > 0) return;
-		stage->is_paused = false;
 		stage->queued.pop();
 		return;
 	}
 	if (queued.type != StageActionType::load) return;
 	auto json = json::Value::parse(queued.str);
 	stage->queued.pop();
-	stage->is_paused = false;
 
 	if (!json.is_valid()) {
 		std::cout << "Error: failed to load stage configuration." << std::endl;
@@ -231,6 +246,10 @@ void load_stage(
 	spawn_portals(api, (*obj)["portals"]);
 	spawn_obstacles(api, (*obj)["obstacles"]);
 	spawn_pig_houses(api, (*obj)["pig_houses"]);
+
+	for (auto& screen_text : load_screen_texts((*obj)["screen_texts"])) {
+		stage->screen_texts.push(screen_text);
+	}
 
 	if (reset_ticks) {
 		elapsed->ticks = 0;

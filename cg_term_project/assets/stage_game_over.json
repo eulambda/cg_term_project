@@ -27,7 +27,8 @@
             "h": 8,
             "x": -16,
             "y": 6,
-            "to_load": "assets/stage1.json"
+            "to_load": "assets/stage1.json",
+            "pause": 24
         }
     ],
     "floors": [

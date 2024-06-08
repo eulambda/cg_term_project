@@ -26,6 +26,10 @@ void on_keyboard_action(GLFWwindow* window, int key, int scancode, int action, i
 	auto get_input = [] {
 		return fetch<RenderData>()->world->get_resource<CharacterInput>();
 		};
+	auto next_dialogue = [] {
+		auto& texts = fetch<RenderData>()->world->get_resource<Stage>()->screen_texts;
+		if (!texts.empty()) texts.pop();
+		};
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
 		glfwSetWindowShouldClose(window, true);
 	}
@@ -52,6 +56,9 @@ void on_keyboard_action(GLFWwindow* window, int key, int scancode, int action, i
 	}
 	if (debug->enable_stage_navigation && key == GLFW_KEY_1) {
 		if (action == GLFW_PRESS) goto_next_stage();
+	}
+	if (action == GLFW_PRESS) {
+		next_dialogue();
 	}
 	return;
 }
