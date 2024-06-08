@@ -67,6 +67,12 @@ void on_mouse_moved(GLFWwindow* window, double x, double y) {
 	return;
 }
 
+void load_icon(GLFWwindow* window) {
+	GLFWimage images[1];
+	images[0].pixels = stbi_load("assets/icon.png", &images[0].width, &images[0].height, 0, 4); //rgba channels 
+	glfwSetWindowIcon(window, 1, images);
+	stbi_image_free(images[0].pixels);
+}
 bool initialize_window() {
 	// glfw: initialize and configure
 	if (!glfwInit()) {
@@ -91,6 +97,7 @@ bool initialize_window() {
 	glfwSetKeyCallback(window, on_keyboard_action);
 	glfwSetMouseButtonCallback(window, on_mouse_button);
 	glfwSetCursorPosCallback(window, on_mouse_moved);
+	load_icon(window);
 
 	// glt
 	if (!gltInit()) {

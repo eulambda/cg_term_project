@@ -23,6 +23,9 @@
     <Filter Include="entities\systems">
       <UniqueIdentifier>{30120a5a-30a8-461c-bca6-61aef133f1ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{fab6679b-10eb-4e77-bfb8-675e99f5ff10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -201,5 +204,18 @@
     <ClInclude Include="essentials\split.hpp">
       <Filter>essentials</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\icon.ico">
+      <Filter>resource</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="cg_term_project.rc">
+      <Filter>resource</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

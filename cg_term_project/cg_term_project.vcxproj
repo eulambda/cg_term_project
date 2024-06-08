@@ -197,6 +197,7 @@
     <ClInclude Include="essentials\sign.hpp" />
     <ClInclude Include="essentials\split.hpp" />
     <ClInclude Include="gltext.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="ui\camera.hpp" />
     <ClInclude Include="ui\components\background.hpp" />
     <ClInclude Include="ui\components\bars.hpp" />
@@ -218,6 +219,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ecs\world.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="cg_term_project.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
