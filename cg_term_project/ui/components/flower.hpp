@@ -23,20 +23,20 @@ UiComponent flower_component() {
 
 		for (auto& [id, grass, body] : world->get_entities_with<Flower, Body>()) {
 			auto x = body->x;
-			auto y = body->y0();
 			auto s = body->w / 0.2;
-			auto z = flower_random(id) > 0 ? 0.55f : -0.55f;
+			auto y = body->y0() + s*0.7;
+			auto z = flower_random(id) > 0 ? 0.45f : -0.45f;
 			auto ry = flower_random(id * 2) > 0 ? 0.0f : 180.0f;
 			auto rz = flower_random(id * 4) * 10;
 			ry += flower_breeze(x * 0.8 + y * 0.8) * 2;
 			rz += flower_breeze(x + y) * 5;
 			auto trans = glm::translate(glm::mat4{ 1 }, glm::vec3(x, y, z));
 			trans = glm::rotate(trans, glm::radians(rz), glm::vec3(0, 0, 1));
-			trans = glm::rotate(trans, glm::radians(ry), glm::vec3(0, 1, 0));
+			//trans = glm::rotate(trans, glm::radians(ry), glm::vec3(0, 1, 0));
 			trans = glm::scale(trans, glm::vec3(s, s, s));
 			shader.setMat4("model", trans);
-			shader.setVec3("color1", 1.0f, 0.75f, 0.85f);
-			shader.setVec3("color2", 0.4f, 0.8f, 0.2f);
+			shader.setVec3("color1", 0.4f, 0.8f, 0.2f);
+			shader.setVec3("color2", 1.0f, 0.75f, 0.85f);
 			bar.Draw(shader);
 		}
 		};

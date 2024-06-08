@@ -179,7 +179,7 @@ void spawn_floors(ecs::EntityApi& api, json::Value& floors_v, json::Value& props
 			x_final = std::clamp(x_final, body.x0(), body.x1());
 			api.spawn()
 				.with(Flower{})
-				.with(Body{ .w = d,.h = 1,.x = x_final,.y = body.y1() + 0.5 })
+				.with(Body{ .w = d*0.1 + 0.1,.h = 1,.x = x_final,.y = body.y1() + 0.5 })
 				.with(Health{ .max = 1, .current = 1 })
 				.with(DamageReceiver{ .multiplier_normal = 0,.multiplier_fire = 1,.multiplier_wind = 0,.multiplier_knockback = 0 })
 				;
