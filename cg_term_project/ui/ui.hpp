@@ -24,7 +24,7 @@
 struct WindowConfig {
 	int width{ 1080 };
 	int height{ 720 };
-	char const* title{ "term project" };
+	char const* title{ "three little pigs" };
 	GLFWwindow* glfw_window;
 	float aspect_ratio();
 };

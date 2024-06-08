@@ -35,12 +35,12 @@
         {
             "x": 65.5,
             "y": -10,
-            "contents": "Press [X] to burn down obstacles."
+            "contents": "Press [X] to burn down wooden blocks."
         },
         {
             "x": 100,
             "y": -10,
-            "contents": "Hold [C] and release to blow away obstacles."
+            "contents": "Hold [C] and release to blow away hay chunks."
         },
         {
             "x": 140,
@@ -123,7 +123,7 @@
         {
             "w": 2,
             "h": 8,
-            "x": 80,
+            "x": 84,
             "y": -10,
             "health": 30,
             "multiplier_fire": 10,

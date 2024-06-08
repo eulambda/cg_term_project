@@ -7,8 +7,6 @@ UiComponent stage_component() {
 	c.render = [] {
 		auto& cube = fetch_model("assets/cube.dae");
 		auto& house = fetch_model("assets/house.dae");
-		auto& obstacle_hay = fetch_model("assets/obstacle_hay.dae");
-		auto& obstacle_wood = fetch_model("assets/obstacle_wood.dae");
 		auto& triangle = fetch_model("assets/triangle.dae");
 		auto& rectangle = fetch_model("assets/rectangle.dae");
 		auto& pentagon = fetch_model("assets/pentagon.dae");
@@ -62,8 +60,14 @@ UiComponent stage_component() {
 				continue;
 			}
 
-			if (compound->made_of == ParticleType::hay) obstacle_hay.Draw(shader);
-			else if (compound->made_of == ParticleType::wood) obstacle_wood.Draw(shader);
+			if (compound->made_of == ParticleType::hay) {
+				shader.setVec3("color1", 1, 1, 0.5f);
+				cube.Draw(shader);
+			}
+			else if (compound->made_of == ParticleType::wood) {
+				shader.setVec3("color1", 0.4f, 0.3f, 0.3f);
+				cube.Draw(shader);
+			}
 		}
 
 		for (auto& [id, pig_house, compound, body] : world->get_entities_with<PigHouse, Compound, Body>()) {

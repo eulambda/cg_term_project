@@ -1,10 +1,3 @@
-# TODO
-
-- [ ] 나무 장애물 모델 추가
-  - 블랜더에서 `.dae`로 모델 저장 후 `/cg_term_project/assets/obstacle_wood.dae` 에 덮어쓰기
-- [ ] 짚 장애물 모델 추가
-  - 블랜더에서 `.dae`로 모델 저장 후 `/cg_term_project/assets/obstacle_hay.dae` 에 덮어쓰기
-
 # Debugging Settings
 
 `/cg_term_project/assets/debug.json` 을 만들고 다음 내용을 붙여넣는다.
