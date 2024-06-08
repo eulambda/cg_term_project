@@ -1,3 +1,9 @@
+# Demo Video
+
+<video height="720" controls>
+  <source src="demo_video.mp4" type="video/mp4">
+</video>
+
 # Debugging Settings
 
 `/cg_term_project/assets/debug.json` 을 만들고 다음 내용을 붙여넣는다.
