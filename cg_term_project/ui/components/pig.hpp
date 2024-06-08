@@ -36,7 +36,7 @@ UiComponent pig_component() {
 			fetch_curve("pig.dying").t = 0;
 		}
 
-		auto& model = fetch_model("assets/wolf.dae");
+		auto& model = fetch_model("assets/pig.dae");
 		auto& shader = fetch_shader("paper");
 
 		auto pig_x = body->x + simulation_elapsed * body->vx;
