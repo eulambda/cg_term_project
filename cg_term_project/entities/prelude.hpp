@@ -183,6 +183,7 @@ struct Butterfly {
 };
 struct ShardSpawner {
 	bool operator==(const ShardSpawner&) const = default;
+};
 struct Flower {
 	bool operator==(const Flower&) const = default;
 };
