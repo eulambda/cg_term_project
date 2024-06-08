@@ -2,6 +2,7 @@
 #include "ui.hpp"
 
 void render() {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	auto render_data = fetch<RenderData>();
 
 	for (auto& component : render_data->components) {
@@ -24,11 +25,18 @@ void render() {
 
 void on_before_render() {
 	auto render_data = fetch<RenderData>();
+	auto postprocessor = fetch<Postprocessor>();
+	postprocessor->on_before_render();
 	render_data->camera.on_before_render();
 
 	for (auto& component : render_data->components) {
 		component.on_before_render();
 	}
+	return;
+}
+void on_after_render() {
+	auto postprocessor = fetch<Postprocessor>();
+	postprocessor->on_after_render();
 	return;
 }
 
@@ -91,8 +99,6 @@ bool initialize_window() {
 	// OpenGL states
 	auto lighting = fetch<Lighting>();
 	glClearColor(lighting->environment.r, lighting->environment.g, lighting->environment.b, 1.0f);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_BLEND);
 	glBlendEquation(GL_FUNC_ADD);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -129,11 +135,11 @@ void launch() {
 	render_data->last_simulated_time = render_data->curr_time;
 	double next_update = render_data->curr_time + render_config->seconds_per_tick;
 	while (!glfwWindowShouldClose(window_config->glfw_window)) {
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		render_data->last_rendered_time = render_data->curr_time;
 		render_data->curr_time = glfwGetTime();
 		on_before_render();
 		render();
+		on_after_render();
 		glfwSwapBuffers(window_config->glfw_window);
 		if (next_update <= render_data->curr_time) {
 			system_forest.run();
@@ -153,6 +159,7 @@ void on_framebuffer_resized(GLFWwindow* window, int width, int height) {
 	config->height = height;
 
 	fetch<RenderData>()->camera.on_framebuffer_resized();
+	fetch<Postprocessor>()->on_framebuffer_resized();
 	return;
 }
 float WindowConfig::aspect_ratio() {
@@ -224,4 +231,89 @@ unsigned int load_texture(const char* path) {
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	return texture;
+}
+
+void Postprocessor::load() {
+	setup_framebuffer();
+	// initialize render data and uniforms
+	auto& shader = fetch_shader("postprocessor");
+	shader.initShader("assets/postprocessor.vs", "assets/postprocessor.fs");
+	shader.setInt("scene", 0);
+	// configure VAO/VBO
+	unsigned int VBO;
+	float vertices[] = {
+		// pos        // tex
+		-1.0f, -1.0f, 0.0f, 0.0f,
+		 1.0f,  1.0f, 1.0f, 1.0f,
+		-1.0f,  1.0f, 0.0f, 1.0f,
+
+		-1.0f, -1.0f, 0.0f, 0.0f,
+		 1.0f, -1.0f, 1.0f, 0.0f,
+		 1.0f,  1.0f, 1.0f, 1.0f
+	};
+	glGenVertexArrays(1, &this->VAO);
+	glGenBuffers(1, &VBO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	glBindVertexArray(this->VAO);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+}
+
+void Postprocessor::on_before_render() {
+	glBindFramebuffer(GL_FRAMEBUFFER, this->FBO);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+}
+
+void Postprocessor::on_after_render() {
+	// now resolve multisampled color-buffer into intermediate FBO to store to texture
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	// set uniforms/options
+	auto& shader = fetch_shader("postprocessor");
+	shader.use();
+	// render textured quad
+	glActiveTexture(GL_TEXTURE0);
+	this->texture.Bind();
+	glBindVertexArray(this->VAO);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glBindVertexArray(0);
+}
+
+void Postprocessor::on_framebuffer_resized() {
+	glDeleteFramebuffers(1, &this->FBO);
+	glDeleteRenderbuffers(1, &this->RBO);
+	glDeleteRenderbuffers(1, &RBO);
+	setup_framebuffer();
+}
+
+void Postprocessor::setup_framebuffer() {
+	auto config = fetch<WindowConfig>();
+	// initialize renderbuffer/framebuffer object
+	glGenFramebuffers(1, &this->FBO);
+	glGenRenderbuffers(1, &this->RBO);
+	// initialize the FBO/texture to blit multisampled color-buffer to; used for shader operations (for postprocessing effects)
+	glBindFramebuffer(GL_FRAMEBUFFER, this->FBO);
+	this->texture.Generate(config->width, config->height, NULL);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, this->texture.ID, 0); // attach texture to framebuffer as its color attachment
+	glGenRenderbuffers(1, &RBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, RBO);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, config->width, config->height);
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
+	auto lighting = fetch<Lighting>();
+	glClearColor(lighting->environment.r, lighting->environment.g, lighting->environment.b, 1.0f);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		std::cout << "ERROR::POSTPROCESSOR: Failed to initialize FBO" << std::endl;
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

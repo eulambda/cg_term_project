@@ -9,7 +9,7 @@
 #include "../gltext.h"
 
 #include <shader.h>
-#include <cube.h>
+#include <texture.h>
 
 #include <vector>
 #include "../ecs/prelude.hpp"
@@ -29,6 +29,17 @@ struct WindowConfig {
 	float aspect_ratio();
 };
 
+struct Postprocessor {
+	GLuint FBO;
+	GLuint RBO;
+	GLuint VAO;
+	Texture2D texture;
+	void load();
+	void on_before_render();
+	void on_after_render();
+	void on_framebuffer_resized();
+	void setup_framebuffer();
+};
 struct RenderData {
 	// components
 	std::vector<UiComponent> components;
