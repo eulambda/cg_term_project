@@ -10,6 +10,7 @@ UiComponent stage_component() {
 		auto& triangle = fetch_model("assets/triangle.dae");
 		auto& rectangle = fetch_model("assets/rectangle.dae");
 		auto& pentagon = fetch_model("assets/pentagon.dae");
+		auto& cake = fetch_model("assets/cake.dae");
 		auto& shader = fetch_shader("paper");
 		shader.use();
 
@@ -31,7 +32,7 @@ UiComponent stage_component() {
 			auto x = body->x + body->vx * simulation_elapsed;
 			auto y = body->y + body->vy * simulation_elapsed;
 			auto trans = glm::translate(glm::mat4{ 1 }, glm::vec3(x, y, 0));
-			if (body->w * body->h < 4) {
+			if (body->w * body->h < 4 && compound->made_of != ParticleType::cake) {
 				auto dz = std::sin(71 * id);
 				trans = glm::translate(trans, glm::vec3(0, 0, dz));
 				auto rz = 3 * std::sin(17 + 2 * x + 2 * y + 59 * id);
@@ -56,6 +57,11 @@ UiComponent stage_component() {
 					shader.setVec3("color1", 0.4f, 0.2f, 0.2f);
 					shader.setVec3("color2", 0.2f, 0.15f, 0.15f);
 					pentagon.Draw(shader);
+				}
+				else if (compound->made_of == ParticleType::cake) {
+					shader.setVec3("color1", 1, 1, 0.9f);
+					shader.setVec3("color2", 1, 0, 0);
+					cake.Draw(shader);
 				}
 				continue;
 			}

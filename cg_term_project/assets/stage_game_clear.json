@@ -5,7 +5,8 @@
         "y": 10
     },
     "props": {
-        "butterfly_chance": 0.2
+        "butterfly_chance": 0.2,
+        "cake": 1.0
     },
     "screen_texts": [
         "The pigs apologized to the wolf,",

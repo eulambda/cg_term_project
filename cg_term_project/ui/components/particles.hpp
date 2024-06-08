@@ -40,6 +40,10 @@ UiComponent particles_component() {
 				shader.setVec3("color1", 0.4f, 0.2f, 0.2f);
 				shader.setVec3("color2", 0.2f, 0.15f, 0.15f);
 			}
+			else if (particle_domain->type == ParticleType::cake) {
+				shader.setVec3("color1", 1, 1, 0.9f);
+				shader.setVec3("color2", 1, 0, 0);
+			}
 			int density = 3;
 			for (int dx = 0;dx < density;dx++) {
 				for (int dy = 0;dy < density;dy++) {
@@ -77,6 +81,9 @@ UiComponent particles_component() {
 						rectangle.Draw(shader);
 					}
 					else if (particle_domain->type == ParticleType::brick) {
+						rectangle.Draw(shader);
+					}
+					else if (particle_domain->type == ParticleType::cake) {
 						rectangle.Draw(shader);
 					}
 				}

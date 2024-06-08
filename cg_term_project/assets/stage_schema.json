@@ -28,6 +28,9 @@
         "props": {
             "type": "object",
             "properties": {
+                "cake": {
+                    "type": "number"
+                },
                 "grass_density": {
                     "type": "number"
                 },

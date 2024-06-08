@@ -1,7 +1,7 @@
 #pragma once
 #include "../prelude.hpp"
 
-void constrain_velocity(ecs::EntitiesWith<Floor, Body> floors, ecs::EntitiesWithWritable<Body, LocomotionWalking> characters) {
+void constrain_velocity(ecs::EntitiesWith<Floor, Body> floors, ecs::EntitiesWithWritable<Body, LocomotionWalking> characters, ecs::EntitiesWithWritable<Body, LocomotionStationery> stationery_bodies) {
 	const double speed_lower_cut = 0.01;
 	const double wall_stiffness = 1.0;
 	const double floor_stiffness = 1.0;
@@ -41,5 +41,9 @@ void constrain_velocity(ecs::EntitiesWith<Floor, Body> floors, ecs::EntitiesWith
 				}
 			}
 		}
+	}
+	for (auto& [_1, body, _2] : stationery_bodies) {
+		body->vx = 0;
+		body->vy = 0;
 	}
 }
