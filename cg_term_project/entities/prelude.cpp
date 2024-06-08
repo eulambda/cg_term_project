@@ -42,3 +42,7 @@ void Stage::load(std::string asset_path) {
 void Stage::pause(int ticks) {
 	queued.push(StageAction{ .type = StageActionType::pause,.str = "",.num = ticks });
 }
+
+double Stage::transition_lerped(double t) {
+	return t * transition + (1 - t) * transition_prev;
+}

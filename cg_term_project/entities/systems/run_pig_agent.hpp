@@ -19,7 +19,7 @@ void run_pig_agent(
 	}
 	if (pig_health->current == 0 && pig->action != PigAction::dying) {
 		pig->action = PigAction::dying;
-		stage->pause(24);
+		stage->pause(24*3);
 		stage->load(pig->to_load);
 		return;
 	}

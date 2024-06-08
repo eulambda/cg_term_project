@@ -31,9 +31,12 @@ struct Elapsed {
 struct Stage {
 	bool operator==(const Stage&) const = default;
 	bool is_paused{ true };
+	double transition{ 0 };
+	double transition_prev{ 0 };
 	std::queue<StageAction> queued;
 	void load(std::string asset_path);
 	void pause(int ticks);
+	double transition_lerped(double t);
 };
 struct SimulationSpeed {
 	double seconds_per_tick;

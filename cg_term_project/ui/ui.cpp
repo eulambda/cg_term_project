@@ -280,7 +280,11 @@ void Postprocessor::on_after_render() {
 
 	// set uniforms/options
 	auto& shader = fetch_shader("postprocessor");
+	auto render_data = fetch<RenderData>();
+	auto simulation_elapsed = render_data->simulation_elapsed();
+	auto stage = render_data->world->get_resource<Stage>();
 	shader.use();
+	shader.setFloat("transition", stage->transition_lerped(simulation_elapsed));
 	// render textured quad
 	glActiveTexture(GL_TEXTURE0);
 	this->texture.Bind();

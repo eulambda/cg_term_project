@@ -13,7 +13,7 @@ void apply_character_input(
 	if (health->current == 0 && wolf->is_dying == false) {
 		wolf->is_dying = true;
 		while (!stage->queued.empty()) stage->queued.pop();
-		stage->pause(24);
+		stage->pause(24*3);
 		stage->load("assets/stage_game_over.json");
 		return;
 	}

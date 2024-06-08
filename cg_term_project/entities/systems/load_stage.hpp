@@ -179,11 +179,16 @@ void load_stage(
 	, ecs::Writable<Elapsed> elapsed
 	, SimulationSpeed simulation_speed
 ) {
-	if (!stage->queued.size()) return;
+	stage->transition_prev = stage->transition;
+	if (!stage->queued.size()) {
+		stage->transition = std::min(stage->transition + 0.1, 1.0);
+		return;
+	}
 	auto& queued = stage->queued.front();
 	if (queued.type == StageActionType::pause) {
 		stage->is_paused = true;
 		queued.num--;
+		stage->transition = std::min(queued.num / 24.0, 1.0);
 		if (queued.num > 0) return;
 		stage->is_paused = false;
 		stage->queued.pop();
