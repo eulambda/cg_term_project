@@ -180,7 +180,7 @@ void spawn_floors(ecs::EntityApi& api, json::Value& floors_v, json::Value& props
 				.with(DebugInfo{ .name = "butterfly" })
 				.with(Body{ .w = 1,.h = 1,.x = x_final,.y = y_final })
 				.with(Health{ .max = 1, .current = 1 })
-				.with(DamageReceiver{ .multiplier_normal = 0,.multiplier_fire = 1,.multiplier_wind = 1,.multiplier_knockback = 0 })
+				.with(DamageReceiver{ .multiplier_normal = 0,.multiplier_fire = 1,.multiplier_wind = 1,.multiplier_knockback = 1 })
 				;
 		}
 		for (auto xi = body.x0(); xi < body.x1(); xi += 0.4) {

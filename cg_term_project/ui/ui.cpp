@@ -1,4 +1,5 @@
 #include <iostream>
+#include "sound_engine.hpp"
 #include "ui.hpp"
 #include "../essentials/split.hpp"
 
@@ -52,8 +53,8 @@ void Postprocessor::render_screen_texts() {
 }
 void on_before_render() {
 	auto render_data = fetch<RenderData>();
-	auto postprocessor = fetch<Postprocessor>();
-	postprocessor->on_before_render();
+	fetch<Postprocessor>()->on_before_render();
+	fetch<SoundEngine>()->on_before_render();
 	render_data->camera.on_before_render();
 
 	for (auto& component : render_data->components) {
