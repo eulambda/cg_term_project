@@ -7,7 +7,7 @@
     "props": {
         "grass_density": 0.3,
         "butterfly_chance": 0.01,
-        "flower_density": 0.3
+        "flower_density": 0.2
     },
     "reset_ticks": true,
     "screen_texts": [

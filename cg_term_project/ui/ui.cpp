@@ -161,6 +161,7 @@ void launch() {
 }
 
 void on_framebuffer_resized(GLFWwindow* window, int width, int height) {
+	if (width == 0 || height == 0) return;
 	glViewport(0, 0, width, height);
 	auto config = fetch<WindowConfig>();
 	config->width = width;

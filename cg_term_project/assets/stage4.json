@@ -6,7 +6,8 @@
     },
     "props": {
         "grass_density": 0.4,
-        "butterfly_chance": 0.3
+        "butterfly_chance": 0.3,
+        "flower_density": 0.3
     },
     "floors": [
         {

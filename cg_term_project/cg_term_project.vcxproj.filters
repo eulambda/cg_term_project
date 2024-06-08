@@ -207,6 +207,9 @@
     <ClInclude Include="resource.h">
       <Filter>resource</Filter>
     </ClInclude>
+    <ClInclude Include="ui\components\flower.hpp">
+      <Filter>ui\components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\icon.ico">

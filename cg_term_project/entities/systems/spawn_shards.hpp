@@ -1,7 +1,8 @@
 #pragma once
 #include "../prelude.hpp"
 
-void spawn_shards(ecs::EntitiesWith<ShardSpawner, Compound, Body, Health, DamageReceiver> spawners, ecs::EntityApi api, Elapsed elapsed) {
+void spawn_shards(ecs::EntitiesWith<ShardSpawner, Compound, Body, Health, DamageReceiver> spawners, ecs::EntityApi api, Elapsed elapsed, Stage stage) {
+	if (stage.is_paused) return;
 	for (auto& [id, spawner, compound, body, health, damage_receiver] : spawners) {
 		if (health->receiving == 0) continue;
 		if (compound->made_of == ParticleType::none) continue;

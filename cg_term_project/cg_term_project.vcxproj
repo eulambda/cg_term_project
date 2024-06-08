@@ -202,6 +202,7 @@
     <ClInclude Include="ui\components\background.hpp" />
     <ClInclude Include="ui\components\bars.hpp" />
     <ClInclude Include="ui\components\butterflies.hpp" />
+    <ClInclude Include="ui\components\flower.hpp" />
     <ClInclude Include="ui\components\grass.hpp" />
     <ClInclude Include="ui\components\particles.hpp" />
     <ClInclude Include="ui\components\roar.hpp" />

@@ -6,6 +6,7 @@
     },
     "props": {
         "butterfly_chance": 0.2,
+        "flower_density": 0.3,
         "cake": 1.0
     },
     "screen_texts": [

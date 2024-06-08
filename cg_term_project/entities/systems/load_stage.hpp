@@ -120,16 +120,27 @@ void spawn_floors(ecs::EntityApi& api, json::Value& floors_v, json::Value& props
 		butterfly_chance = (*props)["butterfly_chance"].num_or(0);
 		butterfly_chance = std::clamp(butterfly_chance, 0.0, 1.0);
 
-		cake = (*props)["cake"].num_or(0);
 		flower_density = (*props)["flower_density"].num_or(0);
 		flower_density = std::clamp(flower_density, 0.0, 1.0);
+
+		cake = (*props)["cake"].num_or(0);
 	}
 
-	auto get_grass_size = [=](double x, double y) {
+	auto noise_2d = [](double x, double y) {
 		auto z = sin(x + 8) + sin(x * 4 + 16) / 2 + sin(x * 16 + 32) / 4 + sin(x * 64 + 64) / 4;
 		z += sin(y + 128) + sin(y * 5 + 256) / 2 + sin(y * 16 + 512) / 4 + sin(y * 64 + 1024) / 4;
 		z = (z + 4) / 8;
+		return z;
+		};
+	auto get_grass_size = [=](double x, double y) {
+		auto z = noise_2d(x, y);
 		z -= 1 - grass_density;
+		z = std::max(z, 0.0);
+		return 2 * z;
+		};
+	auto get_flower_size = [=](double x, double y) {
+		auto z = noise_2d(x, y);
+		z -= 1 - flower_density;
 		z = std::max(z, 0.0);
 		return 2 * z;
 		};
@@ -173,13 +184,13 @@ void spawn_floors(ecs::EntityApi& api, json::Value& floors_v, json::Value& props
 				;
 		}
 		for (auto xi = body.x0(); xi < body.x1(); xi += 0.4) {
-			auto d = get_grass_size(xi, body.y);
+			auto d = get_flower_size(xi, body.y);
 			if (d == 0) continue;
 			auto x_final = xi + noise(xi + body.y);
 			x_final = std::clamp(x_final, body.x0(), body.x1());
 			api.spawn()
 				.with(Flower{})
-				.with(Body{ .w = d*0.1 + 0.1,.h = 1,.x = x_final,.y = body.y1() + 0.5 })
+				.with(Body{ .w = d * 0.1 + 0.1,.h = 1,.x = x_final,.y = body.y1() + 0.5 })
 				.with(Health{ .max = 1, .current = 1 })
 				.with(DamageReceiver{ .multiplier_normal = 0,.multiplier_fire = 1,.multiplier_wind = 0,.multiplier_knockback = 0 })
 				;
